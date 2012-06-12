@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Perl_AnyEvent::Intro_&&_AnyEvent - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="最近没事干。学习下 AnyEvent。
+AnyEvent::Intro
+AnyEvent 是一个基于事件编程的框架。大多数框架与其他框架之间是互斥的，而 AnyEvent 却是在事件顶层的一个 layer，就像 DBI 一样的驱动。
+什么是基于事件的编程？
+一个简单的需求。 $| = 1; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2012/03/07/Perl_AnyEvent%3A%3AIntro_%26%26_AnyEvent/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/oct/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/oct/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Perl_AnyEvent::Intro_&&_AnyEvent</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-07T12:20:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近没事干。学习下 AnyEvent。
+<span class="label label important">AnyEvent::Intro</span>
+AnyEvent 是一个基于事件编程的框架。大多数框架与其他框架之间是互斥的，而 AnyEvent 却是在事件顶层的一个 layer，就像 DBI 一样的驱动。
+什么是基于事件的编程？
+一个简单的需求。</p>
+
+<pre lang="perl">
+$| = 1;
+print "enter your name> ";
+my $name = <STDIN>;
+</pre>
+
+
+<p>基于事件编程中我们通过 callback 来实现：</p>
+
+<pre lang="perl">
+use AnyEvent;
+
+$| = 1;
+print "enter your name> ";
+my $name;
+
+my $wait_for_input = AnyEvent->io(
+    fh    =>  \*STDIN, # 所要检查的句柄
+    poll  =>  "r",     # 哪个事件。 r => read 事件。
+    cb    =>  sub { $name = <STDIN>; },
+);
+
+# 其他操作
+</pre>
+
+
+<p>这样写最重要的好处是在等待输入的同时你可以做其他的业务，并不会因为 I/O 操作而阻塞。
+我们通过 AnyEvent->io 来创建了一个 watcher 来观察事件的发生并做出相应的响应。之后我们需要启动 event loop 来使它正常工作。在 AnyEvent 中通过状态变量来控制 event loop。</p>
+
+<pre lang="perl">
+use AnyEvent;
+
+$| = 1;
+print "enter your name> ";
+
+my $name;
+my $name_ready     = AnyEvent->condvar;
+my $wait_for_input = AnyEvent->io(
+    fh     =>    \*STDIN,
+    poll   =>    'r',
+    cb     =>    sub { $name = <STDIN> and $name_ready->send }
+);
+
+# do something else
+# ....
+
+# now wait until the name is available
+$name_ready->recv;
+undef $wait_for_input;
+
+print "your name is $name\n";
+</pre>
+
+
+<p>上面的代码中我们通过 AnyEvent->condvar 来创建了一个状态变量。然后我们又创建了一个 watcher，但是在 callback 中我们发送了 $name_ready 状态，所以 event loop 停止。
+我们也可以这样做：</p>
+
+<pre lang="perl">
+use AnyEvent;
+
+$| = 1;
+print "enter your name> ";
+
+my $name_ready     = AnyEvent->condvar;
+my $wait_for_input = AnyEvent->io(
+       fh    =>   \*STDIN,
+       cb    =>   sub { $name_ready->send( scalar <STDIN> ); },
+);
+
+# do something else
+# ...
+# now wait and fetch the name
+my $name = $name_ready->recv;
+undef $wait_for_input;
+
+print "your name is $name\n";
+</pre>
+
+
+<p>上面是对句柄简单的操作。下面是一个 timer 的例子。</p>
+
+<pre lang="perl">
+use AnyEvent;
+
+my $cv = AnyEvent->condvar;
+my $e  = AnyEvent->timer(
+    after   =>  1.5,
+    cb      =>  sub { $cv->send },
+);
+
+$cv->recv;
+</pre>
+
+
+<p>AnyEvent 不只能对句柄、timer 进行操作，还可以对 system signal、child and idle 进行事件编程。
+下面是一些与网络编程相关的模块：AnyEvent::DNS、AnyEvent::Handle、AnyEvent::Socket。
+下面我们通过实现一个非阻塞的 finger server 来学习。</p>
+
+<pre lang="perl">
+use AnyEvent;
+use AnyEvent::Socket;
+
+sub finger($$) {
+    my ($user, $host) = @_;
+    my $cv = AnyEvent->condvar;
+
+    tcp_connect $host, "finger", sub {
+         my $fh = @_
+             or return $cv->send;
+         syswrite $fh, "$user\015\012";
+
+         my $response;
+         my $read_watcher;$read_watcher = AnyEvent->io(
+             fh    =>  $fh,
+             poll  =>  'r',
+             cb    =>  sub {
+                 my $len = sysread $fh, $response, 1024, length $response;
+                 if ($len>0) {
+                      undef $read_watcher;
+                      $cv->send $response;
+                 }
+             },
+         );
+     };
+
+     $cv;
+}
+</pre>
+
+
+<p>之前使用过 twisted ，而且也较深入的研究过。所以理解起来不是很费劲。
+具体的，还是要根据应用来学习。。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-07T12:20:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/perl/'>Perl</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2012/03/07/Perl_AnyEvent%3A%3AIntro_%26%26_AnyEvent/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2012/03/07/Perl_AnyEvent%3A%3AIntro_%26%26_AnyEvent/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2012/03/07/3%E6%9C%88%E6%88%963%E6%9C%88%E5%88%9D%EF%BC%9F_%E6%84%9F%E6%85%A8%E3%80%82/" title="Previous Post: 3月或3月初？_感慨。">&laquo; 3月或3月初？_感慨。</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2012/03/11/ubuntu_%E5%AE%89%E8%A3%85_deepin-software-center/" title="Next Post: ubuntu_安装_deepin-software-center">ubuntu_安装_deepin-software-center &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs_auto-complete_plugins/">emacs_auto-complete_plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex_CJK_%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex_CJK_字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap_%E4%BD%BF%E7%94%A8./">nmap_使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch_PGP_xxx_unknown_%E8%A7%A3%E5%86%B3/">Arch_PGP_xxx_unknown_解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo_%E8%81%9A%E5%90%88/">Mongo_聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+ <li class='category'><a href='/oct/blog/categories/android开发/'>Android开发 (16)</a></li>
+<li class='category'><a href='/oct/blog/categories/apache/'>Apache (6)</a></li>
+<li class='category'><a href='/oct/blog/categories/django/'>Django (3)</a></li>
+<li class='category'><a href='/oct/blog/categories/linux/'>Linux (38)</a></li>
+<li class='category'><a href='/oct/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/mapx开发/'>MapX开发 (3)</a></li>
+<li class='category'><a href='/oct/blog/categories/mongo/'>Mongo (2)</a></li>
+<li class='category'><a href='/oct/blog/categories/moose::manual::attributes/'>Moose::Manual::Attributes (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/moose::manual::classes/'>Moose::Manual::Classes (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/moose::manual::concepts/'>Moose::Manual::Concepts (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/mysql/'>MySQL (3)</a></li>
+<li class='category'><a href='/oct/blog/categories/nginx/'>Nginx (2)</a></li>
+<li class='category'><a href='/oct/blog/categories/php/'>PHP (30)</a></li>
+<li class='category'><a href='/oct/blog/categories/perl/'>Perl (32)</a></li>
+<li class='category'><a href='/oct/blog/categories/perldoc/'>PerlDoc (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/python/'>Python (42)</a></li>
+<li class='category'><a href='/oct/blog/categories/wordpress/'>WordPress (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/keepalive/'>keepalive (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/linux查看系统状态/'>linux查看系统状态 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/lisp/'>lisp (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/make/'>make (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/man高亮/'>man高亮 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/moose/'>moose (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/pdf/'>pdf (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/perlpod/'>perlpod (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/pkill/'>pkill (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/skills/'>skills (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/sql/'>sql (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/ssh/'>ssh (2)</a></li>
+<li class='category'><a href='/oct/blog/categories/svn/'>svn (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/ubuntu/'>ubuntu (2)</a></li>
+<li class='category'><a href='/oct/blog/categories/wp摘要/'>wp摘要 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/wp页面模版/'>wp页面模版 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/乱七八糟/'>乱七八糟 (24)</a></li>
+<li class='category'><a href='/oct/blog/categories/前端技术/'>前端技术 (8)</a></li>
+<li class='category'><a href='/oct/blog/categories/回归/'>回归 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/设计模式/'>设计模式 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/集体智慧/'>集体智慧 (7)</a></li>
+
+ </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GeoFix._火星坐标修改. - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="今天gps传回的数据在google earth中有很大的误差.老周说是经纬度要校验后再显示,突然就想起了前阵子做looking4u时候看到的火星坐标的问题.饿.出了这个问题没有第一时间想起来这个问题,my fault.
+火星坐标是为了保护国家安全信息的&#8230; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/11/30/GeoFix._%E7%81%AB%E6%98%9F%E5%9D%90%E6%A0%87%E4%BF%AE%E6%94%B9./">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/oct/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/oct/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GeoFix._火星坐标修改.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-30T12:23:00+08:00" pubdate data-updated="true">Nov 30<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今天gps传回的数据在google earth中有很大的误差.老周说是经纬度要校验后再显示,突然就想起了前阵子做looking4u时候看到的火星坐标的问题.饿.出了这个问题没有第一时间想起来这个问题,my fault.
+火星坐标是为了保护国家安全信息的&#8230;火星坐标与标准地理坐标的转化也比较麻烦.
+据CSDN说,转化过程是这个样子:
+<font color="red">火星坐标除以∏，再开8次方，再以e为底求一次对数，再展开为傅立叶级数，取其中奇数项常量做卷积，可得相应地球坐标。</font>
+不过我觉得这个比较不靠谱. 火星坐标的转化公式也是每过一段时间就变化的.所以需要找一个简单而比较犀利的方法.
+方法一.http://www.anttna.com/goffset/goffset1.php?lat=纠偏前的纬度值&amp;lon=纠偏前的经度值. 恩.这个方法比较简单.
+方法二.先下载两个xml文件.<a href="http://wpxiaomo.sinaapp.com/SXML.xml">SXML.xml</a>和<a href="http://wpxiaomo.sinaapp.com/DXML.xml">DXML.xml</a>文件.然后运行如下代码:</p>
+
+<pre lang="csharp">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+
+namespace GeoFix{
+    class GeoFix{
+        public static string sxml = "sxml.xml";
+        public static string dxml = "dxml.xml";
+
+
+        // Geo Fix. 
+        // 修正火星坐标.
+
+        public static double[] fix(double lat, double lng){
+            Double[] ret = refix(lat, lng, 0);
+            if(ret[0] == 0.0 && ret[1] == 0.0){
+                ret = refix(lat, lng, 1);
+            }
+            return ret;
+        }
+
+        public static double[] refix(double lat, double lng, int type){
+            Double[] ret = new Double[2]{0.0, 0.0};
+            XmlDocument xmlDoc = new XmlDocument();
+            if(type == 0){
+                xmlDoc.Load(sxml);
+            }else{
+                xmlDoc.Load(dxml);
+            }
+            XmlNodeList nodes = xmlDoc.GetElementsByTagName("data");
+            foreach(XmlNode node in nodes){
+                XmlNodeList childNodes = node.ChildNodes;
+                double xla = double.Parse(childNodes[0].InnerText);
+                double xlo = double.Parse(childNodes[1].InnerText);
+                double dla = double.Parse(childNodes[2].InnerText);
+                double dlo = double.Parse(childNodes[3].InnerText);
+                double la = double.Parse(childNodes[4].InnerText);
+                double lo = double.Parse(childNodes[5].InnerText);
+                if(xla<lat && dla>lat && xlo<lng && dlo>lng){
+                    ret[0] = lat-la;
+                    ret[1] = lng-lo;
+                    break;
+                }
+            }
+            return ret;
+        }
+    }
+}
+</pre>
+
+
+<p>两个方法都可以进行校验,不过效果.恩..我觉得一般&#8230;有待后续改进..</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-30T12:23:00+08:00" pubdate data-updated="true">Nov 30<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/乱七八糟/'>乱七八糟</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/11/30/GeoFix._%E7%81%AB%E6%98%9F%E5%9D%90%E6%A0%87%E4%BF%AE%E6%94%B9./" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/11/30/GeoFix._%E7%81%AB%E6%98%9F%E5%9D%90%E6%A0%87%E4%BF%AE%E6%94%B9./" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/11/25/git%E4%BD%BF%E7%94%A8%60/" title="Previous Post: git使用`">&laquo; git使用`</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/12/03/GeoFix.%E7%81%AB%E6%98%9F%E5%9D%90%E6%A0%87%E4%BF%AE%E6%94%B9_%E3%80%82_%E4%BF%AE%E6%AD%A3%E3%80%82/" title="Next Post: GeoFix.火星坐标修改_。_修正。">GeoFix.火星坐标修改_。_修正。 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs_auto-complete_plugins/">emacs_auto-complete_plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex_CJK_%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex_CJK_字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap_%E4%BD%BF%E7%94%A8./">nmap_使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch_PGP_xxx_unknown_%E8%A7%A3%E5%86%B3/">Arch_PGP_xxx_unknown_解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo_%E8%81%9A%E5%90%88/">Mongo_聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+ <li class='category'><a href='/oct/blog/categories/android开发/'>Android开发 (16)</a></li>
+<li class='category'><a href='/oct/blog/categories/apache/'>Apache (6)</a></li>
+<li class='category'><a href='/oct/blog/categories/django/'>Django (3)</a></li>
+<li class='category'><a href='/oct/blog/categories/linux/'>Linux (38)</a></li>
+<li class='category'><a href='/oct/blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/mapx开发/'>MapX开发 (3)</a></li>
+<li class='category'><a href='/oct/blog/categories/mongo/'>Mongo (2)</a></li>
+<li class='category'><a href='/oct/blog/categories/moose::manual::attributes/'>Moose::Manual::Attributes (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/moose::manual::classes/'>Moose::Manual::Classes (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/moose::manual::concepts/'>Moose::Manual::Concepts (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/mysql/'>MySQL (3)</a></li>
+<li class='category'><a href='/oct/blog/categories/nginx/'>Nginx (2)</a></li>
+<li class='category'><a href='/oct/blog/categories/php/'>PHP (30)</a></li>
+<li class='category'><a href='/oct/blog/categories/perl/'>Perl (32)</a></li>
+<li class='category'><a href='/oct/blog/categories/perldoc/'>PerlDoc (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/python/'>Python (42)</a></li>
+<li class='category'><a href='/oct/blog/categories/wordpress/'>WordPress (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/keepalive/'>keepalive (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/linux查看系统状态/'>linux查看系统状态 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/lisp/'>lisp (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/make/'>make (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/man高亮/'>man高亮 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/moose/'>moose (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/pdf/'>pdf (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/perlpod/'>perlpod (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/pkill/'>pkill (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/server/'>server (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/skills/'>skills (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/sql/'>sql (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/ssh/'>ssh (2)</a></li>
+<li class='category'><a href='/oct/blog/categories/svn/'>svn (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/ubuntu/'>ubuntu (2)</a></li>
+<li class='category'><a href='/oct/blog/categories/wp摘要/'>wp摘要 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/wp页面模版/'>wp页面模版 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/乱七八糟/'>乱七八糟 (24)</a></li>
+<li class='category'><a href='/oct/blog/categories/前端技术/'>前端技术 (8)</a></li>
+<li class='category'><a href='/oct/blog/categories/回归/'>回归 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/设计模式/'>设计模式 (1)</a></li>
+<li class='category'><a href='/oct/blog/categories/集体智慧/'>集体智慧 (7)</a></li>
+
+ </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
