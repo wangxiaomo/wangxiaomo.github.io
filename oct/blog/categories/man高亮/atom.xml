@@ -4,7 +4,7 @@
   <title><![CDATA[Category: man高亮 | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/man高亮/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[man page高亮]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/12/14/man+page%E9%AB%98%E4%BA%AE/"/>
+    <title type="html"><![CDATA[man_page高亮]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/12/14/man_page%E9%AB%98%E4%BA%AE/"/>
     <updated>2011-12-14T12:30:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/12/14/man page高亮</id>
+    <id>http://wangxiaomo.github.com/blog/2011/12/14/man_page高亮</id>
     <content type="html"><![CDATA[<pre lang="bash">
 # vi ~/.bashrc
 # 增加下面的内容：

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Moose::Manual::Concepts | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/moose-manual-concepts/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[[Moose::Manual] Moose::Manual::Conceptes翻译]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/12/21/%5BMoose%3A%3AManual%5D+Moose%3A%3AManual%3A%3AConceptes%E7%BF%BB%E8%AF%91/"/>
+    <title type="html"><![CDATA[[Moose::Manual]_Moose::Manual::Conceptes翻译]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/12/21/%5BMoose%3A%3AManual%5D_Moose%3A%3AManual%3A%3AConceptes%E7%BF%BB%E8%AF%91/"/>
     <updated>2011-12-21T05:21:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/12/21/[Moose::Manual] Moose::Manual::Conceptes翻译</id>
+    <id>http://wangxiaomo.github.com/blog/2011/12/21/[Moose::Manual]_Moose::Manual::Conceptes翻译</id>
     <content type="html"><![CDATA[<p>更新完这个。下周再继续。这周的课程设计比较费事啊。</p>
 
 <pre lang="perl">

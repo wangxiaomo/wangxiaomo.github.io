@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nginx | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/nginx/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[cgi.Fastcgi.PHP-fpm 介绍与比较]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/02/07/cgi.Fastcgi.PHP-fpm+%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%AF%94%E8%BE%83/"/>
+    <title type="html"><![CDATA[cgi.Fastcgi.PHP-fpm_介绍与比较]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/02/07/cgi.Fastcgi.PHP-fpm_%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%AF%94%E8%BE%83/"/>
     <updated>2011-02-07T06:29:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/02/07/cgi.Fastcgi.PHP-fpm 介绍与比较</id>
+    <id>http://wangxiaomo.github.com/blog/2011/02/07/cgi.Fastcgi.PHP-fpm_介绍与比较</id>
     <content type="html"><![CDATA[<p>一.cgi是伴随着并发请求不断fork的.所以在访问量小的时候问题不会体现出来.但是效率低.并发处理差.
 二.fastcgi是常驻内存的.还支持分布式的运算,即 FastCGI 程序可以在网站服务器以外的主机上执行并且接受来自其它网站服务器来的请求.但是由于fastcgi同时开多个cgi进程常驻于内存.效率并不高.资源利用不合理.虽然略去了反复fork cgi的费时步骤.但还是不给力.
 FastCGI的工作原理

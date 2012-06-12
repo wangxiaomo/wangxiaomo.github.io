@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Django | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/django/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[django POST时csrf问题.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/05/17/django+POST%E6%97%B6csrf%E9%97%AE%E9%A2%98./"/>
+    <title type="html"><![CDATA[django_POST时csrf问题.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/05/17/django_POST%E6%97%B6csrf%E9%97%AE%E9%A2%98./"/>
     <updated>2011-05-17T16:55:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/05/17/django POST时csrf问题.</id>
+    <id>http://wangxiaomo.github.com/blog/2011/05/17/django_POST时csrf问题.</id>
     <content type="html"><![CDATA[<p>刚才把django大概看了下.觉得自己能写点小应用了.就准备拿post登录作为练手. 结果POST参数那里出了问题了. 额. 好吧.我承认我不给力...
 问题的根本是因为csrf.上网一查.说为了防止类似跨站请求伪造..好吧.反正是有用的东西.那就解决吧..
 首先.你需要在你的表单form里面加入csrf_token</p>
@@ -50,10 +50,10 @@ MIDDLEWARE_CLASSES = (
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Django 分离URLconf]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/05/17/Django+%E5%88%86%E7%A6%BBURLconf/"/>
+    <title type="html"><![CDATA[Django_分离URLconf]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/05/17/Django_%E5%88%86%E7%A6%BBURLconf/"/>
     <updated>2011-05-17T15:57:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/05/17/Django 分离URLconf</id>
+    <id>http://wangxiaomo.github.com/blog/2011/05/17/Django_分离URLconf</id>
     <content type="html"><![CDATA[<p>Django下的app是可插拔的.所以我们在移动我们的app时,要尽可能的方便配置.URLconf的分离,更是至关重要的一部分.
 接上一篇文章的文件格局.我们需要配置polls的URLconf,我们可以在myFirst/urls.py下设置全部的URLconf,但是这样在迁移时比较麻烦,所以我们把URLconf分离.</p>
 

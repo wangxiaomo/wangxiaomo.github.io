@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Perl | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/perl/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -515,10 +515,10 @@ Helper::METHOD("LEVEL_VIEW")->($tree->{ROOT}, $f);
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[[DataTypes]Stack and Queue]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DStack+and+Queue/"/>
+    <title type="html"><![CDATA[[DataTypes]Stack_and_Queue]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DStack_and_Queue/"/>
     <updated>2012-03-31T06:46:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]Stack and Queue</id>
+    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]Stack_and_Queue</id>
     <content type="html"><![CDATA[<p>Stack.pm</p>
 
 <pre lang="perl">

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: make | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/make/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[@Charley makefile]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/11/01/%40Charley+makefile/"/>
+    <title type="html"><![CDATA[@Charley_makefile]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/11/01/%40Charley_makefile/"/>
     <updated>2011-11-01T06:35:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/11/01/@Charley makefile</id>
+    <id>http://wangxiaomo.github.com/blog/2011/11/01/@Charley_makefile</id>
     <content type="html"><![CDATA[<p>多文件工程.
 test.cpp [main所在]
 func.h

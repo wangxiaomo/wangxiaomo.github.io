@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Apache | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/apache/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Apache 日志格式]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/05/17/Apache+%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"/>
+    <title type="html"><![CDATA[Apache_日志格式]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/05/17/Apache_%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"/>
     <updated>2011-05-17T18:38:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/05/17/Apache 日志格式</id>
+    <id>http://wangxiaomo.github.com/blog/2011/05/17/Apache_日志格式</id>
     <content type="html"><![CDATA[<p>今天看到django输出的日志格式挺清爽的.所以我也决定改改自己的apache日志...
 首先.日志的设定和启用,应该是知道的..
 在apache2.conf中设置LogFormat.然后在站点目录下CustomLog指定...</p>
@@ -40,10 +40,10 @@ LogFormat "%t %a %m %H %f %O" wxm
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Apache Rewrite转发.使支持Karrigell.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/05/17/Apache+Rewrite%E8%BD%AC%E5%8F%91.%E4%BD%BF%E6%94%AF%E6%8C%81Karrigell./"/>
+    <title type="html"><![CDATA[Apache_Rewrite转发.使支持Karrigell.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/05/17/Apache_Rewrite%E8%BD%AC%E5%8F%91.%E4%BD%BF%E6%94%AF%E6%8C%81Karrigell./"/>
     <updated>2011-05-17T03:25:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/05/17/Apache Rewrite转发.使支持Karrigell.</id>
+    <id>http://wangxiaomo.github.com/blog/2011/05/17/Apache_Rewrite转发.使支持Karrigell.</id>
     <content type="html"><![CDATA[<p>额. 其实很不喜欢rewrite方式. 但是这个应用还是比较靠谱的. 研究了一天wsgi了, 一直不成功... 继续钻研吧. 不过先把rewrite方式写出来吧.</p>
 
 <pre lang="bash">
@@ -65,10 +65,10 @@ RewriteRule是用Perl式正则写的.所以理解起来也不是问题.然后就
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Apache CGI配置.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/04/01/Apache+CGI%E9%85%8D%E7%BD%AE./"/>
+    <title type="html"><![CDATA[Apache_CGI配置.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/04/01/Apache_CGI%E9%85%8D%E7%BD%AE./"/>
     <updated>2011-04-01T08:49:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/04/01/Apache CGI配置.</id>
+    <id>http://wangxiaomo.github.com/blog/2011/04/01/Apache_CGI配置.</id>
     <content type="html"><![CDATA[<p>昨晚看了下Perl Web编程.CGI也应该适当的学习下.知识.越多越好....
 首先需要配置Apache来运行CGI程序.</p>
 

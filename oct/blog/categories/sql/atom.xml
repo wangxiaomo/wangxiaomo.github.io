@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sql | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/sql/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[sql server 启用sa用户]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/10/06/sql+server+%E5%90%AF%E7%94%A8sa%E7%94%A8%E6%88%B7/"/>
+    <title type="html"><![CDATA[sql_server_启用sa用户]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/10/06/sql_server_%E5%90%AF%E7%94%A8sa%E7%94%A8%E6%88%B7/"/>
     <updated>2011-10-06T02:31:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/10/06/sql server 启用sa用户</id>
+    <id>http://wangxiaomo.github.com/blog/2011/10/06/sql_server_启用sa用户</id>
     <content type="html"><![CDATA[<p>sql server2005安装完默认是windows验证模式.此时sa用户没有启用.这时,我们把数据库服务器改为混合认证方式.并重设sa密码.启用sa用户即可.
 具体参考<a href="http://technet.microsoft.com/zh-cn/library/ms188670.aspx" target="_blank">http://technet.microsoft.com/zh-cn/library/ms188670.aspx</a></p>
 ]]></content>

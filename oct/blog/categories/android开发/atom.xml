@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android开发 | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/android开发/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Android Thread 退出错误问题.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/04/18/Android+Thread+%E9%80%80%E5%87%BA%E9%94%99%E8%AF%AF%E9%97%AE%E9%A2%98./"/>
+    <title type="html"><![CDATA[Android_Thread_退出错误问题.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/18/Android_Thread_%E9%80%80%E5%87%BA%E9%94%99%E8%AF%AF%E9%97%AE%E9%A2%98./"/>
     <updated>2012-04-18T08:42:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/04/18/Android Thread 退出错误问题.</id>
+    <id>http://wangxiaomo.github.com/blog/2012/04/18/Android_Thread_退出错误问题.</id>
     <content type="html"><![CDATA[<p>Android Thread 退出的时候遇到了问题.无法 destory. 最后搜索到一个比较靠谱的文章. 说可以通过设置一个布尔变量来把 Thread 函数 return 掉就可以了.</p>
 
 <pre lang="java">
@@ -152,10 +152,10 @@ public class main extends Activity {
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Content Provider设计.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/06/27/Content+Provider%E8%AE%BE%E8%AE%A1./"/>
+    <title type="html"><![CDATA[Content_Provider设计.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/06/27/Content_Provider%E8%AE%BE%E8%AE%A1./"/>
     <updated>2011-06-27T06:51:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/06/27/Content Provider设计.</id>
+    <id>http://wangxiaomo.github.com/blog/2011/06/27/Content_Provider设计.</id>
     <content type="html"><![CDATA[<p>Content Provide用来保存和检索数据,并使应用程序之间相互访问数据成为可能,它是跨应用程序共享数据的唯一方法.
 Android为常用的数据类型提供了大量的Content Provider.他们被定义在android.provider包下面.通过定义好的Content Provider我们可以方便的进行数据操作.当然,我们必须拥有适当的权限.
 ContentProvider定义在android.content包下面,我们定义一个ContentProvider必须实现几个抽象方法.</p>

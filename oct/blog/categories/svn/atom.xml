@@ -4,7 +4,7 @@
   <title><![CDATA[Category: svn | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/svn/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[svn 基本命令.[粘贴]]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/11/14/svn+%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4.%5B%E7%B2%98%E8%B4%B4%5D/"/>
+    <title type="html"><![CDATA[svn_基本命令.[粘贴]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/11/14/svn_%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4.%5B%E7%B2%98%E8%B4%B4%5D/"/>
     <updated>2011-11-14T07:07:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/11/14/svn 基本命令.[粘贴]</id>
+    <id>http://wangxiaomo.github.com/blog/2011/11/14/svn_基本命令.[粘贴]</id>
     <content type="html"><![CDATA[<p>svn log svn://127.0.0.1/zxProject/ --username xxxxxx --password xxxxxx |grep  "2009-05-29 16:38*"
 [xx@wap01 xx]$ svn log -v -r134 svn://127.0.0.1/zxProject/ --username xxxxxx --password xxxxxx
 [xx@wap01 xx]$ svn log -v -r134:135 svn://127.0.0.1/zxProject/ --username xxxxxx --password xxxxxx</p>

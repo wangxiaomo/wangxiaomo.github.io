@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 前端技术 | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/前端技术/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[firefox 与 chrome CSS定位修改]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/05/13/firefox+%E4%B8%8E+chrome+CSS%E5%AE%9A%E4%BD%8D%E4%BF%AE%E6%94%B9/"/>
+    <title type="html"><![CDATA[firefox_与_chrome_CSS定位修改]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/05/13/firefox_%E4%B8%8E_chrome_CSS%E5%AE%9A%E4%BD%8D%E4%BF%AE%E6%94%B9/"/>
     <updated>2011-05-13T17:14:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/05/13/firefox 与 chrome CSS定位修改</id>
+    <id>http://wangxiaomo.github.com/blog/2011/05/13/firefox_与_chrome_CSS定位修改</id>
     <content type="html"><![CDATA[<p>本来想搞定wp_nonce_url就继续python了.` 结果中途想起了成昊同学说我的页面在chrome下显示不正常.所以我就下载了chromium-browser测试了下. 嘿. 还真是错的. 我当时就纠结了.
 仔细观察了下. 发现是content和sidebar定位错误.由于好长时间没有用chromium了.所以也不记得css测试的插件了. 所以就到ff下查看了下css格局.
 由于css不是自己写的.所以理清楚他的结构还真费了点时间.下面是他的结构.</p>

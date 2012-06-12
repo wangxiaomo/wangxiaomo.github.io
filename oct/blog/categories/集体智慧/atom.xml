@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 集体智慧 | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/集体智慧/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[智能web编程. 建立索引.[py]]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/09/21/%E6%99%BA%E8%83%BDweb%E7%BC%96%E7%A8%8B.+%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95.%5Bpy%5D/"/>
+    <title type="html"><![CDATA[智能web编程._建立索引.[py]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/21/%E6%99%BA%E8%83%BDweb%E7%BC%96%E7%A8%8B._%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95.%5Bpy%5D/"/>
     <updated>2011-09-21T12:01:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/09/21/智能web编程. 建立索引.[py]</id>
+    <id>http://wangxiaomo.github.com/blog/2011/09/21/智能web编程._建立索引.[py]</id>
     <content type="html"><![CDATA[<p>虽然这样看书的进度很慢. 但是理解的应该会较为透彻吧. 而且书上的代码都是作者封装的. 感觉非常不爽. 不废话了. lucene建立索引. 数据为书中附属代码.</p>
 
 <pre lang="python">
@@ -165,10 +165,10 @@ if __name__ == '__main__':
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[pylucene 使用]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/09/21/pylucene+%E4%BD%BF%E7%94%A8/"/>
+    <title type="html"><![CDATA[pylucene_使用]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/21/pylucene_%E4%BD%BF%E7%94%A8/"/>
     <updated>2011-09-21T09:12:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/09/21/pylucene 使用</id>
+    <id>http://wangxiaomo.github.com/blog/2011/09/21/pylucene_使用</id>
     <content type="html"><![CDATA[<p>今天总算把pylucene搞定了. 恩. 建立索引和查找都理解了, 而且对中文的处理也搞定了.
 建立索引过程中比较重要的类是.</p>
 

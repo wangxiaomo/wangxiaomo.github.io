@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mongo | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/mongo/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Mongo 聚合]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/"/>
+    <title type="html"><![CDATA[Mongo_聚合]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/04/Mongo_%E8%81%9A%E5%90%88/"/>
     <updated>2012-06-04T05:28:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/04/Mongo 聚合</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/04/Mongo_聚合</id>
     <content type="html"><![CDATA[<p>1.count</p>
 
 <pre lang="mongo">
@@ -182,10 +182,10 @@ reduce = function(key, emits){
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Mongo Shell]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/02/Mongo+Shell/"/>
+    <title type="html"><![CDATA[Mongo_Shell]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/02/Mongo_Shell/"/>
     <updated>2012-06-02T08:02:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/02/Mongo Shell</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/02/Mongo_Shell</id>
     <content type="html"><![CDATA[<p>show dbs 显示数据库列表
 show collections 显示当前数据库中的集合
 show users 显示用户</p>

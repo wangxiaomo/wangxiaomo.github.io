@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ssh | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/ssh/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[ssh keepalive.[linux terminal]]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/10/26/ssh+keepalive.%5Blinux+terminal%5D/"/>
+    <title type="html"><![CDATA[ssh_keepalive.[linux_terminal]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/10/26/ssh_keepalive.%5Blinux_terminal%5D/"/>
     <updated>2011-10-26T03:54:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/10/26/ssh keepalive.[linux terminal]</id>
+    <id>http://wangxiaomo.github.com/blog/2011/10/26/ssh_keepalive.[linux_terminal]</id>
     <content type="html"><![CDATA[<pre lang="bash">
 vi /etc/ssh/ssh_config
 ###########

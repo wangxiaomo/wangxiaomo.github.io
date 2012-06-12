@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -174,10 +174,10 @@ if __name__ == '__main__':
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[pylucene 安装.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/09/21/pylucene+%E5%AE%89%E8%A3%85./"/>
+    <title type="html"><![CDATA[pylucene_安装.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/21/pylucene_%E5%AE%89%E8%A3%85./"/>
     <updated>2011-09-21T03:16:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/09/21/pylucene 安装.</id>
+    <id>http://wangxiaomo.github.com/blog/2011/09/21/pylucene_安装.</id>
     <content type="html"><![CDATA[<p>智能web算法里面用beanshell讲解了各种算法.书的开头就讲解了java lucene的使用.不过我不想在java下学习智能算法. 所以还是寻找到python的迁移吧. 首先就是pylucene和lupy.这是lucene的两个方案.lupy是lucene的python全重写, 不依赖java, java lucene.但是跟不上版本,可用版本只到04年.而且现在已经停止更新了.而pylucene是对java lucene的一种包装,所以版本不是问题,但是离不开java lucene.
 首先说安装.我是在ubuntu下进行测试的. apt-get包管理器很容易的找到pylucene.安装也很容易.但是进入python之后却找不到lucene,PyLucene等模块.[他们两者的区别不是很清楚] 通过包管理器安装失败后,我就通过源码进行编译安装. 编译过程看document/readme.html. 先编译jcc,然后编译pylucene.安装好之后python2.7没有lucene模块,python2.6有lucene模块.所以做个链接就可以用了. 包管理器安装失败不知道是不是上面这个原因..有机会再测试吧.
 接下来就是跑 Sample. 恩. Sample这里出问题了. 问题就出在初始化java vm上.google了半天,没有什么合适的答案.
@@ -203,10 +203,10 @@ lucene.initVM(lucene.CLASSPATH)
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[SL4A.` [Python]]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/09/18/SL4A.%60+%5BPython%5D/"/>
+    <title type="html"><![CDATA[SL4A.`_[Python]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/18/SL4A.%60_%5BPython%5D/"/>
     <updated>2011-09-18T12:25:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/09/18/SL4A.` [Python]</id>
+    <id>http://wangxiaomo.github.com/blog/2011/09/18/SL4A.`_[Python]</id>
     <content type="html"><![CDATA[<p>最近没有什么项目, 所以随便拿起书来就阅读. ppurl上找到的pro android programming with sl4a. 随便翻阅了下, 就被第一页的一条言论吸引.quote: One is that not everyone is a fan of Java. 所以决定阅读下去...
 之前较为系统的学习过android开发. 不过一直没了解过SL4A. 虽然知道可以用php直接对android进行编程.借着这次机会, 可以更加深入的了解了..
 SL4A means Script Layer 4 Android.至于为什么用Script进行Android开发,文章开始已经说的很清楚了, 并不是所有的人都喜欢JAVA. 目前SL4A支持的语言有:Beanshell, JRuby, Lua, Perl, PHP, Python, and Rhino.哈哈.3P&amp;lua都支持.所以我现在已经非常看好SL4A了.[ps.目前不知道SL4A的支持程度, 具体的参见官网 <a href="http://code.google.com/p/android-scripting" target="_blank">http://code.google.com/p/android-scripting/</a>/.]SL4A once names ASE[Android Script Environment]
@@ -334,10 +334,10 @@ droid.dialogDismiss()
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Project4. LBS_Server. [Twisted+Qt]]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/09/17/Project4.+LBS_Server.+%5BTwisted%2BQt%5D/"/>
+    <title type="html"><![CDATA[Project4._LBS_Server._[Twisted+Qt]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/17/Project4._LBS_Server._%5BTwisted%2BQt%5D/"/>
     <updated>2011-09-17T07:55:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/09/17/Project4. LBS_Server. [Twisted+Qt]</id>
+    <id>http://wangxiaomo.github.com/blog/2011/09/17/Project4._LBS_Server._[Twisted+Qt]</id>
     <content type="html"><![CDATA[<p>只贴twisted主框架的Qt界面的.</p>
 
 <pre lang="python">
@@ -514,10 +514,10 @@ if __name__ == '__main__':
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[twisted reactor debug]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/09/10/twisted+reactor+debug/"/>
+    <title type="html"><![CDATA[twisted_reactor_debug]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/10/twisted_reactor_debug/"/>
     <updated>2011-09-10T06:37:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/09/10/twisted reactor debug</id>
+    <id>http://wangxiaomo.github.com/blog/2011/09/10/twisted_reactor_debug</id>
     <content type="html"><![CDATA[<p>放假什么都不想干啊... 无聊无聊无聊...趁着现在没事可干,用pdb把twisted跑一遍吧.
 代码.</p>
 

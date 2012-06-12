@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[emacs auto-complete plugins]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/11/emacs+auto-complete+plugins/"/>
+    <title type="html"><![CDATA[emacs_auto-complete_plugins]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/11/emacs_auto-complete_plugins/"/>
     <updated>2012-06-11T11:21:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/11/emacs auto-complete plugins</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/11/emacs_auto-complete_plugins</id>
     <content type="html"><![CDATA[<p>今天按照官网的文档 http://cx4a.org/software/auto-complete/manual.html#Installation 安装 emacs complete plugin 的时候出错,提示 varible ac-dictionary-directories 错误.
 之后发现官网文档有误,需要先载入 auto-complete-config 之后才能引入该变量.
 所以配置文件为</p>
@@ -34,10 +34,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[LaTex CJK 字体问题[Linux]]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/"/>
+    <title type="html"><![CDATA[LaTex_CJK_字体问题[Linux]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/09/LaTex_CJK_%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/"/>
     <updated>2012-06-09T13:03:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/09/LaTex CJK 字体问题[Linux]</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/09/LaTex_CJK_字体问题[Linux]</id>
     <content type="html"><![CDATA[<p>安装 Adobe Reader.然后添加 Adobe 字体添加到系统字体中..
 需要将opt/Adobe/Reader9/Resource/这个路径加到/etc/fonts/fonts.conf中
 之后使用fc-cache -vf更新字库缓存并查看fc-list。可以确认一下是否安装了Adobe的字体
@@ -79,10 +79,10 @@ xelatex 默认支持 unicode .详情察看 wiki http://zh.wikipedia.org/wiki/XeT
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[nmap 使用.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./"/>
+    <title type="html"><![CDATA[nmap_使用.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/08/nmap_%E4%BD%BF%E7%94%A8./"/>
     <updated>2012-06-08T11:26:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/08/nmap 使用.</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/08/nmap_使用.</id>
     <content type="html"><![CDATA[<p>nmap 的主要功能如下:1.探测主机是否在线.2.扫描主机端口.3.推断主机所用操作系统.</p>
 
 <br />
@@ -103,20 +103,20 @@ nmap -sP 192.168.1.0/24
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Arch PGP xxx unknown 解决]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/"/>
+    <title type="html"><![CDATA[Arch_PGP_xxx_unknown_解决]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/07/Arch_PGP_xxx_unknown_%E8%A7%A3%E5%86%B3/"/>
     <updated>2012-06-07T02:37:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/07/Arch PGP xxx unknown 解决</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/07/Arch_PGP_xxx_unknown_解决</id>
     <content type="html"><![CDATA[<p>Arch 目前使用 PGP 来验证包是否安全.详情可以见 <a href="https://wiki.archlinux.org/index.php/Pacman-key_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">https://wiki.archlinux.org/index.php/Pacman-key_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29</a>
 现在我们绕过 PGP。网上说是改 SigLevel = Never 但是我不成功。仔细看文档之后发现，需要把其他源的 SigLevel 注释掉.</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Gentoo Portage.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/05/27/Gentoo+Portage./"/>
+    <title type="html"><![CDATA[Gentoo_Portage.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/05/27/Gentoo_Portage./"/>
     <updated>2012-05-27T03:59:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/05/27/Gentoo Portage.</id>
+    <id>http://wangxiaomo.github.com/blog/2012/05/27/Gentoo_Portage.</id>
     <content type="html"><![CDATA[<p>Portage 具有高度灵活性以及其他大量的特性. Portage 完全使用 python 和 bash 来写的,所以 Portage 对于用户来说是完全可见的.绝大多数用户通过 emerge 工具来使用 Portage.
 [更新 Portage 树]</p>
 

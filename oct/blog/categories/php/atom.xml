@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PHP | 小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/blog/categories/php/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -96,10 +96,10 @@ curl_close($ch);
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[PHP 自动获取OAuth PIN码]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/07/04/PHP+%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96OAuth+PIN%E7%A0%81/"/>
+    <title type="html"><![CDATA[PHP_自动获取OAuth_PIN码]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/04/PHP_%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96OAuth_PIN%E7%A0%81/"/>
     <updated>2011-07-04T06:27:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/07/04/PHP 自动获取OAuth PIN码</id>
+    <id>http://wangxiaomo.github.com/blog/2011/07/04/PHP_自动获取OAuth_PIN码</id>
     <content type="html"><![CDATA[<pre lang="php">
 <?php
 /*
@@ -168,10 +168,10 @@ function getPIN($auth_url, $username, $password){
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[PHP curl使用示例.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/07/04/PHP+curl%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B./"/>
+    <title type="html"><![CDATA[PHP_curl使用示例.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/04/PHP_curl%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B./"/>
     <updated>2011-07-04T05:52:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/07/04/PHP curl使用示例.</id>
+    <id>http://wangxiaomo.github.com/blog/2011/07/04/PHP_curl使用示例.</id>
     <content type="html"><![CDATA[<p>刚才折腾了半天hg,我去,记得当初也没那么难搞啊..code google上面的代码控制不会弄了.害我直接转到bitbucker了.继续说 curl的问题.搞完这个还要看 perl大会视频呢.
 首先.php 编程不会curl就是坑爹呢/所以, 这个必须会.
 通过几个简单的例子说明问题,以后有需求,再研究.
@@ -257,10 +257,10 @@ curl_close($ch);
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[读php OAuth代码心得]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2011/07/03/%E8%AF%BBphp+OAuth%E4%BB%A3%E7%A0%81%E5%BF%83%E5%BE%97/"/>
+    <title type="html"><![CDATA[读php_OAuth代码心得]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/03/%E8%AF%BBphp_OAuth%E4%BB%A3%E7%A0%81%E5%BF%83%E5%BE%97/"/>
     <updated>2011-07-03T08:38:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2011/07/03/读php OAuth代码心得</id>
+    <id>http://wangxiaomo.github.com/blog/2011/07/03/读php_OAuth代码心得</id>
     <content type="html"><![CDATA[<p>准备假期做sns同步,当然是要挂在sae上,所以趁早看看php oauth的代码吧.虽然oauth的基本过程还是了解的,但是不同的sdk实现不同,理解起来还是存在误区的..
 这个文章就对python sdk和php sdk进行分析对比吧..
 两者不借助任何sns厂商的sdk,只是依靠基本的oauth sdk进行实现时,基本的过程就是:</p>
