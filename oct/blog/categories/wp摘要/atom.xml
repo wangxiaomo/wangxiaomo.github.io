@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: wp摘要 | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/wp摘要/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[wordpress文章摘要显示]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/02/03/wordpress%E6%96%87%E7%AB%A0%E6%91%98%E8%A6%81%E6%98%BE%E7%A4%BA/"/>
+    <updated>2011-02-03T08:27:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/02/03/wordpress文章摘要显示</id>
+    <content type="html"><![CDATA[<p>wordpress后台 设置中有一项是以摘要形式显示. 我不清楚什么原因使我这里没有摘要显示. 头疼啊.
+一个文章. 加上代码. 一不小心就太长了...
+暂时有两个方法:
+1> 修改theme的index.php.</p>
+
+<pre><code>找到the_content改成the_excerpt.
+__END__
+</code></pre>
+
+<p>2> 在写文章的时候. 考虑the more的位置. 然后插入more...</p>
+
+<p>明显第二种方法使页面风格更良好. 但是容易遗忘....</p>
+
+<div style="position: absolute; top: -9990px; left: -5678px;">FRONTLINE reports on the history, strategy and high stakes that brought Big Tobacco to the bargaining table. <a href=http://onlinestoretobacco.com/>tobacco store</a> The Wake County portion of the American Tobacco Trail is a recreational rail-trail open to walkers, runners, dog walkers, bicyclists and horseback riders. <br> AutoExtender offers a better designed Penis Enlargement Device. Get a safe and easy to use penis stretcher. <a href=http://neosize-xl.org/>penis enlargement natural</a> The magnificent penis enlargement patch is now one of the most popular things men buy on the Internet. Everybody knows that there are literally hundreds of  <br> Fletcher Cigar Company offers the finest premium private label cigars and custom cigars available. Our custom label cigars are THE choice for wedding cigars,  <a href=http://onlinestorecigars.com/>cheap cigars online</a> Buy quality cigars, filtered cigars, little cigars and pipe tobacco at our online store. Cartons of Filtered Cigars (Little Cigars) for sale online as low as $11.99!</div>
+
+]]></content>
+  </entry>
+  
+</feed>

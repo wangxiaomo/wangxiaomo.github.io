@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android Intent的使用. - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="Intent在Android中相当于各种组件间的信使.传递任务,附带数据,等等等等..
+这里讲述Intent的几个使用示例..
+1.无参数Activity跳转. Intent it = new Intent(Activity.Main.this, Activity2.class); &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/06/25/Android+Intent%E7%9A%84%E4%BD%BF%E7%94%A8./">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android Intent的使用.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-25T02:40:00+08:00" pubdate data-updated="true">Jun 25<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Intent在Android中相当于各种组件间的信使.传递任务,附带数据,等等等等..
+这里讲述Intent的几个使用示例..
+1.无参数Activity跳转.</p>
+
+<pre lang="java">
+Intent it = new Intent(Activity.Main.this, Activity2.class);
+startActivity(it);
+//由layout.main跳转到layout.Activity2.
+</pre>
+
+
+<p>2.带参数Activity跳转,向下一个Activity传递数据.(Bundle)</p>
+
+<pre lang="java">
+Intent it = new Intent(Activity.Main.this, Activity2.class);
+Bundle bundle = new Bundle();
+bundle.putString("name","wxm");
+it.addExtras(bundle);
+startActivity(it);
+</pre>
+
+
+<p>在下一个Activity中可以通过如下代码取出数据.</p>
+
+<pre lang="java">
+Bundle bundle = getIntent().getExtras();
+String name = bundle.getString("name");
+</pre>
+
+
+<p>3.显示网页..</p>
+
+<pre lang="java">
+Uri uri = Uri.parse("http://www.google.com");
+Intent it = new Intent(Intent.ACTION_VIEW, uri);
+// Intent it = new Intent();
+// it.setAction(Intent.ACTION_VIEW);
+// it.setData(uri);
+startActivity(it);
+</pre>
+
+
+<p>4.显示地图.</p>
+
+<pre lang="java">
+Uri uri = Uri.parse("geo:39.26,115.25");
+Intent it = new Intent(Intent.ACTION_VIEW, uri);
+startActivity(it);
+</pre>
+
+
+<p>不知道什么原因,可能是因为2.2不能用? 反正是不成功&#8230;先补充着&#8230;
+5.路径规划,用的就是google maps的url构造GET参数/</p>
+
+<pre lang="java">
+Uri uri = Uri.parse("http://maps.google.com/maps?f=d&saddr=startLat%20startLng&daddr=endLat%20endLng&hl=en");
+Intent it = new Intent(Intent.ACTION_VIEW,URI);
+startActivity(it);
+</pre>
+
+
+<p>6.调用拨号程序..</p>
+
+<pre lang="java">
+Uri uri = Uri.parse("tel:xxxxxx");
+Intent it = new Intent(Intent.ACTION_DIAL, uri);  
+startActivity(it);  
+</pre>
+
+
+<p>还有一种方法.
+这个直接拨号出去,所以需要在配置文件中加入权限.</p>
+
+<pre lang="java">
+Uri uri = Uri.parse("tel:xxxxxx");
+Intent it =new Intent(Intent.ACTION_CALL,uri);
+startActivity(it);
+//要使用这个必须在配置文件中加入<uses-permission android:name="android.permission.CALL_PHONE" id="android.permission.CALL_PHONE"/>
+</pre>
+
+
+<p>7.发送短信.
+打开发短信的界面.</p>
+
+<pre lang="java">
+Intent it = new Intent(Intent.ACTION_VIEW);   
+it.putExtra("sms_body", "The SMS text");   
+it.setType("vnd.android-dir/mms-sms");   
+startActivity(it); 
+</pre>
+
+
+<p>发送短信.</p>
+
+<pre lang="java">
+Uri uri = Uri.parse("smsto:0800000123");   
+Intent it = new Intent(Intent.ACTION_SENDTO, uri);   
+it.putExtra("sms_body", "The SMS text");   
+startActivity(it); 
+</pre>
+
+
+<p>发送彩信.</p>
+
+<pre lang="java">
+Uri uri = Uri.parse("content://media/external/images/media/23");   
+Intent it = new Intent(Intent.ACTION_SEND);   
+it.putExtra("sms_body", "some text");   
+it.putExtra(Intent.EXTRA_STREAM, uri);   
+it.setType("image/png");   
+startActivity(it); 
+</pre>
+
+
+<p>发送邮件..</p>
+
+<pre lang="java">
+Intent it = new Intent(Intent.ACTION_SEND);   
+it.putExtra(Intent.EXTRA_EMAIL, "me@abc.com");   
+it.putExtra(Intent.EXTRA_TEXT, "The email body text");   
+it.setType("text/plain");   
+startActivity(Intent.createChooser(it, "Choose Email Client"));  
+</pre>
+
+
+<p>发送邮件.</p>
+
+<pre lang="java">
+Intent it=new Intent(Intent.ACTION_SEND);     
+String[] tos={"me@abc.com"};     
+String[] ccs={"you@abc.com"};     
+it.putExtra(Intent.EXTRA_EMAIL, tos);     
+it.putExtra(Intent.EXTRA_CC, ccs);     
+it.putExtra(Intent.EXTRA_TEXT, "The email body text");     
+it.putExtra(Intent.EXTRA_SUBJECT, "The email subject text");     
+it.setType("message/rfc822");     
+startActivity(Intent.createChooser(it, "Choose Email Client"));   
+</pre>
+
+
+<p>播放多媒体.</p>
+
+<pre lang="java">
+Intent it = new Intent(Intent.ACTION_VIEW);
+Uri uri = Uri.parse("file:///sdcard/song.mp3");
+it.setDataAndType(uri, "audio/mp3");
+startActivity(it);
+</pre>
+
+
+<p>卸载程序.</p>
+
+<pre lang="java">
+Uri uri = Uri.fromParts("package", strPackageName, null);   
+Intent it = new Intent(Intent.ACTION_DELETE, uri);   
+startActivity(it);
+</pre>
+
+
+<p>安装程序.</p>
+
+<pre lang="java">
+Uri installUri = Uri.fromParts("package", "xxx", null);
+Intent it = new Intent(Intent.ACTION_PACKAGE_ADDED, installUri);
+startActivity(it);
+</pre>
+
+
+<p>Market相关.</p>
+
+<pre lang="java">
+//搜索应用
+Uri uri = Uri.parse("market://search?q=pname:pkg_name");  
+Intent it = new Intent(Intent.ACTION_VIEW, uri);  
+startActivity(it);  
+//where pkg_name is the full package path for an application  
+
+//显示指定应用的详细页面（这个好像不支持了，找不到app_id）
+Uri uri = Uri.parse("market://details?id=app_id");  
+Intent it = new Intent(Intent.ACTION_VIEW, uri);  
+startActivity(it);  
+//where app_id is the application ID, find the ID  
+//by clicking on your application on Market home  
+//page, and notice the ID from the address bar
+</pre>
+
+
+<p>先这么多了.`</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-25T02:40:00+08:00" pubdate data-updated="true">Jun 25<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/android开发/'>Android开发</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/06/25/Android+Intent%E7%9A%84%E4%BD%BF%E7%94%A8./" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/06/25/Android+Intent%E7%9A%84%E4%BD%BF%E7%94%A8./" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/06/24/Android%E5%90%84%E7%A7%8D%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E6%8D%95%E8%8E%B7/" title="Previous Post: Android各种事件响应捕获">&laquo; Android各种事件响应捕获</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/06/25/Android+Notification%E8%AE%BE%E8%AE%A1./" title="Next Post: Android Notification设计.">Android Notification设计. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="Smarty
+使PHP脚本从设计中独立出来.
+在应用程序的开发流程中:在提交计划文档之后.界面设计者(美工)制作了网站的外观模型,然后把它交给后台程序员.程序员使用PHP实现商业逻辑.同时使用外观模型做成基本架构.然后工程被返回到html页面设计者继续完善. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/24/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/09/Smarty%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE./">Smarty基本安装配置.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-09T16:01:00+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><font color="red"><strong>Smarty</strong></font>
+<b>使PHP脚本从设计中独立出来.</b>
+在应用程序的开发流程中:在提交计划文档之后.界面设计者(美工)制作了网站的外观模型,然后把它交给后台程序员.程序员使用PHP实现商业逻辑.同时使用外观模型做成基本架构.然后工程被返回到html页面设计者继续完善.这样工程可能在后台程序员和页面设计者之间来来回回好几次.因此.一个好的模版支持就显得特别重要.
+<font color="blue">smarty不尝试将逻辑与模版完全分离.而是尽可能的远离.使得内容更容易管理.程序更容易升级</font>
+Smarty安装:
+1&gt;Smarty3.x PHP5.2+
+2&gt;Smarty2.x PHP4 or 5
+Smarty使用一个SMARTY_DIR的php常量作为它的系统库目录.如果没有在php.ini中的include_path里手动添加Smarty.class.php的话.必须手动配置SMARTY_DIR.
+配置好之后便可以创建Smarty实例.</p>
+
+<pre lang="php">
+<?php
+require('smarty/Smarty.class.php');
+$smarty = new Smarty;
+?>
+</pre>
+
+
+<p>ps:我按照文档所说的配置了php.ini但是不成功.所以我直接require的时候指明了路径.也可以按如下方法使用.感觉更加灵活些.</p>
+
+<pre lang="php">
+<?php
+define('SMARTY_DIR', './smarty/');
+require(SMARTY_DIR . 'Smarty.class.php');
+$smarty = new Smarty;
+?>
+</pre>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/09/Smarty%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE./">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/08/PerlDoc%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%28%E4%BA%8C%29/">PerlDoc学习笔记(二)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-08T12:39:00+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近因为<font color="red">WordPress</font>的原因把PerlDoc给耽搁了.明天上午还得去同学聚会.所以就趁着这会赶紧把PerlDebug看完了吧.
+Perl Debug和Perl UnitTest是两个非常重要的东西.任何Perl代码不经过他们考验而投入正式应用是愚蠢的.今天就先说说Perl Debug.</p>
+
+<hr />
+
+
+<p>首先是最基本的.也就是在脚本的开头添加</p>
+
+<pre lang="perl">
+use warnings;
+use strict;
+</pre>
+
+
+<p>这个是最最基本的.也是最最行之有效的.
+warnings把所有警告输出.需要修复的需要忽略掉的.都告诉你了.剩下的就看你了.至于strict.帮你检测是否有变量的拼写错误.虽然现在的IDE帮你做了检查.但是还是小心为妙.
+warnings.strict配合上print就是最基本的debug利器.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/08/PerlDoc%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%28%E4%BA%8C%29/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/07/cgi.Fastcgi.PHP-fpm+%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%AF%94%E8%BE%83/">cgi.Fastcgi.PHP-fpm 介绍与比较</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-07T06:29:00+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一.cgi是伴随着并发请求不断fork的.所以在访问量小的时候问题不会体现出来.但是效率低.并发处理差.
+二.fastcgi是常驻内存的.还支持分布式的运算,即 FastCGI 程序可以在网站服务器以外的主机上执行并且接受来自其它网站服务器来的请求.但是由于fastcgi同时开多个cgi进程常驻于内存.效率并不高.资源利用不合理.虽然略去了反复fork cgi的费时步骤.但还是不给力.
+FastCGI的工作原理
+1、Web Server启动时载入FastCGI进程管理器（IIS ISAPI或Apache Module)
+2、FastCGI进程管理器自身初始化，启动多个CGI解释器进程(可见多个php-cgi)并等待来自Web Server的连接。
+3、当客户端请求到达Web Server时，FastCGI进程管理器选择并连接到一个CGI解释器。Web server将CGI环境变量和标准输入发送到FastCGI子进程php-cgi
+4、FastCGI子进程完成处理后将标准输出和错误信息从同一连接返回Web Server。当FastCGI子进程关闭连接时，请求便告处理完成。FastCGI子进程接着等待并处理来自FastCGI进程管理器(运行在Web Server中)的下一个连接。 在CGI模式中，php-cgi在此便退出了。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/07/cgi.Fastcgi.PHP-fpm+%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%AF%94%E8%BE%83/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/07/Nginx%E7%9B%AE%E5%BD%95%E6%98%BE%E7%A4%BA%E4%BB%A5%E5%8F%8A%E4%B8%8EPHP%E7%9A%84%E4%BA%A4%E4%BA%92/">Nginx目录显示以及与PHP的交互</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-07T04:24:00+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天<a href="http://haizhu.info" target="_blank">毛泽小同学</a>在配置自己的vps的时候出了些问题.让我帮忙配置.虽然自己只用过nginx不到一星期.但是不好拒绝.那就着手干吧.
+首先ssh登录到他的vps.速度不是一般的快啊.比那个opensalon的速度给力多了.许多人都花二三十块钱买了vps.为嘛.为的就是自由.不像我们这种在sae上停留的人.各种限制.唯一的好处.也就是速度了吧 .
+下面说问题.
+经过简单的测试.发现所有php页面无法访问.很明显是nginx与php的交互出了问题.
+1.开启目录显示. 调试的时候不调目录显示感觉很不爽.
+  在/etc/nginx/site-available/default下的站点配置中.Server{}节点中加如autoindex on;并把location /{}中的index行删去.
+2.nginx与php-cgi的交互.nginx与apache不一样.apache目录下放置php.ini和php处理的相关model.就可以了.nginx是通过nginx进程讲请求传递给php-cgi进程.所以需要在配置文件中写明:
+  location ~.*.php?$ {</p>
+
+<pre><code>    include fastcgi_params;
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_param 网页目录$fastcgi_script_name;
+    #fastcgi_index index.php;
+</code></pre>
+
+<p>  }
+  之后重启nginx.然后开启php-cgi进程. php-cgi -b 127.0.0.1:9000 -q.然后OK
+  上述测试之后.发现他的问题了.:php-cgi没启动. 多么囧的问题.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/04/PerlDoc%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%28%E4%B8%80%29/">PerlDoc学习笔记(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-04T03:24:00+08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Perl is a free-form language, you can format and indent it however you like. Whitespace mostly serves to separate tokens, unlike languages like Python where it is an important part of the syntax.
+<font color="blue">本人一直觉得Python的代码风格不是我的最爱.不过写出来确实清晰.Python自带的库很全面.不过Perl也不差.CPAN也很给力.</font>
+A variable holds the undefined value (undef) until it has been assigned a defined value, which is anything other than undef. When used as a number, undef is treated as 0 ; when used as a string, it is treated as the empty string, &#8220;&#8221; ; and when used as a reference that isn&#8217;t being assigned to, it is treated as an error. If you enable warnings, you&#8217;ll be notified of an uninitialized value whenever you treat undef as a string or a number. Well, usually. Boolean contexts, such as:</p>
+
+<pre lang="perl">
+my $a;    
+if ($a) {}
+</pre>
+
+
+<p>are exempt from warnings (because they care about truth rather than definedness). Operators such as ++ , &#8211; , += , -= , and .= , that operate on undefined left values such as:</p>
+
+<pre lang="perl">
+my $a;
+$a++;
+</pre>
+
+
+<p>are also always exempt from such warnings.
+<font color="blue">这个没什么好说的.</font></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/04/PerlDoc%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%28%E4%B8%80%29/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/03/wordpress%E8%87%AA%E5%88%B6share/">Wordpress自制share</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-03T12:15:00+08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自己用的插件AddtoAny有点太臃肿了.其实rss订阅和一般的share都可以自己做.</p>
+
+<p>登录土豆等视频网站查看源代码.自制share</p>
+
+<p>登录csdn博客查看源代码.自制rss订阅.</p>
+
+<p>具体实现.均为补全api的url`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/03/wordpress%E4%B8%8E%E8%B1%86%E7%93%A3%E4%BA%92%E8%BF%9E/">Wordpress与豆瓣互连</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-03T11:06:00+08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong><span style="color: red;">整死我了. 时间过的嗖嗖的. 不知不觉就没了.</span></strong>为此.我要谢谢豆瓣和SAE给我的这次机会.哎.豆瓣提供的plugin竟然少了css.让我<span style="color: #453cd3;">情何以堪</span>&#8230;
+关键难点出现在两个地方:</p>
+
+<pre lang="bash">1>wordpress的新建页面.需要理解wp的页面处理甚至是整个处理流程.
+不习惯wp的mvc.自己还需要时间钻研.
+2>doubanshow与wp完美支持. 可惜sae的安全策略做的也是比较全的.不能
+iframe也不能socket.不能curl(不想花时间改写fetchurl了.).</pre>
+
+
+<p>根本上还是对wp的实现机制不是很了解. 所以走了很多弯路.
+wp的页面处理是controller动态控制的.所以不存在实体php文件让你添加php语句</p>
+
+<pre lang="php"><?php
+doubanshow();
+?></pre>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/03/wordpress%E4%B8%8E%E8%B1%86%E7%93%A3%E4%BA%92%E8%BF%9E/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/03/wordpress%E6%96%87%E7%AB%A0%E6%91%98%E8%A6%81%E6%98%BE%E7%A4%BA/">Wordpress文章摘要显示</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-03T08:27:00+08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>wordpress后台 设置中有一项是以摘要形式显示. 我不清楚什么原因使我这里没有摘要显示. 头疼啊.
+一个文章. 加上代码. 一不小心就太长了&#8230;
+暂时有两个方法:
+1> 修改theme的index.php.</p>
+
+<pre><code>找到the_content改成the_excerpt.
+__END__
+</code></pre>
+
+<p>2> 在写文章的时候. 考虑the more的位置. 然后插入more&#8230;</p>
+
+<p>明显第二种方法使页面风格更良好. 但是容易遗忘&#8230;.</p>
+
+<div style="position: absolute; top: -9990px; left: -5678px;">FRONTLINE reports on the history, strategy and high stakes that brought Big Tobacco to the bargaining table. <a href=http://onlinestoretobacco.com/>tobacco store</a> The Wake County portion of the American Tobacco Trail is a recreational rail-trail open to walkers, runners, dog walkers, bicyclists and horseback riders. <br> AutoExtender offers a better designed Penis Enlargement Device. Get a safe and easy to use penis stretcher. <a href=http://neosize-xl.org/>penis enlargement natural</a> The magnificent penis enlargement patch is now one of the most popular things men buy on the Internet. Everybody knows that there are literally hundreds of  <br> Fletcher Cigar Company offers the finest premium private label cigars and custom cigars available. Our custom label cigars are THE choice for wedding cigars,  <a href=http://onlinestorecigars.com/>cheap cigars online</a> Buy quality cigars, filtered cigars, little cigars and pipe tobacco at our online store. Cartons of Filtered Cigars (Little Cigars) for sale online as low as $11.99!</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/03/Rbt%3A%E7%BB%99%E7%82%B9%E5%8A%B2.%E6%88%91%E5%8F%88%E9%87%8D%E5%9B%9ESAE%E4%BA%86./">Rbt:给点劲.我又重回SAE了.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-03T02:57:00+08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p style="text-align: left;">闲来无事. 看着别人用的美丽的wp + gae的各种不给力 + php的亲近. 还是来sae上看看吧. <span style="color: red;">ps:</span>qq/sae老给我发邮件说技术更新. 我过来检验下. 哈哈./</p>
+
+
+<p style="text-align: left;"><span style="color: blue;">gae</span>不知道最近怎么了. 老是抽住. GFW和谐力度加强了? 还是因为佰林老师的项目被国家采用了? whatever. 我继续回来了. 维护博客确实是个费时的事情. 不过. 也就只能这样了. 记忆太差了. 老了. 不中用了.
+<span style="color: #a56733;">#######################################</span>
+回到正题. 之前搞过不下20次wp了. 不过都忘得差不多了. 想想前几天看的<span style="color: red;">&lt;&lt;手把手教你写makefile&gt;&gt;</span>完了有机会再复习下. 毕竟简单的makefile还是需要自己写的. 总用automake. 杀鸡牛刀啊&#8230;</p>
+
+
+<p style="text-align: left;">今天上网找wp主题. 各种无语. Free theme你带点广告还是可以理解的. 但是你都把广告潜入到图片里. 让我这种代码控怎么净化你呢. 所以不断的找啊找啊找. 总算找到个差不多的. 那就自己改改得了.奈何主题的代码风格.神伤啊.</p>
+
+
+<p style="text-align: left;">改成这样了.简简单单的. 希望自己能把这个blog继续下去.</p>
+
+
+<p style="text-align: left;">博客可以往短写.但是尽量原创.尽量把自己的获得写进去.这样就够了.Fighting.!</p>
+
+
+<p style="text-align: left;">新的一年.努力努力努力.争取获得豆瓣实习的机会.</p>
+
+
+<p style="text-align: left;">见证&#8230;.</p>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/03/Rbt%3A%E7%BB%99%E7%82%B9%E5%8A%B2.%E6%88%91%E5%8F%88%E9%87%8D%E5%9B%9ESAE%E4%BA%86./">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/23/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

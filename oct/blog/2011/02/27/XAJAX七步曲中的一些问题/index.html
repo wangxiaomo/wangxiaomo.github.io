@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>XAJAX七步曲中的一些问题 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="今天实在不想弄delphi了.就整了一会xajax.以前看过教程.当时觉得很简单.就没代码测试.今天测试了一下还真发现了不少问题.
+xajax以易用性出名.官方文档中的七步曲也写的很不错.唯一失败的就是你按照其步骤做下来也无法得到正确的结果.
+首先.版本问题.我果断下了beta版本. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/02/27/XAJAX%E4%B8%83%E6%AD%A5%E6%9B%B2%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">XAJAX七步曲中的一些问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-27T10:25:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今天实在不想弄delphi了.就整了一会xajax.以前看过教程.当时觉得很简单.就没代码测试.今天测试了一下还真发现了不少问题.
+xajax以易用性出名.官方文档中的七步曲也写的很不错.唯一失败的就是你按照其步骤做下来也无法得到正确的结果.
+首先.版本问题.我果断下了beta版本.然后在linux/nginx下测试.无论是它压缩包中给的例子还是自己写的东西.都是错误的.查看log.发现没什么特别的提示.网上说打开debug开关.</p>
+
+<pre lang="php">
+<?php
+$xajax->debugOn();
+?>
+</pre>
+
+
+<p>我试了下.不行.在日志中提示无法找到debugOn这个方法.具体怎么解决.等有时间再说.
+然后我查阅了半天资料.也没发现解决方法.甚至看到了不少人在评论中说放弃了xajax.哎.是不是因为我当初这个平台没有搭好啊.所以我果断切到了windows.用wamp测试下.
+这次我学乖了.我下的是stable版本.然后先运行了它的例子.但是还是错误的.Deprecated错误.然后在源码中加入了@抑制符.还是不行.然后上网查了查.发现stable(0.5)不支持PHP5.所以又下了beta(0.6).
+例子倒是没出现什么问题了.然后我就自己写了一个脚本测试.</p>
+
+<pre lang="php">
+<?php
+require_once('./xajax_core/xajax.inc.php');
+
+function test(){
+    $str = 'Hello';
+    $obj = new xajaxResponse();
+    $obj->assign('content', 'innerHTML', $str);
+    return $obj;
+}
+
+$xajax = new xajax();
+$xajax->register(XAJAX_FUNCTION,'test');
+$xajax->processRequest();
+?>
+
+<html>
+<head>
+<title>Hello</title>
+<?php $xajax->printJavascript();?>
+</head>
+<body>
+<p id="content"></p>
+<input type="button" value="Click" onClick="xajax_test();" />
+</body>
+</html>
+</pre>
+
+
+<p>当使用registerFunction时报错.所以采用了旧方法.剩下的完了继续研究. `
+Over.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-27T10:25:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/02/27/XAJAX%E4%B8%83%E6%AD%A5%E6%9B%B2%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/02/27/XAJAX%E4%B8%83%E6%AD%A5%E6%9B%B2%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/02/25/Smarty%E4%B8%8EPHPLIB%E7%9A%84DB%E7%B1%BB%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8/" title="Previous Post: Smarty与PHPLIB的DB类配合使用">&laquo; Smarty与PHPLIB的DB类配合使用</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/02/28/Ajax+w3school%E6%95%99%E7%A8%8B/" title="Next Post: Ajax w3school教程">Ajax w3school教程 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

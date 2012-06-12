@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SAE环境. - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="SAE应用开发与标准的LAMP的差异基本在以下几个地方: 传统LAMP环境 SAE平台环境 本地I/O => TmpFS/Wrapper
+htaccess => Appconfig
+网络I/O => FetchURL
+Mail => SaeMail 1.Appconfig 替代 htaccess &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2012/04/20/SAE%E7%8E%AF%E5%A2%83./">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SAE环境.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-20T17:35:00+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>SAE应用开发与标准的LAMP的差异基本在以下几个地方:</p>
+
+<pre lang="bash">
+传统LAMP环境             SAE平台环境
+
+本地I/O             =>   TmpFS/Wrapper
+htaccess            =>   Appconfig
+网络I/O             =>   FetchURL
+Mail                =>   SaeMail
+</pre>
+
+
+<p>1.Appconfig 替代 htaccess.
+安全.实现更高效.语法更人性化.
+2.MySQL分布式数据库服务.通过RDC提供.
+RDC是Relational DB Cluster（关系型数据库集群）的简称，是一种分布式的关系型数据库集群，主要用在支撑公有云计算平台的数据库集群，目前RDC支持的存储后端为MySQL（http://www.mysql.com/）。用户可以简单的理解RDC为MySQL的中间层或者代理层，类似MySQL Proxy。所有的SQL请求都由RDC传递到后端的实际存储上。RDC可以支持千万级的数据库后端，其自身也支持分布式水平扩展. RDC由Sina App Engine（http://sae.sina.com.cn）技术团队开发，目前用来支持Sina App Engine的分布式数据库。RDC虽然为分布式数据库集群，但是对终端用户完全透明，用户在使用RDC时，不会感觉到和使用传统的MySQL数据库有任何差异，甚至用户都不用知道RDC的存在。用户可以使用所有MySQL标准客户端（MySQL5以上）操作RDC，如mysql_query、mysql_connect等，错误处理和标准MySQL客户端处理模式一样。 RDC拥有强大的监控功能，能够实时监控用户的DB的健康状况和同步延迟情况，一旦发现异常，将会在15秒内完成切换工作，用户的请求会被转发到其他正常的机器上。RDC自身采用的是多进程非阻塞方式的通讯框架，自身性能消耗较少，根据内部测试，其代理层性能损耗在5%以内。RDC因为100%兼容MySQL5协议，所以对于普通开发者几乎没有任何学习成本，开发者根本无需关心RDC，甚至无需知道RDC的存在，只需和使用普通MySQL一样就可以了。
+3.Memcache分布式缓存服务
+4.Storage分布式文件存储服务
+5.KVDB分布式key-value持久化存储
+6.Cron分布式定时服务
+7.Image分布式图像处理服务
+8.FetchURL分布式网页抓取服务
+9.Mail分布式邮件服务
+10.TaskQueue异步轻量级任务队列
+11.DeferredQueue异步大任务延迟队列
+12.Counter分布式计数器服务
+13.Rank实时排行榜服务
+14.Appconfig应用配置模块.
+15.TmpFS本地临时文件读写模块
+16.Wrappers文件读写兼容接口
+17.XHProf.PHP调试工具.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-20T17:35:00+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/乱七八糟/'>乱七八糟</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2012/04/20/SAE%E7%8E%AF%E5%A2%83./" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2012/04/20/SAE%E7%8E%AF%E5%A2%83./" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2012/04/18/Android+Thread+%E9%80%80%E5%87%BA%E9%94%99%E8%AF%AF%E9%97%AE%E9%A2%98./" title="Previous Post: Android Thread 退出错误问题.">&laquo; Android Thread 退出错误问题.</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2012/04/25/%E9%9D%A2%E8%AF%95.../" title="Next Post: 面试...">面试... &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

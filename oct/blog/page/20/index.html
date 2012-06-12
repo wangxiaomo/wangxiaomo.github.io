@@ -1,0 +1,891 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="今天上午要写一个web services的项目.wsdl位于远端服务器上.但是有错误.悲剧.try_catch没有捕获到任何异常.但是页面无任何输出.__getFunctions也没有输出.彻底悲剧.
+然后就准备调试调试这个页面.
+首先是log.查看了半天也没什么错误.果断放弃. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/20/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/10/xdebug%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/">Xdebug折腾日记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-10T07:32:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天上午要写一个web services的项目.wsdl位于远端服务器上.但是有错误.悲剧.try_catch没有捕获到任何异常.但是页面无任何输出.__getFunctions也没有输出.彻底悲剧.
+然后就准备调试调试这个页面.
+首先是log.查看了半天也没什么错误.果断放弃.用Netbeans调试的话.说实话.没试过.还得配置一堆服务器信息.我就放弃了.
+后来上网查下有没有简单点的东西.FireBug和FirePHP.不过我还是没调试出来.可能是这个调试方法对普通用户来说还是太过于麻烦.毕竟需要包含库文件.然后调用函数才行.
+那就用xdebug吧.wamp自带的这个调试起来不错.可是.我在linux下没装.
+哎.装
+上网下了源码.发现没有configure文件.然后直接make吧.也不行.果断就看README了.</p>
+
+<pre lang="bash">
+apt-get install php5-dev
+phpize
+./configure
+make
+</pre>
+
+
+<p>之后变会在module下生成so文件.然后在php.ini中引用就可以了.
+可惜.上面是理论的mannual流程.我在configure那里就出错了.google了半天也没查到错误.可能是错误太简单了.语法问题.不过我凭借我那点bash知识看了半天也没看出来哪有问题.
+放弃.
+换种方式.google到.</p>
+
+<pre lang="bash">
+apt-get install php5-dev php5-pear
+pecl install xdebug
+</pre>
+
+
+<p>这里不得不说下pecl和pear了.都是php的拓展.有人说pecl是底层实现.pear是上层实现.不清楚.
+然后在php.ini中增加拓展.
+开始测试.phpinfo中xdebug成功增加.然后继续测试.</p>
+
+<pre lang="php">
+<?php
+require_once('aaaa.php');
+?>
+</pre>
+
+
+<p>查看页面没有错误.哎.有问题啊..
+解决了半天.未果.
+于是来到开拓者继续测试.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/03/10/xdebug%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/10/Linux+%E9%9F%B3%E4%B9%90%E6%AC%A3%E8%B5%8F%E5%8F%8A%E4%B8%8B%E8%BD%BD/">Linux 音乐欣赏及下载</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-10T03:26:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在豆瓣和虾米听腻了.就想在本地找点歌曲听.可惜库存比较少.都是在win下下载的.就想在linux下下载点音乐.又懒得单曲下载.想找个批量下载的工具.
+gmbox,谷歌音乐盒.真的不错,用py写的.很方便.
+<img src="http://wpxiaomo.sinaapp.com/wp-content/themes/omegaB/gmbox.png" width="600px" height="400px" alt="" />
+<a href="http://wpxiaomo.sinaapp.com/wp-content/themes/omegaB/gmbox.png" target="_blank">访问大图</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/09/Linux+Kill%E5%91%BD%E4%BB%A4./">Linux Kill命令.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-09T09:34:00+08:00" pubdate data-updated="true">Mar 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天仔细研究了下kill命令.
+首先.kill可以杀死jobs进程.也可以杀死jobs外的进程.</p>
+
+<pre lang="bash">
+kill %1 #杀死第一个job
+#此时发送Term信号.
+#成功应该看到:
+#[1]+ Terminated  
+#失败的话:
+kill -QUIT %1
+#发送QUIT信号.
+#成功应该看到:
+#[1]+ Exited
+#失败的话:
+kill -KILL %1
+#一个进程不可能躲过KILL信号的.
+#进程接受到KILL信号.系统会无条件关闭的.
+</pre>
+
+
+<p>kill pid可以杀指定pid的进程.
+信号与数字之间有关系.</p>
+
+<pre lang="bash">
+kill -KILL pid
+kill -9 pid
+</pre>
+
+
+<p>killall可以杀死指定进程组的所有进程.</p>
+
+<pre lang="bash">
+pkill -uroot 
+</pre>
+
+
+<p>杀死指定用户的所有进程.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/09/Bash%E5%AD%A6%E4%B9%A0%28%E4%B8%89%29.%E5%8F%98%E9%87%8F./">Bash学习(三).变量.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-09T04:10:00+08:00" pubdate data-updated="true">Mar 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>bash默认是文本变量.就是字符串变量.幸好可以通过declare来规定变量类型.-打开选项.+关闭选项.</p>
+
+<pre lang="bash">
+-a    #数组.
+-f    #函数.
+-F    #未定义的函数
+-i    #整数
+-r    #变量只读属性.
+-x   #变量导出至环境中.相当于export
+</pre>
+
+
+<p>当在函数内部使用declare时.相当于local.声明为局部变量.
+$((statement))可进行数字运算并将结果返回.statement里面的变量加不加$没有关系.里面可以加语句.可以使用关系运算符.关系运算符为普通的>&lt;==等.当在条件语句中进行test时.可以使用$((statement))来充当条件.</p>
+
+<pre lang="bash">
+if [ $a -eq 1 ]; then
+     # Code Here
+fi
+# 等效于
+if [ $(($a==1)) ]; then
+    # Code Here
+fi
+</pre>
+
+
+<p>算数变量赋值.</p>
+
+<pre lang="bash">
+let a=3+2   #a=5 但是a不是整数变量
+declare -i b=3+2  #b=5且b为整数变量
+</pre>
+
+
+<p>bash定义数组变量.</p>
+
+<pre lang="bash">
+name=(apple orange)
+name=([0]=apple [1]=asd)
+</pre>
+
+
+<p>循环读取数组.</p>
+
+<pre lang="bash">
+for i in "${name[@]}"; do
+      echo $i
+done
+</pre>
+
+
+<p>可以通过${#name[@]}来获得数组元素个数.</p>
+
+<pre lang="bash">
+unset ${name[100]} #销毁下标为100的元素.
+unset ${name[@]}    #销毁整个数组.
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/09/Bash%E5%AD%A6%E4%B9%A0%28%E4%BA%8C%29.%E5%8F%82%E6%95%B0%E6%8D%95%E8%8E%B7/">Bash学习(二).参数捕获</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-09T03:46:00+08:00" pubdate data-updated="true">Mar 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>命令行参数的捕获方法有好多思路.不过因为不同的用户有不同的参数习惯.所以最好还是通过系统内置的getopts来获取吧.
+下面是我写的.通过循环和shift来实现.不过无法解析-ab这种参数.</p>
+
+<pre lang="bash">
+#!/bin/bash
+declare -i argvCount=$#
+echo $argvCount
+until [ $argvCount -eq 0 ]; do
+    case $1 in
+        'apple' ) echo 'apple' ;;
+        'orange' ) echo 'orange' ;;
+    esac
+    shift
+    argvCount=$argvCount-1
+done
+</pre>
+
+
+<p>接下来是由getopts来实现的版本.</p>
+
+<pre lang="bash">
+#!/bin/bash
+while getopts "ao" opt; do
+    case $opt in
+        a) echo 'apple'  ;;
+        o) echo 'orange' ;;
+    esac
+done
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/09/3.9+%E5%A5%B3%E7%94%9F%E5%8F%98%E6%88%90%E5%A5%B3%E4%BA%BA%E5%90%8E%E7%9A%84%E7%AC%AC%E4%BA%8C%E5%A4%A9/">3.9 女生变成女人后的第二天</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-09T03:40:00+08:00" pubdate data-updated="true">Mar 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天阿娇姐好不容易问个问题.结果因为我正在看bash.内容都混了.太悲剧了.
+就是一个&lt;a[<sup>&gt;]+&gt;的匹配问题.</sup></p>
+
+<pre lang="perl">
+#!/usr/bin/perl
+use warnings;
+use feature ":5.10";
+
+$str1 = '<a asd></a>asd>';
+say $1 if $str1 =~ /(<a[^>]+>)/i;
+
+$str2 = '<b asd></a>asd>';
+say $1 if $str2 =~ /(<a[^>]+>)/i;
+
+$str3 = '<a asd></a>asd>';
+# 你写的.如果出现空白符或者其他符号.无法匹配
+say $1 if $str3 =~ /(<a\w+>)/i;
+say $1 if $str3 =~ /(<a[\w\s]+>)/i;
+__END__
+上面的匹配都是贪婪匹配.
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/09/Bash+%E5%AD%A6%E4%B9%A0%28%E4%B8%80%29/">Bash 学习(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-09T02:29:00+08:00" pubdate data-updated="true">Mar 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨天的信息安全导论.课挺无聊的.就去图书馆随便拽了本书.php|perl|python的进一步需要靠自己了.因为图书资料没什么了.都大同小异.这也是自己第一次对3P产生犹豫.不管怎样.努力.努力.努力!
+借了本bash.之前学过.所以浏览的很快.不过期间还是发现一堆不会的问题.就昨天做的笔记记录下吧.
+shell是UNIX的用户接口.
+*.首先是查看bash的版本.这个还是很重要的.毕竟有什么问题求助的话.版本是一个重要的信息.</p>
+
+<pre lang="bash">
+echo $BASH_VERSION
+</pre>
+
+
+<p><em>.然后说下shell的环境.首先.用户开启shell时.系统先读取/etc/profile里面的脚本.然后再到用户的家目录下读取~/.bash_profile,~/.bashrc等信息.
+</em>.然后就是bash的基本通配符.</p>
+
+<pre lang="bash">
+?    任意单个字符
+*    任意字符串
+[]   集合中的任意字符
+[!]  非集合中的任意字符
+{}   任意字符串.
+</pre>
+
+
+<p>*.接下来就是shell的基本编程.</p>
+
+<pre lang="bash">
+# 函数可按如下格式定义
+function funcName{
+       # Code Here
+}
+# 或者
+funcName(){
+      # Code Here
+}
+# 在函数内部通过$1,$2,$*,$@等方式来读取参数.$#来读取参数个数.
+</pre>
+
+
+<p>在shell中键入一个命令时,先读取别名,然后是关键字,然后是函数,然后是内置命令,然后才是PATH下的可执行程序.可以通过builtin来执行内建命令.
+然后就是字符串的操作语法.</p>
+
+<pre lang="bash">
+${var:-string}     #var为null时.返回string
+${var:=string}    #var为null时.var=string
+${var:?message} #var为null时.返回message并终止脚本.
+${var:+string}    #var不为null时.返回string
+${var:offset:offset} #截取变量值.
+</pre>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/03/09/Bash+%E5%AD%A6%E4%B9%A0%28%E4%B8%80%29/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/08/wsdl+Soap%E8%B0%83%E8%AF%95./">Wsdl Soap调试.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-08T06:21:00+08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上午模电翘了半节课.一上午听到了两句:不听课你还去干嘛&#8230;whatever了.每个人的处境不一样.想的东西也就不一样了.随便吧.昨晚DOTA输了.输得那么无奈.今天早上又感冒了貌似.这个年初真的不顺.幸好我在过年的时候把方向定在了Perl | PHP | Python上了.这也算是有点所为了.
+今天继续调年前没有调出来的wsdl soap.Web Services这么多.可是Soap貌似企业级运用最广泛.这个必须会.
+之前用php调节non-wsdl的soap的时候很容易就过了. 就什么也不说了.也曾经尝试过nusoap.不过没想象中那么好.而且是历史的遗物了.zfw中也没有soap的组件.所以还是得学PHP自己的soap类.
+wsdl还是用Zend Studio生成.毕竟wsdl的语法还是有点变态的.而且很庞大的一个东西.
+生成wsdl的方法.
+*.先写soap调用的类或者函数.</p>
+
+<pre lang="php">
+<?php
+class Service {
+     public function HelloWorld(){
+             return "Hello World";
+     }
+     public function Add($a, $b){
+             return $a+$b;
+     }
+}
+?>
+</pre>
+
+
+<p><em>.打开Zend Studio生成wsdl文件.需要注意几个问题.
+&#8212;&#8211;创建过程中的example.com等url不需要改成localhost.改了也无所谓.
+&#8212;&#8211;创建出最初步的wsdl的时候有几个区域是需要更改的.url那块需要改成http://www.example.com/你处理的地址.然后就是变量名和变量类型.一般最好用wsdl自带的标准类型.
+</em>.然后补全server.php代码.</p>
+
+<pre lang="php">
+<?php
+class Service {
+      // Code
+}
+$server = new SoapServer('.wsdl');
+$server->setClass('Service');
+//$server->addFunction().具体的SoapServer方法参见手册.
+$server->handle();
+?>
+</pre>
+
+
+<p>服务端代码就这样了.
+*.客户端代码.</p>
+
+<pre lang="php">
+<?php
+$client = new SoapClient('.wsdl');
+/*
+Debug:
+$array = $client->__getFunctions();
+print_r($array);
+*/
+try{
+     echo $client->__soapCall('Add',array(1,2));
+}catch(Exception $e){
+     print_r($e);
+}
+/*
+$client->Add(1,2);
+*/
+?>
+</pre>
+
+
+<p>就是这个样子.
+需要注意的就是通过getFunctions()来查看wsdl的绑定情况.然后就是通过异常处理来Debugging.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/07/Zend_XmlRpc+%E4%BD%BF%E7%94%A8/">Zend_XmlRpc 使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-07T05:04:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天总算借着Zend_XmlRpc把xmlrpc给调通了.放假之前考试那几天.天天在纠结这个.弄了好多次都没有弄好.今天总算弄好了.
+直接看例子吧.</p>
+
+<pre lang="php">
+<?php
+// server.php
+require_once('Zend/XmlRpc/Server.php');
+function myTest(){
+    return "Hello World";
+}
+
+class HelloWorld{
+    public function sayHello($name=''){
+        return "Hello World" . ucfirst($name);
+    }   
+}
+
+$server = new Zend_XmlRpc_Server();
+$server->setClass('HelloWorld');
+$server->addFunction('myTest','test');
+echo $server->handle();
+?>
+</pre>
+
+
+<pre lang="php">
+<?php
+// client.php
+require_once('Zend/XmlRpc/Client.php');
+$url = 'http://localhost/xmlrpc/s.php';
+$client = new Zend_XmlRpc_Client($url);
+echo $client->call('test.myTest');
+echo "<br />";
+$m = $client->call('system.listMethods');
+foreach($m as $k=>$v){
+    echo $m . "======" . $v . "<br />";
+}
+?>
+</pre>
+
+
+<p>以上是没有参数的请求.接下来讲带有参数的请求.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/03/07/Zend_XmlRpc+%E4%BD%BF%E7%94%A8/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/07/Zend+Feed+%E4%BD%BF%E7%94%A8/">Zend Feed 使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-07T04:18:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前看别人用PHP自己做了个RSS Reader.当初想想.因为RSS归根到底就是XML.所以就是解析下就OK了.今天看zfw的时候发现了Zend_Feed组件.用这个组件很容易就可以写出来一个RSS Reader了.
+先看个基本的例子:</p>
+
+<pre lang="php">
+<?php
+// 订阅的RSS
+$url = 'http://feeds.feedsky.com/csdn.net/zhangbg';
+require_once('Zend/Feed/Rss.php');
+$channel = new Zend_Feed_Rss($url);
+echo $channel->title();
+foreach($channel as $item){
+     echo $item->title() . "<br />" . $item->description . "<br />";
+}
+?>
+</pre>
+
+
+<p>上面就是一个简单的订阅demo.
+其中.
+channel的元素有:
+<em>.title
+</em>.link
+<em>.description
+</em>.category 分类目录.(可选的).
+item元素:
+<em>.title
+</em>.link
+<em>.description
+</em>.author
+<em>.category
+</em>.comments
+*.pubDate</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/21/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/19/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PHP | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/php/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[新浪API调用过程中遇到的问题.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/05/%E6%96%B0%E6%B5%AAAPI%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98./"/>
+    <updated>2011-07-05T05:21:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/07/05/新浪API调用过程中遇到的问题.</id>
+    <content type="html"><![CDATA[<p>本想是一件很简单的事情,拿的access_token,其他什么的都无所谓了..没想到调用过程中还是遇到挺多问题的..
+<font color="red">不同的 sns有不同的调用规范,详情请参看 sdk以及官方文档.</font>
+按调用方式来说.
+一.GET调用.</p>
+
+<pre lang="php">
+<?php
+$api_url = "";
+//GET参数.
+$param = array(
+      'x' => 'x',
+      'y' => 'y'
+);
+$api_url = $api_url . implode('&', $param);
+
+$req = OAuthRequest::from_consumer_and_token(
+                     $app_consumer,
+                     $access_consumer,
+                     "GET",
+                     $api_url
+);
+$req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(),
+                     $app_consumer,
+                     $access_consumer
+);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $req->to_url());
+curl_setopt($ch, CURLOPT_RETURNTANSFER, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+?>
+</pre>
+
+
+<p>二.POST参数.</p>
+
+<pre lang="php">
+<?php
+$api_url = "";
+//GET参数.
+$param = array(
+      'x' => 'x',
+      'y' => 'y'
+);
+
+$req = OAuthRequest::from_consumer_and_token(
+                    $app_consumer,
+                    $access_consumer,
+                    "POST",
+                    $api_url,
+                    $param
+);
+$req->sign_request(
+                    new OAuthSignatureMethod_HMAC_SHA1(),
+                    $app_consumer,
+                    $access_consumer
+);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $api_url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $req->to_postdata());
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+?>
+</pre>
+
+
+<p>OVER.新浪的就差不多是这个样子的..
+总结下:
+1.GET和POST的方式,认证包含在GET参数或者POST参数里.不像OAuth推荐的那样包含在header中.
+2.对POST参数也要签名,所以要把$param一样包含在Request对象中.然后签名,最后通过to_postdata转换成postfields参数.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP 自动获取OAuth PIN码]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/04/PHP+%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96OAuth+PIN%E7%A0%81/"/>
+    <updated>2011-07-04T06:27:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/07/04/PHP 自动获取OAuth PIN码</id>
+    <content type="html"><![CDATA[<pre lang="php">
+<?php
+/*
+ * Curl实现GetPIN, 因为form参数的限制.
+ * 所以要curl auth_url两次, 一次用来获得url参数.
+ * 第二次就可以获得verifier.
+ */
+
+$auth_url = "http://api.t.sina.com.cn/oauth/authorize?oauth_token=a98a1820aee46aac10799ecda8d2eb1d";
+$username = "xxx";
+$password = "xxx";
+echo getPIN($auth_url, $username, $password),"\n";
+
+function getPIN($auth_url, $username, $password){
+    //第一次curl.
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $auth_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    
+    //跳过正则匹配,页面html位置一般固定.
+    //提取元素在html的91行起.
+    $lines = explode("\n", $result);
+    $flag = count($lines)>37?1:0;
+    if($flag){
+        $param_line1 = $lines[90];
+        $param_line2 = $lines[91];
+        //提取参数内容.
+        $pattern = '/(?:.*?)value="(.*?)"\/>/';
+        preg_match($pattern, $param_line1, $match);
+        $regCallback = $match[1];
+        preg_match($pattern, $param_line2, $match);
+        $oauth_token = $match[1];
+
+        //构造post参数.
+        $post_data = "action=submit&regCallback=".$regCallback."&oauth_token=".$oauth_token."
+&oauth_callback=none&from=&forcelogin=&userId=".urlencode($username)."&passwd=".urlencode($password);
+        //echo $post_data,"\n";
+        //第二次cul
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $auth_url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $lines = explode("\n", $result);
+    }
+    //用户帐号检测
+    if(count($lines)>37){
+        //帐号或密码错误.
+        return -1;
+    }
+    $param_line = $lines[25];
+    $pattern = '/\<span class="fb"\>(.*?)\<\/span\>/';
+    preg_match($pattern, $param_line, $match);
+    $verifier = $match[1];
+    return $verifier;
+}
+
+?>
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP curl使用示例.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/04/PHP+curl%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B./"/>
+    <updated>2011-07-04T05:52:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/07/04/PHP curl使用示例.</id>
+    <content type="html"><![CDATA[<p>刚才折腾了半天hg,我去,记得当初也没那么难搞啊..code google上面的代码控制不会弄了.害我直接转到bitbucker了.继续说 curl的问题.搞完这个还要看 perl大会视频呢.
+首先.php 编程不会curl就是坑爹呢/所以, 这个必须会.
+通过几个简单的例子说明问题,以后有需求,再研究.
+1.获取页面源码.</p>
+
+<pre lang="php">
+<?php
+$url = "http://www.baidu.com";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+
+var_dump($result);
+?>
+</pre>
+
+
+<p>如果不设置CURLOPT_RETURNTRANSFER的话,html会自动返回输出,通过这一选项,可以把输出保存到变量中去.
+2.POST数据.</p>
+
+<pre lang="php">
+<?php
+$url = "http://api.t.sina.com.cn/oauth/authorize?oauth_token=c61f2bd0e7c4246d12c764eba0d49450";
+$ch = curl_init();
+$param = "userId=".urlencode("xxx")."&password=".urlencode("xxx");
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+curl_setopt($ch, CURLOPT_POST, 1); 
+curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+$result = curl_exec($ch);
+curl_close($ch);
+print $result;
+?>
+</pre>
+
+
+<p>post的数据有两者哦你,一种是:</p>
+
+<pre lang="php">
+<?php
+$param = array(
+    "username" => "xxx",
+    "password"  => "xxx"
+);
+?>
+</pre>
+
+
+<p>另一种是.</p>
+
+<pre lang="php">
+<?php
+$param = "username=xxx&password=xxx";
+?>
+</pre>
+
+
+<p>一般的表单用第二种,除非form中明确指出multipart/form-data,否则用第二种.两种默认的编码方式不同..
+3.在header中传递参数.</p>
+
+<pre lang="php">
+<?php
+$header = array(
+    'Content-Type: application/atom+xml',
+    $acc_req->to_header()
+);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_HEADER, 1);
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+?>
+</pre>
+
+
+<p>That's all</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[读php OAuth代码心得]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/03/%E8%AF%BBphp+OAuth%E4%BB%A3%E7%A0%81%E5%BF%83%E5%BE%97/"/>
+    <updated>2011-07-03T08:38:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/07/03/读php OAuth代码心得</id>
+    <content type="html"><![CDATA[<p>准备假期做sns同步,当然是要挂在sae上,所以趁早看看php oauth的代码吧.虽然oauth的基本过程还是了解的,但是不同的sdk实现不同,理解起来还是存在误区的..
+这个文章就对python sdk和php sdk进行分析对比吧..
+两者不借助任何sns厂商的sdk,只是依靠基本的oauth sdk进行实现时,基本的过程就是:</p>
+
+<pre lang="bash">
+1.根据app_key,app_secret获得授权的request_token和request_token_secret
+2.根据request_token中的公钥构造auth_url.跳转让用户进行认证.
+3.根据app_key,app_secret,request_token,request_token_secret来获得access_token和access_token_secret
+(无callback的时候,通过附加pin参数,来获得access_token,豆瓣的oauth不需要.
+</pre>
+
+
+<p>然后就是具体的实现了.
+其实标准的实现就是.用php来说.</p>
+
+<pre lang="php">
+//全局配置.
+$request_url = xxx;
+$auth_url = xxx;
+$access_url = xxx;
+$app_key = xxx;
+$app_secret = xxx;
+$hmac_method = new OAuthSignatureMethod_HMAC_SHA1();
+$sig_method = $hmac_method;
+
+//Step1.
+//定义应用consumer
+$app_consumer = new OAuthConsumer($app_key, $app_secret);
+$req_req = OAuthRequest::from_consumer_and_token($app_consumer,
+ NULL, "GET", $request_url);
+//签名补全数据
+$req_req->sign_request($sig_method, $app_consumer, NULL);
+//构造好数据信息,然后通过to_url获得url,或者通过to_header获得头部信息.
+//通过 curl访问.
+$ch = curl_init();
+curlsetopt($ch, CURLOPT_URL, $req_req->to_url());
+curlsetopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+//$result形如oauth_token_secret=xxx&oauth_token=xxx格式.
+parse_str($result, $arr);
+//获得request_token
+$request_token = $arr['oauth_token'];
+$request_token_secret = $arr['oauth_token_secret'];
+
+//Step2.
+//构造认证url.
+$auth_url = $auth_url . "?oauth_token=" . $request_token . "&callback=NULL";
+echo "认证: " . $auth_url . "\n";
+echo "认证完毕?\n";
+$pin = fread(STDIN, 80);
+//如果是 callback的认证方式的话,跳过接收pin过程,直接进行 Step3
+
+//Step3.
+//构造$request_consumer
+$request_consumer = new OAuthConsumer($request_token, $request_token_secret);
+$acc_req = OAuthRequest::from_consumer_and_token($app_consumer, $request_consumer, "GET", $access_url);
+//如果是通过pin的认证.
+//$acc_req = OAuthRequest::from_consumer_and_token($app_consumer, $request_consumer, "GET", $access_url, 
+//array('oauth_verifier'=>intval($pin)));
+//签名补全数据.
+$acc_req->sign_request($sig_method, $app_consumer, $request_consumer);
+//curl访问.
+//....
+//获得access_token,access_token_secret
+?>
+</pre>
+
+
+<p>这就是基本的过程,第三步获得access_token的时候,官方sdk上写的是post获取,但是我通过get都能获取到,额.这个,解释不同,先不管了..
+然后就说下python里面的请求.
+python用到的OAuth库是OAuth2.
+里面过程中用到了oauth.client.这个嘛,相当于就是构造好参数,然后通过request方法访问的一个虚拟的client.类似于php中的构造数据和curl部分.当然,oauth2也可以用类似php的方式进行oauth认证..</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[webxml天气预报服务正确测试.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/03/12/webxml%E5%A4%A9%E6%B0%94%E9%A2%84%E6%8A%A5%E6%9C%8D%E5%8A%A1%E6%AD%A3%E7%A1%AE%E6%B5%8B%E8%AF%95./"/>
+    <updated>2011-03-12T10:36:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/03/12/webxml天气预报服务正确测试.</id>
+    <content type="html"><![CDATA[<p>今天下午和兄弟一起去踏青了.照片等完了再发布.很愉快的记忆.很久没有这么放松过了.最近在忙FF高校宣传日的事情,下午的时候丁文心把策划搞定了.我赶回来稍微修改了下.然后又把问题抛回给组员了.让他们再斟酌斟酌.然后明晚确定最终版本.
+7点的时候开源沙龙就要举办这个学期的第一次聚会了.这么点事件就把之前没调通的WebService调下吧.
+<a href="http://www.webxml.com.cn/zh_cn/index.aspx" target="_blank">WebXML</a>提供了很多在线服务.还是免费的.所以在工作中可以帮你免去很多麻烦.之前再调一个天气预报的.一直报错误.try_catch了也不行.今天再试下,毕竟昨天在网吧写了个测试还是可以使用的.
+一步一步的进行调试.
+*.获得可调用函数以及所需参数.</p>
+
+<pre lang="php">
+<?php
+$c = new SoapClient('http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl');
+$array = $c->__getTypes();
+var_dump($array);
+?>
+</pre>
+
+
+<p>因为需要获得参数类型.所以在php.net查到了这个函数.获得比__getFunctions更多的内容,比较好用.
+*.获得省份代号.</p>
+
+<pre lang="php">
+<?php
+$c = new SoapClient('http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl');
+$array = $c->getRegionProvince();
+var_dump($array);
+?>
+</pre>
+
+
+<!--more-->
+
+
+<p>*.获得城市代码.</p>
+
+<pre lang="php">
+<?php
+$c = new SoapClient('http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl');
+try{
+    $array = $c->getSupportCityDataset(array('theRegionCode'=>'3119'));
+}catch(Exception $e){
+    var_dump($e);
+}
+var_dump($array);
+?>
+</pre>
+
+
+<p>这里出了比较多的问题.主要是参数传递的问题.官方文档说是传递一个String就可以了.我尝试了直接传string , $theRegionCode=string都不行,后来试了array(string)也不行.最后又试了下hash数组.果真就可以了.
+*.获得天气</p>
+
+<pre lang="php">
+<?php
+$c = new SoapClient('http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl');
+$array = $c->getWeather(array('theCityCode'=>'911'));
+var_dump($array);
+?>
+</pre>
+
+
+<p>就这么多就调试完成了.也没多难.不过以后这个模块可以调用它了.
+之前给老婆写的那个天气预报只有早上8点更新.但是这个貌似是实时更新的.可能比较好吧.:-)</p>
+
+<pre lang="php">
+object(stdClass)#2 (1) {
+  ["getWeatherResult"]=>
+  object(stdClass)#3 (1) {
+    ["string"]=>
+    array(32) {
+      [0]=>
+      string(13) "山东 威海"
+      [1]=>
+      string(6) "威海"
+      [2]=>
+      string(3) "911"
+      [3]=>
+      string(19) "2011/03/12 18:19:31"
+      [4]=>
+      string(83) "今日天气实况：气温：12℃；风向/风力：东南风 7级；湿度：33%"
+      [5]=>
+      string(45) "空气质量：良；紫外线强度：最弱"
+      [6]=>
+      string(1012) "穿衣指数：建议着夹衣加薄羊毛衫等春秋服装。体弱者宜着夹衣加羊毛衫。但昼夜温差较大，注意增减衣服。
+感冒指数：昼夜温差极大，且风力较强，极易发生感冒，请特别注意增减衣服保暖防寒。
+运动指数：白天天气较好，较适宜开展户内运动，因风力稍强，在户外可选择对风力要求不高的运动。
+洗车指数：较适宜洗车，未来持续两天无雨，但考虑风力较大，擦洗一新的汽车会蒙上灰尘。
+晾晒指数：多云，适宜晾晒。赶紧把久未见阳光的衣物搬出来吸收一下太阳的味道吧！
+旅游指数：白云飘飘，温度适宜，但风稍微有点大。这样的天气很适宜旅游，您可以尽情地享受大自然的无限风光。
+路况指数：晴天，其它条件适宜，路面比较干燥，路况较好。
+舒适度指数：白天不太热也不太冷，风力不大，相信您在这样的天气条件下，应会感到比较清爽和舒适。"
+      [7]=>
+      string(22) "3月13日 多云转阴"
+      [8]=>
+      string(10) "4℃/17℃"
+      [9]=>
+      string(12) "南风4-5级"
+      [10]=>
+      string(5) "1.gif"
+      [11]=>
+      string(5) "2.gif"
+      [12]=>
+      string(16) "3月14日 多云"
+      [13]=>
+      string(11) "-2℃/11℃"
+      [14]=>
+      string(12) "北风5-6级"
+      [15]=>
+      string(5) "1.gif"
+      [16]=>
+      string(5) "1.gif"
+      [17]=>
+      string(16) "3月15日 多云"
+      [18]=>
+      string(10) "-2℃/4℃"
+      [19]=>
+      string(21) "北风5-6级转4-5级"
+      [20]=>
+      string(5) "1.gif"
+      [21]=>
+      string(5) "1.gif"
+      [22]=>
+      string(22) "3月16日 晴转多云"
+      [23]=>
+      string(10) "-1℃/4℃"
+      [24]=>
+      string(30) "西北风4-5级转北风4-5级"
+      [25]=>
+      string(5) "0.gif"
+      [26]=>
+      string(5) "1.gif"
+      [27]=>
+      string(13) "3月17日 晴"
+      [28]=>
+      string(10) "9℃/11℃"
+      [29]=>
+      string(15) "西南风5-6级"
+      [30]=>
+      string(5) "0.gif"
+      [31]=>
+      string(5) "0.gif"
+    }
+  }
+}
+</pre>
+
+]]></content>
+  </entry>
+  
+</feed>

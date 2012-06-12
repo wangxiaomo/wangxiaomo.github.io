@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>vi配置,autocomp,NERDTree,Taglist - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="今天等待android sdk的下载,就把vi配置了下.目前只有两个基本需求:
+1.文件管理.. NERDTree
+2.自动补全.autocomplPop.
+3.生成变量类信息的Taglist,需要ctag的配合.
+vi的插件可以放在很多地方,我们可以通过 set runtimepath? &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/06/27/vi%E9%85%8D%E7%BD%AE%2Cautocomp%2CNERDTree%2CTaglist/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">vi配置,autocomp,NERDTree,Taglist</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-27T04:07:00+08:00" pubdate data-updated="true">Jun 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今天等待android sdk的下载,就把vi配置了下.目前只有两个基本需求:
+1.文件管理.. NERDTree
+2.自动补全.autocomplPop.
+3.生成变量类信息的Taglist,需要ctag的配合.
+vi的插件可以放在很多地方,我们可以通过</p>
+
+<pre lang="bash">
+set runtimepath?
+</pre>
+
+
+<p>来查看可放置的位置..
+假设我们要把插件放置再~/.vim下.我们一般要建立以下文件夹.</p>
+
+<pre lang="bash">
++~/.vim
++-----autoload
++-----plugin
++-----doc
+</pre>
+
+
+<p>然后我们在vim.org上下好上面两个插件,然后放在相应的目录下就可以了&#8230;
+启动NERDTree.只需要键入</p>
+
+<pre lang="bash">
+:NERDTree
+</pre>
+
+
+<p>自动补全的插件已经autoload了.`
+然后最重要的就是我的.vimrc的配置.</p>
+
+<pre lang="bash">
+
+set tabstop=4
+set sm
+set number
+syntax on
+colorscheme desert
+
+"Set to Auto read when a file is changed from the outside
+set autoread
+"Set Magic on for regex
+set magic
+"显示光标位置.
+set ruler
+"侦测文件类型
+filetype on
+"隐藏工具栏
+set go=
+"设置高亮搜索.
+set hlsearch
+set showmatch
+
+"在左侧窗口显示TlistOpen
+let Tlist_Use_Left_Window=1
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+let Tlist_Show_Menu=1
+"let Tlist_Auto_Open=1
+"编码自动识别.
+set fencs=utf-8,cp936
+:nmap <F1> :NERDTreeToggle<CR>
+:nmap <F2> :TlistToggle<CR>
+
+let g:winManagerWindowLayout="FileExplorer|TagList"
+:nmap <F3> :WMToggle<CR>
+
+</pre>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-27T04:07:00+08:00" pubdate data-updated="true">Jun 27<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/乱七八糟/'>乱七八糟</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/06/27/vi%E9%85%8D%E7%BD%AE%2Cautocomp%2CNERDTree%2CTaglist/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/06/27/vi%E9%85%8D%E7%BD%AE%2Cautocomp%2CNERDTree%2CTaglist/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/06/25/Android+%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" title="Previous Post: Android 数据存储">&laquo; Android 数据存储</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/06/27/SQLite%E7%B1%BB%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B./" title="Next Post: SQLite类应用实例.">SQLite类应用实例. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

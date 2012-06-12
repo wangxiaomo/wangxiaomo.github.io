@@ -1,0 +1,880 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="明天考试.` 今天把这点内容看完了. 就回寝室.
+先接触的Perl.所以后来对php(没接触PCRE之前),python,ruby的正则都有点厌恶.不过接触之后发现,他们的正则也没有想象中的那么差.
+首先说下常用的模式语法. (?:....) #匹配.但是不捕获
+(?P...) #匹配. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/13/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/24/python+%E6%AD%A3%E5%88%99/">Python 正则</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-24T13:09:00+08:00" pubdate data-updated="true">May 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>明天考试.` 今天把这点内容看完了. 就回寝室.
+先接触的Perl.所以后来对php(没接触PCRE之前),python,ruby的正则都有点厌恶.不过接触之后发现,他们的正则也没有想象中的那么差.
+首先说下常用的模式语法.</p>
+
+<pre lang="bash">
+(?:....)                                #匹配.但是不捕获
+(?P<name>...)                     #匹配.并存到指定分组中.
+(?P=name)                          #匹配一个早期指定的分组所匹配的文本
+(?#....)                               #注释.
+(?!.....)                               #括号不匹配,开始按括号前内容正则匹配.
+                                         #Hello(?!hello)
+                                         #hello不匹配,才匹配Hello
+</pre>
+
+
+<p>额.模式语法有很多.但是一个案例能写出不通思路的正则来,所以说模式语法不一定是必须要掌握的.能解决问题则OK.效率什么的,注意贪婪非贪婪就好.
+下面是正则替换字符.</p>
+
+<pre lang="bash">
+\s                                      #任意空白符
+\S                                      #任意非空白字符
+\w                                     #任意字母数字.
+\d                                      #任意数字.
+\D                                     #任意非数字.
+\b                                      #单词定界
+</pre>
+
+
+<p>然后一般情况下为了运行速度,我们不直接采用re.func类用法.而是先把re compile下,然后再正则匹配.</p>
+
+<pre lang="python">
+import re
+
+pat = re.compile(str[, flags])
+
+"""
+re.I         忽略大小写.
+re.S         .可以匹配换行符
+re.M        ^$可以应用在包括整个字符串的每一行.
+re.I | re.S | re.M 混合使用
+"""
+</pre>
+
+
+<p>findall返回为list.
+match,search匹配成功时返回的Object,需要用group来形成list.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/24/project2.%E6%96%87%E6%A1%A3%E7%BC%96%E7%A0%81%E8%BD%AC%E5%8C%96/">Project2.文档编码转化</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-24T12:23:00+08:00" pubdate data-updated="true">May 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这个说不上是project.就是今晚的一个小需求.某个readme无法正常打开.gb2312,gbk,utf8都不成.那我就用chardet检测吧.不废话了.直接代码.</p>
+
+<pre lang="python">
+#!/usr/bin/python -tt
+# -*- coding: utf-8 -*-
+
+"""\
+Usage: python tran.py srcFile [dstFile]
+"""
+import sys
+import chardet
+
+length = len(sys.argv)
+if length == 1 or length >3:
+    print __doc__
+    sys.exit(1)
+
+srcFile = sys.argv[1]
+if length == 3:
+    dstFile = sys.argv[2]
+else:
+    dstFile = srcFile+".solved"
+
+with open(srcFile, "r") as f:
+    line = f.readline()
+    charset = chardet.detect(line)["encoding"]
+    f.seek(0,0)
+
+    with open(dstFile, "w") as d:
+        while True:
+             line = f.readline()
+             if not line:
+                 break
+             line = line.decode(charset).encode("utf-8")
+             d.write(line)
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/24/python+%E7%BC%A9%E8%BF%9B%E6%A3%80%E6%9F%A5./">Python 缩进检查.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-24T05:31:00+08:00" pubdate data-updated="true">May 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>为了保证代码的缩进正常,我们在SHABANG行加入缩进检查</p>
+
+<pre lang="python">
+#!/usr/bin/python -tt
+# -t  检查缩进.
+# -tt 将缩进错误raise为TabError
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/24/linux%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF./">Linux配置网络信息.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-24T02:26:00+08:00" pubdate data-updated="true">May 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>明天就又考试了. 看到编码那里看不进去了. 就停下来把实验室整理了下. 嘿. 我发现我没事干的时候挺喜欢整理已经习惯的布局&#8230;真TM奇怪..
+继续多显示器工作了. 而且多显示器下的awesome. 10个桌面加平铺窗口, 工作面积不是一般的大啊. 外接显示器调成CAD色彩, 看起来不是一般的爽. 唯一的缺憾就是awesome运行浏览器时,默认是全屏的, 不能把平铺运用到极致. 这个完了再研究.
+天气越来越热了. 我也不能老开的无线上网. 所以还是插网线, 改IP上网吧&#8230;
+在awesome下, 我还真不知道怎么通过图形界面工具改网络信息. 不过我记忆中能通过/etc/network/interfaces修改.</p>
+
+<pre lang="bash">
+# /etc/network/interfaces
+auto eth0
+iface eth0 inet static
+address 172.29.143.86
+netmask 255.255.255.0
+gateway 172.29.143.1
+# /etc/resolv.conf
+nameserver 8.8.8.8
+</pre>
+
+
+<p>然后我记忆中还可以通过Network-Manager来修改. 这个是不是图形界面的呢? ` 我也不记得了. 然后我在终端中企图输入这个命令,但是系统不能自动补全, 说明这个不是命令&#8230;
+然后上网搜索,才知道这个是一个service.我们可以通过</p>
+
+<pre lang="bash">
+service network-manager status
+</pre>
+
+
+<p>来检测状态&#8230;然后他的配置文件嘛. 在/etc/Network-Manger/system-connection里面&#8230;</p>
+
+<pre lang="bash">
+
+[connection]
+id=Auto eth0
+uuid=6269fde5-9b93-4ada-9c4a-53a1df3575ae
+type=802-3-ethernet
+
+[ipv4]
+method=manual
+dns=202.102.154.3;8.8.8.8;
+addresses1=172.29.143.86;24;172.29.143.1;
+
+[802-3-ethernet]
+duplex=full
+mac-address=0:26:9e:81:3c:3b
+
+[ipv6]
+method=ignore
+</pre>
+
+
+<p>然后,最重要的..我们可以通过</p>
+
+<pre lang="bash">
+nm-connection-editor
+</pre>
+
+
+<p>来调出设置的图形界面工具&#8230;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/21/Fedora+Awesome/">Fedora Awesome</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-21T10:50:00+08:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>额. 人吧. 自己懒散. 就希望用其他的东西装出来自己很忙碌.` 所以我准备换掉fluxbox, 用awesome来装一下. 好吧. 就拿台式机做试验&#8230;
+台式机是fedora14.首先我尝试着从源安装,但是竟然没有. 好吧. 那我就上google查查. 查了一会也没查到. 就索性编译安装吧&#8230; 首先我先下载了编译包, 但是这个速度啊, GFW无敌了. 700K的东西竟然能用了20分钟还没下完. 好吧. 我翻出去下吧..
+翻出去后2分钟内下完. 然后就开始编译安装..
+编译安装, 你懂的. 缺什么安什么就对了. 但是中间缺少convert,我就无语了. 源中没有convert这个名字的包, 然后google搜索出来的结果大多数是格式转换,或者是视频解码什么的.完全扯不上边么. 然后就上irc上去问. 后来才知道是缺少ImageMagick包. 安装, OK.
+然后继续,,我去. 又来个错误. 怎么都过不去&#8230; cairo-xcb. 然后我又上网查, 我去. FEDORA不支持这个包. 然后就疼了..
+继续google.发现了这个文章..<a href="https://awesome.naquadah.org/wiki/Awesome-3-fedora">Click</a>.按这这个方法来.OK.成功..
+步骤:
+1.添加repo.</p>
+
+<pre lang="bash">
+wget -nd -P /etc/yum.repos.d \
+    http://repos.fedorapeople.org/repos/thm/awesome/fedora-awesome.repo
+</pre>
+
+
+<p>2.源安装.</p>
+
+<pre lang="bash">
+yum install awesome
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/17/Apache+%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/">Apache 日志格式</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T18:38:00+08:00" pubdate data-updated="true">May 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天看到django输出的日志格式挺清爽的.所以我也决定改改自己的apache日志&#8230;
+首先.日志的设定和启用,应该是知道的..
+在apache2.conf中设置LogFormat.然后在站点目录下CustomLog指定&#8230;</p>
+
+<pre lang="bash">
+LogFormat "%t %a %m %H %f %O" wxm
+</pre>
+
+
+<p>这个就是我设定的日志格式.输出如下.</p>
+
+<pre lang="bash">
+[18/May/2011:02:32:50 +0800] 127.0.0.1 GET HTTP/1.1 /var/www/test.php 355
+[18/May/2011:02:32:53 +0800] 127.0.0.1 GET HTTP/1.1 /var/www/ 894
+[18/May/2011:02:32:54 +0800] 127.0.0.1 GET HTTP/1.1 /var/www/cgi-bin/ 502
+[18/May/2011:02:32:57 +0800] 127.0.0.1 GET HTTP/1.1 /var/www/karrigell/ 761
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/17/django+POST%E6%97%B6csrf%E9%97%AE%E9%A2%98./">Django POST时csrf问题.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T16:55:00+08:00" pubdate data-updated="true">May 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>刚才把django大概看了下.觉得自己能写点小应用了.就准备拿post登录作为练手. 结果POST参数那里出了问题了. 额. 好吧.我承认我不给力&#8230;
+问题的根本是因为csrf.上网一查.说为了防止类似跨站请求伪造..好吧.反正是有用的东西.那就解决吧..
+首先.你需要在你的表单form里面加入csrf_token</p>
+
+<pre lang="html">
+<form method="post" action="check">
+{% csrf_token %}
+</form>
+</pre>
+
+
+<p>然后我这里又出问题了.说什么csrf 认证failed什么的. 然后我继续google.
+解决:
+修改settings.py</p>
+
+<pre lang="python">
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+)
+</pre>
+
+
+<p>增加django.middleware.csrf.CsrfResponseMiddleware这句.搞定.`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/17/Django+%E5%88%86%E7%A6%BBURLconf/">Django 分离URLconf</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T15:57:00+08:00" pubdate data-updated="true">May 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Django下的app是可插拔的.所以我们在移动我们的app时,要尽可能的方便配置.URLconf的分离,更是至关重要的一部分.
+接上一篇文章的文件格局.我们需要配置polls的URLconf,我们可以在myFirst/urls.py下设置全部的URLconf,但是这样在迁移时比较麻烦,所以我们把URLconf分离.</p>
+
+<pre lang="python">
+(r'^polls/', include('myFirst.polls.urls')),
+</pre>
+
+
+<p>这里需要注意的是,r&#8217;<sup>polls/&#8217;的/后面没有$.</sup>
+然后我们到myFirst/polls/下建立urls.py</p>
+
+<pre lang="python">
+urlpatterns = patterns('myFirst.polls.views',
+                      (r'^&', 'index'),
+                      (r'^(?P<poll_id>)\d+)/$', 'detail'),
+)
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/17/%E7%AC%AC%E4%B8%80%E4%B8%AADjango%E7%A8%8B%E5%BA%8F./">第一个Django程序.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T13:57:00+08:00" pubdate data-updated="true">May 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天开始学习django.时间有限.能学多少是多少.不准备学习Perl的catalyst了.虽然我很喜欢他的LOGO.准备在近期内把django和twisted学了就可以了&#8230;开始就多往应用方面发展&#8230;OK. 不废话了.
+首先是安装django.大多时候我们从源里安装就可以了.其他情况先不考虑了.我们可以通过</p>
+
+<pre lang="python">
+import django
+</pre>
+
+
+<p>来检查django是否安装成功.如果不报错.OK.继续下面的内容.
+安装完成后.我们就可以通过django-admin来创建django项目了.</p>
+
+<pre lang="bash">
+django-admin startproject myFirst
+</pre>
+
+
+<p>然后django-admin会为我们生成myFirst目录.目录下面有4个文件.</p>
+
+<pre lang="bash">
+__init__.py
+manage.py *
+settings.py
+urls.py
+</pre>
+
+
+<p>然后我们可以通过./manage.py runserver来启动django服务器.之后我们便可以在浏览器中localhost:8000来查看我们第一个django程序的效果了.
+<b>设置数据库</b>
+接下来.我们编辑settings.py.现在我们来修改关于数据库连接方面的配置.以适应你的应用的要求.</p>
+
+<pre lang="bash">
+DATABASE_ENGINE #我们可以选择mysql或者sqlite3.或者其他的.
+DATABASE_NAME    #数据库名称.如果是sqlite3的话.需要是数据库文件的绝对路径.
+DATABASE_USER    #sqlite3可以不修改.
+DATABASE_PASSWORD #sqlite3可以不修改
+DATABASE_HOST    #默认是default.sqlite3可以不用修改.
+</pre>
+
+
+<p>然后我们可以通过</p>
+
+<pre lang="bash">
+./manage.py syncdb
+</pre>
+
+
+<p>来同步数据库.生成数据表.
+<font color="red">这里我遇到个问题.默认是没有安装python-mysqldb的.所以安装下.问题不大.</font>
+到此.数据库配置完毕..然后我们开始配置模型.
+<b>创建模型</b>
+这里我们创建一个投票应用.首先创建一个polls模型.</p>
+
+<pre lang="bash">
+./manage.py startapp polls
+</pre>
+
+
+<p>然后我们会得到一个polls目录.里面有</p>
+
+<pre lang="bash">
+__init__.py
+models.py
+views.py
+test.py
+</pre>
+
+
+<p>我们通过修改models.py来创建两个模型.一个Poll.一个Choice.
+Poll包含问题以及问题的发布时间.
+Choice包含选择文本以及投票数.
+编辑models.py</p>
+
+<pre lang="python">
+from django.db import models
+
+# Create your models here.
+class Poll(models.Model):
+    question = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+class Choice(models.Model):
+    poll = models.ForeignKey(Poll)
+    choice = models.CharField(max_length=200)
+    votes = models.IntegerField()
+</pre>
+
+
+<p>如图则创建了两个模型.
+需要注意的是,xxxField对应的是数据库中的数据类型.CharField需要指定长度.
+然后就是刚才的startapp其实就是创建一个app.app对于django来说是可插拔的.就是说我们可以写好app供其他人使用.所以我们需要把我们写好的app在我们的应用中声明.
+返回到上层目录.继续编辑settings.py</p>
+
+<pre lang="python">
+#找到Installed App
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'myFirst.polls'
+    # Uncomment the next line to enable the admin:
+    # 'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+)
+</pre>
+
+
+<p>然后我们便可以通过</p>
+
+<pre lang="bash">
+./manage.py sql polls
+</pre>
+
+
+<p>生成SQL语句.然后继续通过</p>
+
+<pre lang="bash">
+./manage.py syncdb
+</pre>
+
+
+<p>同步到应用的数据库中.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/05/17/%E7%AC%AC%E4%B8%80%E4%B8%AADjango%E7%A8%8B%E5%BA%8F./">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/17/emacs+%E7%AE%80%E6%98%93%E9%85%8D%E7%BD%AE./">Emacs 简易配置.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T05:59:00+08:00" pubdate data-updated="true">May 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天把emacs装上了. 总不能给我个emacs我不会吧. 呵呵
+上简单配置文件.</p>
+
+<pre lang="bash">
+;去掉工具栏
+(tool-bar-mode nil)
+;去掉滚动条
+(scroll-bar-mode nil)
+;中间粘贴
+(setq x-select-enable-clipboard t)
+;y or n
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;KEY
+(global-set-key [f1] 'shell)
+(global-set-key [f2] 'save-buffer)
+(global-set-key [f3] 'other-window)
+(global-set-key [f4] 'delete-window)
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/14/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/12/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

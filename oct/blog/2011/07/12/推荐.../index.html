@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>推荐... - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="根据许多不同的方式来搜集兴趣偏好,这些数据可能来自各个方面.然后再根据群体偏好来为用户进行推荐.
+协作型过滤
+一个协作型过滤算法通常的做法是对一大群人进行搜索,并从中找出与我们品味相近的一小群人.算法会对这些人所偏爱的其他内容进行考查,并将他们组合起来构造出一个经过排名的推荐列表.
+首先, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/07/12/%E6%8E%A8%E8%8D%90.../">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">推荐...</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-12T05:44:00+08:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>根据许多不同的方式来搜集兴趣偏好,这些数据可能来自各个方面.然后再根据群体偏好来为用户进行推荐.
+<font color="red">协作型过滤</font>
+一个协作型过滤算法通常的做法是对一大群人进行搜索,并从中找出与我们品味相近的一小群人.算法会对这些人所偏爱的其他内容进行考查,并将他们组合起来构造出一个经过排名的推荐列表.
+首先,我们需要<b>搜集偏好</b>.我们要寻找一种表达不同人及其偏好的方法.例如.</p>
+
+<pre lang="python">
+#recommendations.py
+#一个涉及影评者及其对其他几部电影评分情况的字典.
+critics = {
+    'Lisa':{
+        'Lady in the water':2.5,
+        'Snake on a plane' :3.5
+    },
+    'Tom':{
+        'Lady in the water':3.0,
+        'Snake on a plane' :4.0
+    },
+    'Jerry':{
+        'Lady in the water':2.0,
+        'Snake on a plane' :3.0
+    },
+    'WXM':{
+        'Lady in the water':3.3,
+        'Snake on a plane' :4.2
+    },
+    'jhz':{
+        'Lady in the water':3.9,
+        'Snake on a plane' :4.5
+    }
+}
+</pre>
+
+
+<p>上述字典包含了包括本人在内的每位影评者对某一给定的影片的喜爱程度,不管偏好是怎么表达的,我们都需要通过一种方法把它对应到数字.
+尽管我们可以将相当数量的人员偏好放在一个字典里,但是对规模巨大的数据集而言,我们还是希望把他存到数据库中.
+然后我们要寻找相近的用户.搜集完人们的偏好数据后,我们需要有一种方法来确定人们在品味方面的相似程度.为此,我们可以将每个人与所有其他人进行对比,并计算他们的相似度评价值.有如下几种方法:欧几里德距离,皮尔逊相关度.
+欧几里德距离以经过人们一致评价的物品为坐标轴,然后将参与评价的人绘制到图上,并考察他们彼此间的距离远近.为了计算两点之间的距离,我们可以通过计算出每一轴向上的差值,求平方后再相加,最后对总和取平方根.</p>
+
+<pre lang="python">
+from math import sqrt
+distance = sqrt(pow(4.5-4,2)+pow(3.5-4.0))
+</pre>
+
+
+<p>上述算式可以计算出距离值,偏好越相似的人,其距离就越短.不过,我们还需要一个函数,来对偏好越相近的情况给出越大的值.为此,我们可以将函数值加1,并取其倒数.</p>
+
+<pre lang="python">
+from math import sqrt
+#返回一个有关person1和person2的基于距离的相似度评价.
+def sim_distance(prefs, person1, person2):
+    #定义shared_item
+    si = {}
+    for item in prefs[person1]:
+        if item in prefs[person2]:
+            si[item] = 1
+    #没有共同之处.
+    if len(si) == 0:
+        return 0
+    #计算所有差值的平方和.
+    sum_of_squares = sum([pow(prefs[person1][item]-prefs[person2][item] \
+                         for item in prefs[person1] if item in prefs[person2]])
+    return 1/(1+sqrt(sum_of_squares))
+</pre>
+
+
+<p>皮尔逊相关度评价.相较于欧几里德距离,这个更为复杂一些.该相关系数是判断两组数据与某一直线拟合程度的一种度量.对应的公式比欧几里德距离评价的计算公式要复杂,但是它在数据不是很规范的时候,会出现更好的推荐结果.皮尔逊相关度评价相较于欧几里德距离评价,修正了夸大分值,比如不同人对相同的一系列影评有不通的评分但是有相同的趋势.皮尔逊相关度评价算法会首先找出两位评论者都曾评价过的物品,然后计算两者的评分总和与平方和,并求的评分的乘积之和,最后,算法利用这些计算结果计算出皮尔逊相关系数.</p>
+
+<pre lang="python">
+#返回p1,p2的皮尔逊相关度评价.
+def sim_pearson(prefs, p1, p2):
+    si = {}
+    for item in prefs[p1]:
+        if item in prefs[p2]:
+            si[item] = 1
+    n = len(si)
+    if n == 0:
+        return 0
+    #求所有偏好和
+    sum1 = sum([prefs[p1][item] for item in si])
+    sum2 = sum([prefs[p2][item] for item in si]])
+    #求平方和.
+    sum1Sq = sum([pow(prefs[p1][item],2) for item in si])
+    sum2Sq = sum([pow(prefs[p2][item],2) for item in si])
+    #求乘积之和
+    pSum = sum([prefs[p1][item]*prefs[p2][item] for item in si])
+    
+    #计算皮尔逊相关度评价.
+    num = pSum-(sum1*sum2/n)
+    den = sqrt((sum1Sq-pow(sum1,2)/n)*(sum2Sq-pow(sum2,2)/n))
+    if den==0:
+        return 0
+    r = num/den 
+    return r
+</pre>
+
+
+<p>如何选择?这里介绍了两种,欧几里德距离和皮尔逊评价,实际上还有许多其他的算法,使用哪一种完全取决于应用.ps:Jaccard系数或曼哈顿距离算法.
+接下来,我们可以根据相似度来通过指定人员对每个人进行打分.并找出最接近的匹配结果.</p>
+
+<pre lang="python">
+#从反映偏好的字典中返回最为匹配者
+#返回结果的个数和相似度函数为可选参数.
+def topMatches(prefs, person, n=5, similarity=sim_pearson):
+    scores = [(similarity(prefs, person, other), other) \
+              for other in prefs if other!=person]
+    #对列表进行排序
+    scores.sort()
+    scores.reverse()
+    return scores[0:n]
+</pre>
+
+
+<p>接下来我们就可以推荐物品了.
+我们找到与客户品味最为相近的人,不过我们不能直接从他喜欢的东西中拿出作为推荐,这样太随意了.如果这个人在某方面比较重口味,那就完蛋了.为了解决上述的问题,我们需要通过一个加权的评价值来为影片打分.评价者的评分结果因此而形成了先后的排名.为此,我们需要取得所有其他评论者的评价结果,借此得到相似度后,再乘以他们为每部影片所给的评价值.</p>
+
+<pre lang="python">
+#利用所有他人评价值加权平均,为某人提供建议.
+def getRecommendations(prefs, person, similarity=sim_pearson):
+    totals = {}
+    simSums = {}
+    
+    for other in prefs:
+        if other == person: continue
+        sim = similarity(prefs,person,other)
+        #忽略评价值为0或小于0的情况.
+        if sim<=0: continue
+        for item in prefs[other]:
+            #只对自己还未曾看过的影片进行评价.
+            if item not in prefs[person] or \
+               prefs[person][item] == 0
+               totals.setdefault(item, 0)
+               totals[item] += sim*prefs[other][item] 
+               #相似度之和
+               simSums.setdefault(item, 0)
+               simSums[item] += sim 
+        #建立一个归一化的列表.
+        rankings = [(total/simSums[item],item) \
+                    for item,total in totals.items()]
+        rankings.sort()
+        rankings.reverse()
+        return rankings
+</pre>
+
+
+<p>还有一种常用的情景,就是匹配物品.比如说我搜索python,就会推荐python的一些其他书籍.这个和推荐人是类似的.只不过结构由</p>
+
+<pre lang="python">
+{'Lisa':{'python':3,'programming in python':5}}
+</pre>
+
+
+<p>变成了.</p>
+
+<pre lang="python">
+{'python':{'Lisa':3,'Tom':3.5},
+ 'programming in python':{'Lisa':5,'Tom':3}
+}
+</pre>
+
+
+<p>之后依然是推荐.
+这里我们可以通过以下函数进行转换.</p>
+
+<pre lang="python">
+def transformPrefs(prefs):
+    result = {}
+    for person in prefs:
+        for item in prefs[person]:
+            result.setdefault(item, {})
+            result[item][person]=prefs[person][item]
+    return result
+</pre>
+
+
+<p>基本的推荐思路就是如此.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-12T05:44:00+08:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/集体智慧/'>集体智慧</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/07/12/%E6%8E%A8%E8%8D%90.../" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/07/12/%E6%8E%A8%E8%8D%90.../" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/07/05/%E6%96%B0%E6%B5%AAAPI%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98./" title="Previous Post: 新浪API调用过程中遇到的问题.">&laquo; 新浪API调用过程中遇到的问题.</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/07/12/%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97/" title="Next Post: 相似度计算">相似度计算 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

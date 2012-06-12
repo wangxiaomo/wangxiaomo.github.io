@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: keepalive | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/keepalive/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ssh keepalive.[linux terminal]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/10/26/ssh+keepalive.%5Blinux+terminal%5D/"/>
+    <updated>2011-10-26T03:54:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/10/26/ssh keepalive.[linux terminal]</id>
+    <content type="html"><![CDATA[<pre lang="bash">
+vi /etc/ssh/ssh_config
+###########
+#
+#ServerAliveInterval 60
+#
+###########
+</pre>
+
+]]></content>
+  </entry>
+  
+</feed>

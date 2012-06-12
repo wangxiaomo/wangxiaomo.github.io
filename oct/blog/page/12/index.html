@@ -1,0 +1,901 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="之前一直没有把awesome用到极致,虽然能配合idesk使用.但是感觉还是有很多地方有点不爽. 今天可算是全部搞定了.
+主要就是需要把gnome-session载入进去,fluxbox也可以使用相同方法.
+awesome的载入比较麻烦,所以这里就写下awesome的配置. -- AutoRun &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/12/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/06/05/ubuntu+awesome%E5%AE%8C%E7%BE%8E%E7%BB%93%E5%90%88/">Ubuntu Awesome完美结合</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-05T16:55:00+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前一直没有把awesome用到极致,虽然能配合idesk使用.但是感觉还是有很多地方有点不爽. 今天可算是全部搞定了.
+主要就是需要把gnome-session载入进去,fluxbox也可以使用相同方法.
+awesome的载入比较麻烦,所以这里就写下awesome的配置.</p>
+
+<pre lang="lua">
+-- AutoRun
+autorun = "true"
+autorunApps = {"gnome-session"}
+if autorun then
+    for app=1,# autorunApps do
+        awful.util.spawn(autorunApps[app])
+    end
+end
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/06/01/project3.%E6%95%B0%E7%A0%81%E4%BA%A7%E5%93%81%E6%8E%A8%E8%8D%90.spider%5B5%5D/">project3.数码产品推荐.spider[5]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-01T17:22:00+08:00" pubdate data-updated="true">Jun 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然解决了之前perl在windows下的抓去网页的乱码问题[网页编码与windows编码不一致],但是今天上午的时候发现VC读取配置文件时候又出现了乱码问题,而这次解决起来也和上一次一样,耗费了大量的时间.
+首先我按照之前的知识,转化了半天也没有用.当时那个崩溃啊&#8230;
+然后上perldoc官网查了下Encode模块.发现了一些细节.</p>
+
+<pre lang="perl">
+use Encode;
+use Encode::CN;
+
+use Data::Dumper;
+#获得所有可用编码格式
+@all_encodings = Encode->encodings(":all");
+print Dumper(\@all_encodings);
+#获得所有中文可用编码格式.
+@all_encodings = Encode->encodings("Encode::CN");
+print Dumper(\@all_encodings);
+</pre>
+
+
+<p>这个操作之后我倒是知道了很多常用的编码了,但是还是没有解决. 而且甚至我都使用了chcp命令改变windows下默认的编码,虽然成功了,但是总感觉不好.因为不能通过cmd一步到位.所以继续通过脚本解决吧.
+准备写个perl进行编码转化工作, 但是还是失败了. 这个与windows系统unicode和cp936混用脱离不了关系.
+然后决定在写入文件时,选择gb2312而不是utf8.</p>
+
+<pre lang="perl">
+open F,">:encoding(gb2312)",$filename;
+</pre>
+
+
+<p>这样,还真搞定了..
+所以说,一般情况下.编码注意两点.</p>
+
+<pre lang="bash">
+一.编码一定要一致.
+二.windows下尽量不要用utf8.
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/29/%E7%BC%96%E7%A0%81%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">编码终极解决方案</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-29T06:31:00+08:00" pubdate data-updated="true">May 29<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一直纠结于编码, 今天终于找到了点门路&#8230;
+字符串在Perl或者Python内部都是unicode的形式,因此,在做编码转化的时候通常以unicode为中间编码,然后通过encode来转化为特定的编码.即先探测字符串编码(chardet,Encode::Guess),然后decode掉,成为unicode编码,然后再通过encode来转化编码&#8230;</p>
+
+<br />
+
+
+<p>然后,要注意的是,代码中的字符串与文件的编码一致.所以说Python中要想使字符串为unicode而不受文件编码的影响,需要用u&#8221;来定义.
+如果对unicode进行解码则会发生错误,所以我们需要先判断.以Python举例/</p>
+
+<pre lang="python">
+import chardet
+s = chardet.detect(str)
+if s.encoding == "utf-8":
+    pass
+</pre>
+
+
+<pre lang="python">
+isinstance(s, unicode)
+</pre>
+
+
+<br />
+
+
+<p>我们可以通过sys模块来获得系统默认编码.</p>
+
+<pre lang="python">
+import sys
+print sys.getdefaultencoding()
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/28/project3.%E6%95%B0%E7%A0%81%E4%BA%A7%E5%93%81%E6%8E%A8%E8%8D%90.spider%5B4%5D/">project3.数码产品推荐.spider[4]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-28T08:36:00+08:00" pubdate data-updated="true">May 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>饿.迁移到windows后出现了一堆莫名奇妙的问题.说是莫名其妙,谁又不知道呢.就是TM的编码的问题&#8230;
+好了.直接说吧 . Python有chardet模块用来检测字符编码,Perl也有,只不过名字叫Encode::Guess.</p>
+
+<pre lang="perl">
+use Encode::Guess;
+use LWP::Simple;
+use Data::Dumper;
+
+my $url = "http://www.baidu.com";
+my $content = get($url);
+
+print $url; # 在windows下肯定是乱码了.
+$c = guess_encoding($content);
+print Dumper($c);
+#得到的结果是utf8的.为了在windows下显示,改成gb2312的.
+$content = encode("gb2312", $content);
+print $content;
+</pre>
+
+
+<p>晚上补全, 我先和凯子出去吃点东西<code>..</code>
+<font color="red">晚上通宵看了欧冠,虽然中场后就睡着了&#8230;哈哈</font>
+继续说&#8230;其实吧. 编码就是个麻烦的东西, 好在脚本对编码的处理还是很好的. 所以我们需要先检测出编码, 然后通过encode转化为编码&#8230;
+具体改 decode还是encode,我还不是很清楚. 等待研究&#8230;`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/28/project3.%E6%95%B0%E7%A0%81%E4%BA%A7%E5%93%81%E6%8E%A8%E8%8D%90.spider%5B3%5D/">project3.数码产品推荐.spider[3]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-28T05:19:00+08:00" pubdate data-updated="true">May 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天在windows下做测试的时候,发现保存的图片有错误,额. 这个..我在linux下的时候没发现什么问题&#8230;
+最后搜索发现,保存图片时,写入的句柄必须是二进制打开..
+所以修改后的代码如下:</p>
+
+<pre lang="perl">
+my $pic_handler;
+open $pic_handler, ">", $pic_file;
+binmode($pic_handler);
+print $pic_handler $pic_data;
+close $pic_handler;
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/27/project3.%E6%95%B0%E7%A0%81%E4%BA%A7%E5%93%81%E6%8E%A8%E8%8D%90.spider%5B2%5D/">project3.数码产品推荐.spider[2]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-27T12:40:00+08:00" pubdate data-updated="true">May 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>中文正则遇到了些问题,不过好在解决掉了. 之前想的投机的抓取方案被自己果断的给否掉了. 其实, 现在写的也是有点投机所在的&#8230;不过, 问题不大. 以后肯定会被自己大篇幅改掉的&#8230;</p>
+
+<pre lang="perl">
+use utf8;
+sub getSymbianList($){
+    my $savefile = $data_dir . "symbian_list.txt";
+    my ($content,) = @_;
+    my $count = 0;
+    
+    my @lines = split("\n", $content);
+    
+    my $loopNum = scalar(@lines);
+    my $i = 0;
+    
+    my $file_handler;
+    open $file_handler, ">", $savefile;
+    print $file_handler "[塞班系统智能手机关注排行]\n";
+    
+    while($i<$loopNum){
+        unless($lines[$i++] =~ /塞班系统智能手机关注排行/){
+            next;
+        }
+        print $i;
+        
+        $i += 3;
+        while(1){
+            last if $count == 8;
+            $count++;
+            
+            $lines[$i] =~ /title =\"(.*?)\"/;
+            my $name = $1;
+            
+            # 处理中文
+            $name =~ s/([A-Za-z1-9])\s+([A-Za-z1-9])/$1\/$2/g;
+            $name =~ s/\s+//g;
+            $name =~ s/\// /g;
+             
+            print $file_handler "name:$name\n";
+            $lines[$i] =~ /\<span\>(.*?)\<\/span\>/;
+            print $file_handler "price:$1\n";
+            $lines[$i] =~ /href=\"(.*?)\"/;
+            my $url = $1;
+            print $file_handler "url:$url\n";
+            
+            my $detail = get($url);
+            my @detail_lines = split("\n", $detail);
+            my $detailLoopNum = scalar(@detail_lines);
+            my $j = 0;
+            
+            while($j<$detailLoopNum){
+                unless($detail_lines[$j] =~ /alt=\"$name\"/){
+                    $j++;
+                    next;
+                }
+                $detail_lines[$j] =~ /src=\"(.*?)\"/;
+                my $pic_src = $1;
+                
+                my $pic_file = $img_dir . $name . ".jpg";
+                my $pic_data = get($pic_src);
+                
+                my $pic_handler;
+                open $pic_handler, ">", $pic_file;
+                binmode($pic_handler);
+                print $pic_handler $pic_data;
+                close $pic_handler;
+    
+                my $score_num = 0;
+                while($j<$detailLoopNum){
+                    last if $score_num == 2;
+                    unless($detail_lines[$j] =~ /sinfo/){
+                        $j++;
+                        next;
+                    }
+                    $score_num++;
+                    $detail_lines[$j] =~ /.*\>(.*?)\<\/b\>/;
+                    print $file_handler "score:$1\n";
+                    $j++;
+                }
+                last;
+            }
+            print $file_handler "\n";
+            $i++;
+        }
+    }
+    close($file_handler);
+}
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/27/project3.%E6%95%B0%E7%A0%81%E4%BA%A7%E5%93%81%E6%8E%A8%E8%8D%90.spider%5B1%5D/">project3.数码产品推荐.spider[1]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-27T02:46:00+08:00" pubdate data-updated="true">May 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>不废话了, 直接上代码&#8230; 完了再补全博客..</p>
+
+<pre lang="perl">
+
+#!/usr/bin/perl -w
+use LWP::Simple;
+use Data::Dumper;
+
+my $url = "http://mobile.zol.com.cn";
+my $savefile = "iphone_list.txt";
+my $img_dir = "./images/";
+
+my $content = get($url);
+&getIphoneList($content);
+
+sub getIphoneList($){
+    my $savefile = $data_dir . "iphone_list.txt";
+    my ($content,) = @_;
+    my $count = 0;
+    
+    my @lines = split("\n", $content);
+    
+    my $loopNum = scalar(@lines);
+    my $i = 0;
+    
+    my $file_handler;
+    open $file_handler, ">", $savefile;
+    print $file_handler "[iPhone产品展示]\n";
+    
+    while($i<$loopNum){
+        unless($lines[$i++] =~ /class=\"iphone_list\"/){
+            next;
+        }
+        while(1){
+            last if $count == 3;
+            unless($lines[$i] =~ /\<dt\>/){
+                $i++;
+                next;
+            }
+            $count++;
+            $lines[$i] =~ /title =\"(.*?)\"/;
+            my $name = $1;
+            # 处理中文
+            $name =~ s/([A-Za-z1-9])\s+([A-Za-z1-9])/$1\/$2/g;
+            $name =~ s/\s+//g;
+            $name =~ s/\// /g;
+
+            print $file_handler "name:$name\n";
+            $lines[$i] =~ /\<span\>(.*?)\<\/span\>/;
+            print $file_handler "price:$1\n";
+            $lines[$i] =~ /href=\"(.*?)\"/;
+            my $url = $1;
+            print $file_handler "url:$url\n";
+
+            my $detail = get($url);
+            my @detail_lines = split("\n", $detail);
+            my $detailLoopNum = scalar(@detail_lines);
+            my $j = 0;
+            
+            while($j<$detailLoopNum){
+                unless($detail_lines[$j] =~ /alt=\"$name\"/){
+                    $j++;
+                    next;
+                }
+                $detail_lines[$j] =~ /src=\"(.*?)\"/;
+                my $pic_src = $1;
+                
+                my $pic_file = $img_dir . $name . ".jpg";
+                my $pic_data = get($pic_src);
+                
+                my $pic_handler;
+                open $pic_handler, ">", $pic_file;
+                binmode($pic_handler);
+                print $pic_handler $pic_data;
+                close $pic_handler;
+    
+                my $score_num = 0;
+                while($j<$detailLoopNum){
+                    last if $score_num == 2;
+                    unless($detail_lines[$j] =~ /sinfo/){
+                        $j++;
+                        next;
+                    }
+                    $score_num++;
+                    $detail_lines[$j] =~ /.*\>(.*?)\<\/b\>/;
+                    print $file_handler "score:$1\n";
+                    $j++;
+                }
+                last;
+            }
+            print $file_handler "\n";
+            $i++;
+        }
+        last;
+    }
+    close($file_handler);
+}
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/25/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB.%5Bpy%5D/">多进程和多线程的本质区别.[py]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-25T15:24:00+08:00" pubdate data-updated="true">May 25<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前一直不是很明白这两者的具体区别,感觉用哪个无所谓,看自己的心情,windows下的话thread相对简单,linux下清一色的fork.其实这样的做法是错误的&#8230;
+<font color="red">线程运行在创建它的进程内部,他们共享所有的数据和系统资源.</font>
+下面看测试代码..</p>
+
+<pre lang="python">
+import os,threading
+import time,sys
+
+data = [1,2,3]
+mutex = threading.Lock()
+
+pid = os.fork()
+if pid == 0:
+    with mutex:
+        print "Sub:", data[1]
+        data[1] = 3
+        print "Sub:", data[1]
+        sys.exit(0)
+
+time.sleep(3)
+print "Main:", data[1]
+</pre>
+
+
+<p>根据上面这个代码,我们可以知道在fork,也就是多进程编程中,会把所有资源复制一遍,相互不影响.
+接下来看多线程的.
+为了方便,我们混用thread和threading模块.</p>
+
+<pre lang="python">
+import thread,threading
+data = [1,2,3]
+mutex = threading.Lock()
+
+def change():
+    global data, mutex
+    with mutex:
+         data.append(4)
+
+thread.start_new_thread(change, ())
+thread.start_new_thread(change, ())
+
+for i in data:
+    print i
+</pre>
+
+
+<p>OK.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/25/python+optparse%E6%A8%A1%E5%9D%97/">Python Optparse模块</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-25T14:28:00+08:00" pubdate data-updated="true">May 25<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>python处理sys.argv的方式有很多,最常见的就是getopt和optparse. 文档上推荐optparse,因为它更加清晰,方便..
+下面直接上代码.</p>
+
+<pre lang="python">
+import optparse
+p = optparse.OptionParser()
+
+#简单的选项,不带参数,为bool类型
+p.add_option("-t", action="store_true", dest="tracing")
+
+#接受字符串参数
+p.add_option("-o", "--outfile", action="store", type="string", dest="outfile")
+
+#接受整数参数
+p.add_option("-d", "--debuglevel", action="store", type="int", dest="debug")
+
+#带有一些选择的选项
+p.add_option("--speed", action="store", type="choice", dest="speed",
+                  choices=["slow", "fast", "ludicrous"])
+
+p.set_defaults(tracing=False,
+                    debug=0,
+                    speed="fast"
+)
+
+opt,args = p.parse_args()
+
+</pre>
+
+
+<p>注意,action里面需要指定storexxx的值,store用来表明需要被存储,store_true表明出现则为true.store_false表明出现则为false</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/25/python+logging%E6%A8%A1%E5%9D%97/">Python Logging模块</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-25T14:04:00+08:00" pubdate data-updated="true">May 25<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>python2和python3之间的差别还是比较大的. 不过貌似现在还是2应用的更广泛些 . 不扯淡了. 直接说logging模块. 之前看过的例子,因为各种handler,所以不是很懂.
+其实一个简单的日志, 很容易就可以做出来(不包含handler)</p>
+
+<pre lang="python">
+#!/usr/bin/python -tt
+# -*- coding: utf-8 -*-
+
+import logging
+log = logging.basicConfig(
+    filename = "err.log",
+    format = "%{levelname}-10s %{asctime}s %{message}s",
+    level = logging.DEBUG
+)
+
+logger = logging.getLogger(log)
+logger.info("Error")
+</pre>
+
+
+<p>搞定&#8230;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/13/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/11/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

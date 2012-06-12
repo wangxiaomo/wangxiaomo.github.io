@@ -1,0 +1,681 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>2月总结。以及 Perl Sina SDK OAuth 认证部分的发布 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="假期由于不能上网，所以博客一直没有更新，中间确实偷懒了很长时间，不过自己也确实做了些东西。
+1.由于对 pod 越来越喜爱，所以希望找一个能够方便阅读编辑 pod 的软件，不过没有找到。所以用 java 写了 podviewer 。之后会逐步完善它。
+2.趁着对 Moose::Manual &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2012/02/28/2%E6%9C%88%E6%80%BB%E7%BB%93%E3%80%82%E4%BB%A5%E5%8F%8A+Perl+Sina+SDK+OAuth+%E8%AE%A4%E8%AF%81%E9%83%A8%E5%88%86%E7%9A%84%E5%8F%91%E5%B8%83/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">2月总结。以及 Perl Sina SDK OAuth 认证部分的发布</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T06:28:00+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>假期由于不能上网，所以博客一直没有更新，中间确实偷懒了很长时间，不过自己也确实做了些东西。
+1.由于对 pod 越来越喜爱，所以希望找一个能够方便阅读编辑 pod 的软件，不过没有找到。所以用 java 写了 podviewer 。之后会逐步完善它。
+2.趁着对 Moose::Manual 翻译的感觉，继续翻译了 perldoc perltut 系列。通过这个过程了解到了很多原先不知道的小知识。这个也需要后期进一步完善一下。
+3.在 PAUSE 申请了开发者，并且申请到了 Wrap::Simple 模块。
+4.写了 perldoc.pl 来对官方的 perldoc 进行改进。
+5.python 写了一堆微薄应用。这个不是什么难点，不过确实是假期摆在我面前的一个比较大的需求。</p>
+
+<p>然后就是补考，开学。忙着实验室的事情，也没有时间干其他的。不过鉴于假期一直在用 python weibo oauth1 sdk，感觉用着很别扭。因为要从 perl 转到 python。所以决定要写一个 perl sina oauth1 sdk。</p>
+
+<p>本来想按着 php liboauth 的思路来写，不过最终还是按着 python sina sdk 的思路来写的。</p>
+
+<p>下面是 oauth 认证部分。 api 绑定的话会通过 AUTOLOAD 来实现。最近实验室的事情多。先放置下。。</p>
+
+<pre lang="perl">
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+Weibo - Sina Weibo OAuth 1.0a Wrapper
+
+=cut
+
+package Weibo;
+
+use strict 'vars';
+use warnings;
+
+=head1 VERSION
+
+VERSION - 1.0
+
+=cut
+
+our $VERSION = "1.0";
+$VERSION = eval { $VERSION };
+
+=head1 REQUIRE
+
+LWP::UserAgent HTTP::Request Digest::HMAC_SHA1
+
+=cut
+
+sub BEGIN {
+    require LWP::UserAgent;
+    require HTTP::Request;
+    require Digest::HMAC_SHA1;
+}
+
+=head1 NAMESPACES
+
+模块中包含如下 namespaces 用来简化 OAuth 过程。
+
+=over 4
+
+=item OAuthToken
+
+OAuthToken 用来解析网页返回的 token 字符串。
+
+    my $resp  = LWP::UserAgent->new()->request('GET', 'http://baidu.com');
+    my $token = OAuthToken::from_string($resp->{_content});
+
+=cut
+
+package OAuthToken;
+
+sub new {
+    my $class = 'OAuthToken';
+    my ($token, $secret) = @_;
+    my $self  = {
+        key   =>    $token,
+        secret=>    $secret,
+    };
+    bless $self, $class;
+}
+
+sub from_string {
+    my $str    = shift;
+    use CGI;
+    my $params = CGI->new($str);
+    my ($token, $secret) = (
+        $params->param('oauth_token'),
+        $params->param('oauth_token_secret'),
+    );
+    my $self   = &new($token, $secret);
+    return $self;
+}
+
+sub token {
+    my $self = shift;
+    return $self->{key};
+}
+
+sub secret {
+    my $self = shift;
+    return $self->{secret};
+}
+
+=item OAuthConsumer
+
+OAuthConsumer 用来实例化 token 对。
+
+    my $consumer = OAuthConsumer->new(
+        {consumer_token=>'xxx',consumer_secret=>'xxx'}
+    );
+
+=cut
+
+#---------------------------------------------------
+package OAuthConsumer;
+
+sub new {
+    my $class = shift;
+    my $token = shift;
+    bless $token, $class;
+}
+
+sub token {
+    my $self = shift;
+    return $self->{consumer_token};
+}
+
+sub secret {
+    my $self = shift;
+    return $self->{consumer_secret};
+}
+#---------------------------------------------------
+
+=item OAuthSignatureMethod_HMAC_SHA1
+
+OAuthSignatureMethod_HMAC_SHA1 用来初始化 HMAC_SHA1 方法。这里用到了 Digest::HMAC_SHA1 包和 MIME::Base64 包。
+后期通过继承 OAuthSignatureMethod 来拓展其他加密算法。
+
+    my $signature = OAuthSignatureMethod_HMAC_SHA1->new();
+
+=cut
+
+#-------------------------------------------------------------
+package OAuthSignatureMethod;
+my $not_implemented = "NotImplementedError";
+sub get_name { $not_implemented }
+sub build_signature_base_string { $not_implemented }
+sub build_signature { $not_implemented }
+sub check_signature {
+    my $self = shift;
+    my ($oauth_request, $consumer, $token, $signature) = @_;
+    my $build = $self->build_signature(
+                    $oauth_request,
+                    $consumer,
+                    $token,
+    );
+    return $build == $signature;
+}
+
+package OAuthSignatureMethod_HMAC_SHA1;
+use base qw/OAuthSignatureMethod/;
+sub escape {
+    use URI::Escape;
+    return uri_escape($_[0]);
+}
+sub new { 
+    my $class = shift;
+    my $self  = {};
+    bless $self, $class;
+}
+sub get_name { "HMAC-SHA1" }
+sub build_signature_base_string {
+    my $self = shift;
+    my ($oauth_request, $consumer, $token) = @_;
+    
+    my @sig = (
+        escape($oauth_request->get_normalized_http_method),
+        escape($oauth_request->get_normalized_http_url),
+        escape($oauth_request->get_normalized_parameters),
+    );
+    my $key = escape($consumer->secret) . "&";
+    $key = $key . escape($token->secret) if defined $token;
+    
+    my $raw = join('&', @sig);
+    return [$key, $raw];
+}
+sub build_signature {
+    my $self = shift;
+    my $ref  = $self->build_signature_base_string(@_);
+    
+    use Digest::HMAC_SHA1;
+    use MIME::Base64;
+
+    my $hmac = Digest::HMAC_SHA1->new($ref->[0]);
+    $hmac->add($ref->[1]);
+    return encode_base64($hmac->digest, '');
+}
+#-----------------------------------------------------------------------
+
+=item OAuthRequest
+
+OAuthRequest 用来封装各种 OAuth 请求并生成相应的 header, url 来供进一步请求。
+
+    my $req  = OAuthRequest::from_consumer_and_token(
+        $self->{_consumer},$url);
+    $req->sign_request(
+        $self->{_signature},
+        $self->{_consumer}
+    );
+    my $header = $req->to_header;
+
+=cut
+
+package OAuthRequest;
+sub escape {
+    use URI::Escape;
+    return uri_escape(@_);
+}
+sub new {
+    my $class = 'OAuthRequest';
+    my ($http_method, $http_url, $parameters) = @_;
+    my $self  = {
+        http_method     =>  $http_method,
+        http_url        =>  $http_url,
+        parameters      =>  defined($parameters)?$parameters:{},
+    };
+    bless $self, $class;
+}
+sub from_consumer_and_token {
+    my ($consumer, $http_url, $token, $pin) = @_;
+    my $default  = {
+        'oauth_consumer_key'    =>  $consumer->token,
+        'oauth_timestamp'       =>  int(time),
+        'oauth_nonce'           =>  int( rand(2**32)),
+        'oauth_version'         =>  "1.0",
+        #'oauth_timestamp'       =>  "1330225825",
+        #'oauth_nonce'           =>  "79844044",
+    };
+    $default->{oauth_token}    = $token->token if defined $token;
+    $default->{oauth_verifier} = $pin if defined $pin;
+    my $self = &new('GET', $http_url);
+    $self->{parameters} = $default;
+    return $self;
+}
+sub from_token_and_callback {
+    my ($token, $url, $callback)  = @_;
+    my $parameters                = {};
+    $parameters->{oauth_token}    = $token->token;
+    $parameters->{oauth_callback} = $callback if defined $callback;
+    my $self = &new('GET', $url, $parameters);
+    return $self;
+}
+sub sign_request {
+    my $self = shift;
+    my ($sign_method, $consumer, $token) = @_;
+    $self->{parameters}->{oauth_signature_method} = $sign_method->get_name();
+    $self->{parameters}->{oauth_signature} = escape($sign_method->build_signature(
+        $self, $consumer, $token));
+}
+sub to_header {
+    my $self        = shift;
+    my $auth_header = 'OAuth realm=""';
+    if(not defined($self->{parameters}->{oauth_verifier})) {
+    $auth_header = $auth_header . ", oauth_nonce=\""
+                 . $self->{parameters}->{oauth_nonce} . "\", "
+                 . "oauth_timestamp=\""
+                 . $self->{parameters}->{oauth_timestamp} . "\", "
+                 . "oauth_consumer_key=\""
+                 . $self->{parameters}->{oauth_consumer_key} . "\", "
+                 . "oauth_signature_method=\""
+                 . $self->{parameters}->{oauth_signature_method} . "\", "
+                 . "oauth_version=\""
+                 . $self->{parameters}->{oauth_version} . "\", "
+                 . "oauth_signature=\""
+                 . $self->{parameters}->{oauth_signature} . "\"";
+    } else {
+    $auth_header = $auth_header . ", oauth_nonce=\""
+                 . $self->{parameters}->{oauth_nonce} . "\", "
+                 . "oauth_timestamp=\""
+                 . $self->{parameters}->{oauth_timestamp} . "\", "
+                 . "oauth_signature_method=\""
+                 . $self->{parameters}->{oauth_signature_method} . "\", "
+                 . "oauth_consumer_key=\""
+                 . $self->{parameters}->{oauth_consumer_key} . "\", "
+                 . "oauth_verifier=\""
+                 . $self->{parameters}->{oauth_verifier} . "\", "
+                 . "oauth_version=\""
+                 . $self->{parameters}->{oauth_version} . "\", "
+                 . "oauth_token=\""
+                 . $self->{parameters}->{oauth_token} . "\", "
+                 . "oauth_signature=\""
+                 . $self->{parameters}->{oauth_signature} . "\"";   
+    }
+    return [
+            'Authorization', $auth_header,
+           ];
+}
+sub to_postdata {
+    my $self   = shift;
+    my %params = ();
+    foreach my $k (keys %{$self->{parameters}}) {
+        $params{escape($k)} = escape($self->{parameters}->{$k});
+    }
+    return join('&', map { $_ . "=" . $params{$_}}
+                         keys %params);
+}
+sub to_url {
+    my $self = shift;
+    return $self->get_normalized_http_url . "?" . $self->to_postdata;
+}
+sub get_normalized_parameters {
+    my $self = shift;
+    delete $self->{parameters}->{oauth_signature}
+        if exists $self->{parameters}->{oauth_signature};
+    my %params = ();
+    foreach my $k (keys $self->{parameters}) {
+        $params{escape($k)} = escape($self->{parameters}->{$k});
+    }
+    my @keys = sort keys %params; 
+    return join("&", map {$_ . "=" . $params{$_} } @keys);
+}
+sub get_normalized_http_method {
+    my $self = shift;
+    return uc $self->{http_method};
+}
+sub get_normalized_http_url {
+    my $self = shift;
+    return $self->{http_url};
+}
+#-----------------------------------------------------------------------
+
+=item OAuthHandler
+
+OAuthHandler 是整个 OAuth 过程中的主句柄。
+
+    my $hdl = OAuthHandler({consumer_token=>'xx',consumer_secret=>'xx'});
+
+=cut
+
+package OAuthHandler;
+my $base = "http://api.t.sina.com.cn/oauth/";
+my $urls = {
+    request_url     => $base . "request_token",
+    auth_url        => $base . "authorize",
+    access_url      => $base . "access_token",
+};
+
+sub new {
+    my $class = shift;
+    my $self  = {
+        _consumer       =>  OAuthConsumer->new(@_),
+        _sigmethod      =>  OAuthSignatureMethod_HMAC_SHA1->new(),
+        request_token   =>  undef,
+        access_token    =>  undef,
+    };
+    bless $self, $class;
+}
+
+sub get_request_token {
+    my $self = shift; 
+    my $url  = $urls->{request_url};
+    my $req  = OAuthRequest::from_consumer_and_token(
+        $self->{_consumer},$url);
+    $req->sign_request(
+        $self->{_sigmethod},
+        $self->{_consumer}
+    );
+    my $header = $req->to_header;
+    use LWP::UserAgent;
+    use HTTP::Request;
+    my $r = HTTP::Request->new(
+        'GET',
+        $url,
+       $header
+    );
+    my $agent = LWP::UserAgent->new();
+    my $resp  = $agent->request($r);
+    return OAuthToken::from_string($resp->{_content});
+}
+
+sub get_authorization_url {
+    my $self = shift;
+    $self->{request_token} = $self->get_request_token;
+    my $url  = $urls->{auth_url};
+    my $req  = OAuthRequest::from_token_and_callback(
+                 $self->{request_token},
+                 $url
+    );
+    return $req->to_url;
+}
+
+sub get_access_token {
+    my $self = shift;
+    my $pin  = shift;
+    my $url  = $urls->{access_url};
+    my $req  = OAuthRequest::from_consumer_and_token(
+                $self->{_consumer},
+                $url,
+                $self->{request_token},
+                $pin
+    );
+    $req->sign_request(
+        $self->{_sigmethod},
+        $self->{_consumer},
+        $self->{request_token}
+    );
+    use LWP::UserAgent;
+    use HTTP::Request;
+    my $r     = HTTP::Request->new(
+                 'GET',
+                 $url,
+                 $req->to_header
+    );
+    my $agent = LWP::UserAgent->new();
+    my $resp  = $agent->request($r);
+    my $token = OAuthToken::from_string($resp->{_content});
+    $self->{access_token} = $token;
+    return $token;
+}
+
+sub set_access_token {
+    my $self  = shift;
+    my $token = shift;
+    $self->{access_token} = $token;
+}
+
+=item API
+
+Weibo API Handler
+
+=cut
+
+1;
+
+=back
+
+=head1 AUTHOR
+
+xiaomo(wxm4ever@gmail.com)
+
+=cut
+
+#-------------------------------
+
+package main;
+my $consumer_token  = "xxxxxxxxxxxxxxxxx";
+my $consumer_secret = "xxxxxxxxxxxxxxxxx";
+my $access_token    = "xxxxxxxxxxxxxxxxx";
+my $access_secret   = "xxxxxxxxxxxxxxxxx";
+
+my $hdl = OAuthHandler->new({
+    consumer_token  =>  $consumer_token,
+    consumer_secret =>  $consumer_secret,
+});
+#print $hdl->get_authorization_url(),"\n";
+#my $pin = <>;
+#chomp $pin;
+#print "PIN: $pin\n";
+#$access_token = $hdl->get_access_token($pin);
+my $token = OAuthToken->new($access_token, $access_secret);
+$hdl->set_access_token($token);
+
+__END__
+</pre>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T06:28:00+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/perl/'>Perl</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2012/02/28/2%E6%9C%88%E6%80%BB%E7%BB%93%E3%80%82%E4%BB%A5%E5%8F%8A+Perl+Sina+SDK+OAuth+%E8%AE%A4%E8%AF%81%E9%83%A8%E5%88%86%E7%9A%84%E5%8F%91%E5%B8%83/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2012/02/28/2%E6%9C%88%E6%80%BB%E7%BB%93%E3%80%82%E4%BB%A5%E5%8F%8A+Perl+Sina+SDK+OAuth+%E8%AE%A4%E8%AF%81%E9%83%A8%E5%88%86%E7%9A%84%E5%8F%91%E5%B8%83/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2012/01/08/%5Bperldoc%5Dperlpod/" title="Previous Post: [perldoc]perlpod">&laquo; [perldoc]perlpod</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2012/03/07/3%E6%9C%88%E6%88%963%E6%9C%88%E5%88%9D%EF%BC%9F+%E6%84%9F%E6%85%A8%E3%80%82/" title="Next Post: 3月或3月初？ 感慨。">3月或3月初？ 感慨。 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

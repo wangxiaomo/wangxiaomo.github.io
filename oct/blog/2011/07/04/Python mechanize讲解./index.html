@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Python mechanize讲解. - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="第一次接触到mechanize是ruby,用mechanize写了个扫描校园网络帐号的代码.初步感受到了mechanize的强大,之后又在 CPAN看到mechanize的身影. 最近写oauth自动获取pin时,索性就用起了它,不过跟gem/mechanize,WWW:: &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/07/04/Python+mechanize%E8%AE%B2%E8%A7%A3./">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Python Mechanize讲解.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-04T02:48:00+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>第一次接触到mechanize是ruby,用mechanize写了个扫描校园网络帐号的代码.初步感受到了mechanize的强大,之后又在 CPAN看到mechanize的身影. 最近写oauth自动获取pin时,索性就用起了它,不过跟gem/mechanize,WWW::Mechanize还是有些许的差别的&#8230;
+首先,需要下载mechanize,这个不多说了.直接从应用说起.</p>
+
+<pre lang="python">
+from mechanize import Browser
+br = Browser()
+br.set_handle_equiv(False)
+br.set_handle_robots(False)
+</pre>
+
+
+<p>上面代码就是基本的准备步骤.两个set是用来跳过robots.有些网站有robots规则,所以不能实现模拟访问.
+然后就是通过open等方法来执行进一步的操作.</p>
+
+<pre lang="python">
+br.open("http://ghtt.net")   #打开url
+br.title()                              #得到当前页面的title.
+br.back(n)                           #后退n步,默认n为1.
+br.select_form(name="")   #设定当前的表单
+br['username'] = 'xza'       #填写表单
+br.submit()                          #提交表单.
+br.response()                       #得到响应,可通过read或者 readlines进行下一步操作
+</pre>
+
+
+<p>以上就是常用的一些方法.
+有一个需要注意的就是 click_link和follow_link.他们的默认参数形式是link类型的,link类型的我不知道怎么实例构造,只知道能从find_link中得到,所以我们可以通过find_link通过regex来定位到url.然后 follow_link.
+还有一种方式就是通过follow_link(text=&#8221;Click&#8221;)通过超链接中的文字来进行定位.
+最后一个需要注意的就是,click_link只是单纯的点击,所以想要进行下一步操作的话,最好使用follow_link.
+具体的根据情况help(mechanize)去.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-04T02:48:00+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/python/'>Python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/07/04/Python+mechanize%E8%AE%B2%E8%A7%A3./" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/07/04/Python+mechanize%E8%AE%B2%E8%A7%A3./" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/07/04/Python+%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96OAuth+PIN%E7%A0%81/" title="Previous Post: Python 自动获取OAuth PIN码">&laquo; Python 自动获取OAuth PIN码</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/07/04/PHP+curl%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B./" title="Next Post: PHP curl使用示例.">PHP curl使用示例. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

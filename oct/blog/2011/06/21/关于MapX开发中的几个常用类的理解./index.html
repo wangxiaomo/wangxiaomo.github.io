@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关于MapX开发中的几个常用类的理解. - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="饿.学长快走了,该接手的项目也不能放着不管,所以,这个星期赶紧全部搞下来..
+MapX的开发其实也没那么难,多读读学长写的代码,然后自己多测试下,就没什么大问题了&#8230;
+MapInfo用来制作地图,恩,地图的整体是一个集合,集合中确定了包含哪些图层.这个集合可以在MapX开发中控制, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/06/21/%E5%85%B3%E4%BA%8EMapX%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%B1%BB%E7%9A%84%E7%90%86%E8%A7%A3./">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">关于MapX开发中的几个常用类的理解.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-21T07:47:00+08:00" pubdate data-updated="true">Jun 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>饿.学长快走了,该接手的项目也不能放着不管,所以,这个星期赶紧全部搞下来..
+MapX的开发其实也没那么难,多读读学长写的代码,然后自己多测试下,就没什么大问题了&#8230;
+MapInfo用来制作地图,恩,地图的整体是一个集合,集合中确定了包含哪些图层.这个集合可以在MapX开发中控制,所以地图不是死的,但是基本元素是确定的.
+地图制作方面,还不是很懂,等待学长演示..
+现在说下接触比较多的几个类吧 .CMapX,CMapXLayers,CMapXLayers,CMapXFeatures,CMapXFeature,CMapXPoint.
+首先,CMapX用来定义地图变量.这里需要注意的一点就是需要在DataExchange中通过DDX_Control来绑定变量和资源ID.不然会发生致命错误.然后在init中通过SetGeoSet导入地图集合gst文件.
+CMapXLayers,CMapXLayer就是gst中的层,可以通过GetLayers()来获得所有层,也可以通过Item来指定特定的层.
+CMapXFeatures,CMapXFeature就是层上面的元件,可以通过AllFeatures()和Item来获得&#8230;
+CMapXPoint就是MapX中的点,可以通过ConvertCoord将屏幕点转化为地图点.
+恩.简单的说.CMapX是地图变量,是总的线索.Layer对应层,Feature对应元件,Point对应点&#8230;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-21T07:47:00+08:00" pubdate data-updated="true">Jun 21<span>st</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/mapx开发/'>MapX开发</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/06/21/%E5%85%B3%E4%BA%8EMapX%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%B1%BB%E7%9A%84%E7%90%86%E8%A7%A3./" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/06/21/%E5%85%B3%E4%BA%8EMapX%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%B1%BB%E7%9A%84%E7%90%86%E8%A7%A3./" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/06/21/MapX%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2./" title="Previous Post: MapX坐标转换.">&laquo; MapX坐标转换.</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/06/22/Android%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="Next Post: Android环境搭建">Android环境搭建 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

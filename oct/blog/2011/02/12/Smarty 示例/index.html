@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Smarty 示例 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="今天捣鼓了半天nginx和mysql的一些小问题.哪个都没成功.就继续我的smarty吧.毕竟smarty过几天还得给我家大人讲.之前学过点cakephp.发现smarty比cakephp好学多了. 不过好学就意味着更多的功能不集成.所以许多代码得自己写.smarty只是简单的vc分层. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/02/12/Smarty+%E7%A4%BA%E4%BE%8B/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Smarty 示例</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-12T13:48:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今天捣鼓了半天nginx和mysql的一些小问题.哪个都没成功.就继续我的smarty吧.毕竟smarty过几天还得给我家大人讲.之前学过点cakephp.发现smarty比cakephp好学多了. 不过好学就意味着更多的功能不集成.所以许多代码得自己写.smarty只是简单的vc分层.不像cakephp的mvc独立.直接建立model.添加control.编辑viewer.
+cakephp可以简单的通过路由来设置访问路径.不过smarty就让我琢磨了半天.今天就把写的这个小测试贴出来吧.不然最近没什么好更新的了
+首先是基本的安装.跳过了.大概说下目录结构.
+&#8212;demo(root)
+&#8212;&#8212;smarty(smarty库)
+&#8212;&#8212;templates
+&#8212;&#8212;templates_c
+&#8212;&#8212;configs
+&#8212;&#8212;cache
+&#8212;&#8212;plugins
+然后.在root下建立init.php</p>
+
+<pre lang="php">
+<?php
+define('SMARTY_DIR', './smarty/');
+require(SMARTY_DIR . 'Smarty.class.php');
+
+$smarty = new Smarty;
+$smarty->compile_dir = './templates_c/';
+$smarty->template_dir = './templates/';
+$smarty->cache_dir = './cache/';
+$smarty->config_dir = './configs/';
+$smarty->plugins_dir = './plugins/';
+
+$smarty->caching = true;
+?>
+</pre>
+
+
+<!--more-->
+
+
+<p>然后建立index.php</p>
+
+<pre lang="index.php">
+<?php
+include('./init.php');
+$smarty->display('login.tpl');
+?>
+</pre>
+
+
+<p>然后在templates下新建header.tpl</p>
+
+<pre lang="php">
+<html>
+<head>
+<title>{$title}</title>
+</head>
+<body>
+<p align="center"><h2>{$welcome}</h2></p>
+</pre>
+
+
+<p>然后新建footer.tpl</p>
+
+<pre lang="php">
+<div id="footer">
+    <p>Power By <a href="http://wpxiaomo.sinaapp.com">小默</a></p>
+</div>
+</body>
+</html>
+</pre>
+
+
+<p>然后新建login.tpl</p>
+
+<pre lang="php">
+{include file="header.tpl" title="登录到小默的研究中心" welcome="欢迎来到小默的>研究中心"}
+
+
+<form id="login" method="post" action="check.php">
+<p>账户:<input type="text" name="username" /></p>
+<p>密码:<input type="password" name="password" /></p>
+<p><input type="submit" value="提交" />&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="reset" value="重置" /></p>
+</form>
+
+
+{include file="footer.tpl"}
+</pre>
+
+
+<p>然后返回到root下新建check.php</p>
+
+<pre lang="php">
+<?php
+include('./init.php');
+$username = $_POST['username'];
+$password = $_POST['password'];
+if($username == 'admin' && $password = '123123123'){
+    $smarty->display('admin.tpl');
+}else{ 
+    $smarty->display('err.tpl');
+}
+?>
+</pre>
+
+
+<p>然后到templates下新建admin.tpl和err.tpl分别为</p>
+
+<pre lang="php">
+{include file="header.tpl" title="欢迎来到管理后台" welcome="欢迎回来.管理员"}
+{admin}
+{include file="footer.tpl"}
+</pre>
+
+
+<pre lang="php">
+<p>Error</p>
+</pre>
+
+
+<p>然后到plugins目录下新建function.admin.php.</p>
+
+<pre lang="php">
+<?php
+function Smarty_function_admin(){
+    var_dump($_POST);
+}
+?>
+</pre>
+
+
+<p>搞定.收工.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-12T13:48:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/02/12/Smarty+%E7%A4%BA%E4%BE%8B/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/02/12/Smarty+%E7%A4%BA%E4%BE%8B/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/02/11/%E8%AE%B0%E6%BC%A9%E6%B6%A1%E9%B8%A3%E4%BA%BA/" title="Previous Post: 记漩涡鸣人">&laquo; 记漩涡鸣人</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/02/21/vim%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" title="Next Post: vim简单学习">vim简单学习 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

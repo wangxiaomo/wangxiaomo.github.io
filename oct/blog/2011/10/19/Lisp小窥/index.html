@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Lisp小窥 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="最近是实验+考试周。没有大块的时间用来看算法方面的知识了。所以就找点时间看看其他的。在豆瓣上看到了http://www.douban.com/note/178148141/感觉lisp写起来还是挺带感的。而且函数式编程据说对程序员的自身发展挺重要的。那我就看看吧。
+学了一天之后才决定写文章的。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/10/19/Lisp%E5%B0%8F%E7%AA%A5/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Lisp小窥</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-19T11:46:00+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近是实验+考试周。没有大块的时间用来看算法方面的知识了。所以就找点时间看看其他的。在豆瓣上看到了<a href="http://www.douban.com/note/178148141/" target="_blank">http://www.douban.com/note/178148141/</a>感觉lisp写起来还是挺带感的。而且函数式编程据说对程序员的自身发展挺重要的。那我就看看吧。
+学了一天之后才决定写文章的。所以之前看的那些东西就不在赘述了。现在开始读书笔记。
+1.function return values</p>
+
+<pre lang="lisp">
+(defun foo(n)
+  (return-from foo n))
+</pre>
+
+
+<p>2.循环.</p>
+
+<pre lang="lisp">
+(defun foo(i j step)
+  (loop for x from i to j by step do
+    (format t "Hello~%")))
+</pre>
+
+
+<p>3.let用法.</p>
+
+<pre lang="lisp">
+(defun foo(x)
+  (format t "Parameter:~a~%" x)
+  (let ((x 2))
+    (format t "Outer LET:~a~%" x)
+    (let ((x 3))
+       (format t "Inner LET:~a~%" x))
+    (format t "Outer LET:~a~%" x))
+  (format t "Parameter:~a~%" x))
+</pre>
+
+
+<p>4.defvar和defparameter.</p>
+
+<pre lang="lisp">
+;defparameter 不管var是否存在.强制初始化.
+;defvar 如果var存在.则不做任何改变.
+(defparameter *count* 30)
+(format t "~a%" *count*)
+(defvar *count* 10)
+(format t "~a%" *count*)
+</pre>
+
+
+<p>5.let优先于局部.defvar,defparameter定义普通变量.setq,setf直接修改内存.
+..参考<a href="http://wiki.ubuntu.org.cn/Common_LISP_Hints">http://wiki.ubuntu.org.cn/Common_LISP_Hints</a>
+其他的暂时不写了.学习这个感觉靠的还是感觉&#8230;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-19T11:46:00+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/lisp/'>lisp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/10/19/Lisp%E5%B0%8F%E7%AA%A5/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/10/19/Lisp%E5%B0%8F%E7%AA%A5/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/10/15/ubuntu+skills/" title="Previous Post: ubuntu skills">&laquo; ubuntu skills</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/10/19/ubuntu+pdf+%E4%B9%B1%E7%A0%81/" title="Next Post: ubuntu pdf 乱码">ubuntu pdf 乱码 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Perl | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/perl/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]BinSearchTree]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/01/%5BDataTypes%5DBinSearchTree/"/>
+    <updated>2012-04-01T07:23:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/04/01/[DataTypes]BinSearchTree</id>
+    <content type="html"><![CDATA[<p>BinSearchTree.pm</p>
+
+<pre lang="perl">
+package BinSearchTree;
+use warnings;
+use strict;
+
+package TreeNode;
+sub new {
+    my $class = shift;
+    my $self  = {
+        KEY     =>  0,
+        LEFT    =>  undef,
+        RIGHT   =>  undef,
+    };
+    bless $self, $class;
+}
+
+package Tree;
+sub new {
+    my $class = shift;
+    my $self  = {
+        NODENUMS    =>  0,
+        ROOT        =>  undef,
+    };
+    bless $self, $class;
+}
+sub _add {
+    my $self = shift;
+    my $node = shift;
+    if ($self->{NODENUMS} == 0) {
+        $self->{ROOT} = $node;
+    } else {
+        my $root = $self->{ROOT};
+        my $key  = $node->{KEY};
+        my $walk; $walk = sub {
+            my $node = shift;
+            if ($key >= $node->{KEY}) {
+                return $node unless defined($node->{RIGHT});
+                $walk->($node->{RIGHT});
+            } else {
+                return $node unless defined($node->{LEFT});
+                $walk->($node->{LEFT});
+            }
+        };
+
+        my $target = $walk->($root);
+        if ($key >= $target->{KEY}) {
+            $target->{RIGHT}  = $node;
+        } else {
+            $target->{LEFT} = $node;
+        }
+    }
+    $self->{NODENUMS} += 1;
+}
+
+sub add {
+    my $self = shift;
+    foreach my $node (@_) {
+        $self->_add($node);
+    }
+}
+
+sub _LVR {
+    my $node = shift;
+    my $func = shift;
+    _LVR($node->{LEFT},  $func) if defined $node->{LEFT};
+    $func->($node);
+    _LVR($node->{RIGHT}, $func) if defined $node->{RIGHT};
+}
+
+sub do_LVR {
+    my $self = shift;
+    return if $self->{NODENUMS} == 0;
+    my $func = shift;
+    _LVR($self->{ROOT}, $func);
+}
+
+1;
+
+__END__
+package main;
+my $tree = Tree->new;
+my $nodeA = TreeNode->new;
+$nodeA->{KEY} = 2;
+my $nodeB = TreeNode->new;
+$nodeB->{KEY} = 1;
+my $nodeC = TreeNode->new;
+$nodeC->{KEY} = 3;
+$tree->add($nodeA,$nodeB,$nodeC);
+
+use Smart::Comments;
+### $tree
+my $f = sub { my $node = shift; print $node->{KEY}, "\n"; };
+$tree->do_LVR($f);
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]Heap]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/01/%5BDataTypes%5DHeap/"/>
+    <updated>2012-04-01T07:22:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/04/01/[DataTypes]Heap</id>
+    <content type="html"><![CDATA[<p>Heap.pm</p>
+
+<pre lang="perl">
+package Heap;
+use warnings;
+use strict 'vars';
+
+package DataNode;
+sub new {
+    my $class = shift;
+    my $self  = {
+        KEY     =>  0,
+    };
+    bless $self, $class;
+}
+
+package Heap;
+sub new {
+    my $class = shift;
+    my $self  = {
+        FLAG    =>  '>',
+        DATA    =>  [0,],
+    };
+    bless $self, $class;
+}
+
+sub _add {
+    my $self = shift;
+    my $data = shift;
+    if ($self->{DATA}->[0] == 0) {
+        push @{$self->{DATA}}, $data;
+    } else {
+        my $size   = $self->{DATA}->[0];
+        my $op     = $self->{FLAG};
+        my $i      = $size+1;
+        my $father = int($i/2);
+        my $check  = sub {
+            my ($a, $b) = @_;
+            if ($op eq '>') {
+                return $a>$b;
+            } else {
+                return $a<$b;
+            }
+        };
+
+        while ($father and $check->($data->{KEY}, $self->{DATA}->[$father])){
+            $self->{DATA}->[$i] = $self->{DATA}->[$father];
+            $i      = int($i/2);
+            $father = int($i/2);
+        }
+        $self->{DATA}->[$i] = $data;
+    }       
+    $self->{DATA}->[0] += 1;
+}
+
+sub push {
+    my $self = shift;
+    foreach my $data (@_) {
+        $self->_add($data);
+    }
+}
+
+sub pop {
+    my $self = shift;
+    return $self->{DATA}->[0]
+        if $self->{DATA}->[0] == 0;
+    
+    my $node = $self->{DATA}->[1];
+    $self->{DATA}->[0] -= 1;
+
+    my $size = $self->{DATA}->[0];
+    my $last = pop @{$self->{DATA}};
+    $self->_add($last);
+
+    return $node;   
+}
+
+1;
+__END__
+package main;
+my $heap  = Heap->new;
+$heap->{FLAG} = '<';
+my $dataA = DataNode->new;
+$dataA->{KEY} = 5;
+my $dataB = DataNode->new;
+$dataB->{KEY} = 3;
+
+$heap->push($dataA,$dataB);
+print $heap->{DATA}->[0],"\n";
+print $heap->{DATA}->[1]->{KEY},"\n";
+print $heap->{DATA}->[2]->{KEY},"\n";
+
+my $node = $heap->pop;
+print $node->{KEY}, "\n";
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]ThreadBinTree]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DThreadBinTree/"/>
+    <updated>2012-03-31T06:47:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]ThreadBinTree</id>
+    <content type="html"><![CDATA[<p>ThreadBinTree.pm</p>
+
+<pre lang="perl">
+package ThreadBinTree;
+use warnings;
+use strict 'vars';
+
+package TreeNode;
+sub new {
+    my $class = shift;
+    my $self  = {
+        DATA    =>  {},
+        LTHREAD =>  0,
+        RTHREAD =>  0,
+        LEFT    =>  undef,
+        RIGHT   =>  undef,
+    };
+    bless $self, $class;
+}
+
+package Tree;
+sub new {
+    my $class = shift;
+    my $self  = {
+        ROOT    =>  TreeNode->new,
+        NODENUMS=>  0,
+    };
+    bless $self, $class;
+}
+
+sub _LVR {
+    my $node = shift;
+    my $func = shift;
+    _LVR($node->{LEFT},  $func) if defined($node->{LEFT});
+    $func->($node);
+    _LVR($node->{RIGHT}, $func) if defined($node->{RIGHT});
+}
+
+sub pretreat {
+    my $self = shift;
+    return if $self->{NODENUMS} == 0;
+
+    use Queue;
+    my $queue     = Queue->new;
+    my $root      = $self->{ROOT};
+    my $node      = $root->{LEFT};
+    my $mark      = sub {
+        my $node = shift;
+        $queue->add($node);
+    };
+    _LVR($node, $mark);
+    my $nodes = [];
+    while($queue->size){
+        push @$nodes, $queue->get;
+    }
+    my $size = scalar @$nodes;
+    unshift @$nodes, $root;
+    push    @$nodes, $root;
+    foreach my $i (1 .. $size){
+        if (not defined($nodes->[$i]->{LEFT})) {
+            $nodes->[$i]->{LTHREAD} = 1;
+            $nodes->[$i]->{LEFT}    = $nodes->[$i-1];
+        }
+        if (not defined($nodes->[$i]->{RIGHT})) {
+            $nodes->[$i]->{RTHREAD} = 1;
+            $nodes->[$i]->{RIGHT}   = $nodes->[$i+1];
+        }
+    }
+}   
+
+sub view {
+    my ($self, $func) = @_;
+    return if $self->{NODENUMS} == 0;
+    use Queue;
+    my $queue = Queue->new;
+
+    my $root = $self->{ROOT};
+    my $walk = sub {
+        my $node = shift;
+        while($node->{LTHREAD} == 0){
+            $node = $node->{LEFT};
+        }
+        return $node;
+    }; 
+    
+    my $node = $walk->($root->{LEFT});
+    $queue->add($node);
+    my $next = $node->{RIGHT};
+    while($next != $root){
+        $queue->add($next);
+        $next = $next->{RIGHT};
+    }
+    
+    # thread view inorder
+    while($queue->size){
+        my $node = $queue->get;
+        $func->($node);
+    }
+}
+
+1;
+
+__END__
+package main;
+my $nodeA = TreeNode->new;
+$nodeA->{DATA}->{data} = "i'm nodeA!";
+my $nodeB = TreeNode->new;
+$nodeB->{DATA}->{data} = "i'm nodeB!";
+my $nodeC = TreeNode->new;
+$nodeC->{DATA}->{data} = "i'm nodeC!";
+
+$nodeA->{LEFT}    = $nodeB;
+$nodeA->{RIGHT}   = $nodeC;
+
+my $tree = Tree->new;
+$tree->{NODENUMS} = 3;
+$tree->{ROOT}->{LEFT} = $nodeA;
+
+=comment
+
+$nodeB->{LTHREAD} = 1;
+$nodeB->{LEFT}    = $tree->{ROOT};
+$nodeB->{RTHREAD} = 1;
+$nodeB->{RIGHT}   = $nodeA;
+$nodeC->{LTHREAD} = 1;
+$nodeC->{LEFT}    = $nodeA;
+$nodeC->{RTHREAD} = 1;
+$nodeC->{RIGHT}   = $tree->{ROOT};
+
+=cut
+
+my $f = sub {
+    my $node = shift;
+    print $node->{DATA}->{data}, "\n";
+};
+$tree->pretreat;
+$tree->view($f);
+
+__END__
+线索二叉树为了方便加入一个空的头结点。
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]BinTree]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DBinTree/"/>
+    <updated>2012-03-31T06:47:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]BinTree</id>
+    <content type="html"><![CDATA[<p>BinTree.pm</p>
+
+<pre lang="perl">
+package BinTree;
+use warnings;
+use strict 'vars';
+
+package Helper;
+sub METHOD {
+    my $param  = shift;
+    my $method = {
+        LEVEL_VIEW  =>  \&LEVEL_VIEW,
+        LVR         =>  \&LVR,
+        VLR         =>  \&VLR,
+        LRV         =>  \&LRV,
+    };
+    return $method->{$param};
+}
+
+sub LEVEL_VIEW {
+    my ($node, $func) = @_;
+    use Queue;
+    my $queue = Queue->new;
+    my $add_node_to_queue; $add_node_to_queue = sub {
+        my $node = shift;
+        $queue->add($node);
+        $add_node_to_queue->($node->{LEFT})  if defined($node->{LEFT});
+        $add_node_to_queue->($node->{RIGHT}) if defined($node->{RIGHT});
+    };
+
+    $add_node_to_queue->($node);
+    while ($queue->size) {
+        my $node = $queue->get;
+        $func->($node);
+    }
+}
+
+sub LVR {
+    my ($node, $func) = @_;
+    LVR($node->{LEFT}, $func) if defined($node->{LEFT});
+    $func->($node);
+    LVR($node->{RIGHT}, $func) if defined($node->{RIGHT});
+}
+sub VLR {
+    my ($node, $func) = @_;
+    $func->($node);
+    VLR($node->{LEFT}, $func) if defined($node->{LEFT});
+    VLR($node->{RIGHT}, $func) if defined($node->{RIGHT});
+}
+sub LRV {
+    my ($node, $func) = @_;
+    LRV($node->{LEFT}, $func) if defined($node->{LEFT});
+    LRV($node->{RIGHT}, $func) if defined($node->{RIGHT});
+    $func->($node);
+}
+
+package TreeNode;
+sub new {
+    my $class = shift;
+    my $self  = {
+        DATA    =>  {},
+        LEFT    =>  undef,
+        RIGHT   =>  undef,
+    };
+    bless $self, $class;
+}
+
+package Tree;
+sub new {
+    my $class = shift;
+    my $self  = {
+        NODENUMS    =>  0,
+        ROOT        =>  undef,
+    };
+    bless $self, $class;
+}
+
+sub get_nodes_num {
+    my $self = shift;
+    return $self->{NODENUMS};
+}
+
+sub get_root {
+    my $self = shift;
+    return $self->{ROOT};
+}
+
+sub do_LVR {
+    my $self = shift;
+    my $func = shift;
+    return if $self->{NODENUMS} == 0;
+    my $root = $self->{ROOT};
+    Helper::LVR($root, $func);
+}
+
+sub do_recursion_view {
+    my ($self, $recursion_method, $func) = @_;
+    ### $recursion_method
+    return if $self->{NODENUMS} == 0;
+    $recursion_method->($self->{ROOT}, $func);
+}
+
+1;
+
+__END__
+package main;
+my $nodeA = TreeNode->new;
+$nodeA->{DATA}->{'data'} = "i'm node A";
+my $nodeB = TreeNode->new;
+$nodeB->{DATA}->{'data'} = "i'm node B";
+my $nodeC = TreeNode->new;
+$nodeC->{DATA}->{'data'} = "i'm node C";
+$nodeA->{LEFT}  = $nodeB;
+$nodeA->{RIGHT} = $nodeC;
+
+my $tree = Tree->new;
+$tree->{NODENUMS} = 3;
+$tree->{ROOT}     = $nodeA;
+
+use Smart::Comments;
+### $tree
+
+my $f = sub {
+    my $node = shift;
+    print $node->{DATA}->{data}, "\n";
+};
+$tree->do_LVR($f);
+$tree->do_recursion_view(
+    Helper::METHOD("LVR"),
+    $f
+);
+Helper::METHOD("LEVEL_VIEW")->($tree->{ROOT}, $f);
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]Stack and Queue]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DStack+and+Queue/"/>
+    <updated>2012-03-31T06:46:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]Stack and Queue</id>
+    <content type="html"><![CDATA[<p>Stack.pm</p>
+
+<pre lang="perl">
+package Stack;
+use warnings;
+use strict 'vars';
+
+sub new {
+    my $class = shift;
+    my $self  = [];
+    bless $self, $class;
+}
+
+sub stack_push {
+    my $self = shift;
+    push @$self, @_;
+}
+
+sub stack_pop {
+    my $self = shift;
+    pop @$self;
+}
+
+sub size {
+    my $self = shift;
+    scalar @$self;
+}
+
+1;
+
+__END__
+
+package main;
+my $s = Stack->new;
+$s->stack_push(1, 2, 3, 4, 5);
+
+while(1){
+    last unless $s->size;
+    my $elem = $s->stack_pop;
+    print $elem, "\n";
+}
+</pre>
+
+
+<p>Queue.pm</p>
+
+<pre lang="perl">
+package Queue;
+use warnings;
+use strict 'vars';
+
+sub new {
+    my $class = shift;
+    my $self  = [];
+    bless $self, $class;
+}
+
+sub add {
+    my $self = shift;
+    push @$self, @_;
+}
+
+sub get {
+    my $self = shift;
+    shift @$self;
+}
+
+sub size {
+    my $self = shift;
+    scalar @$self;
+}
+
+1;
+
+__END__
+
+package main;
+my $q = Queue->new;
+$q->add(1,2,3,4,5);
+
+while(1){
+    last unless $q->size;
+    my $elem = $q->get;
+    print $elem, "\n";
+}
+</pre>
+
+]]></content>
+  </entry>
+  
+</feed>

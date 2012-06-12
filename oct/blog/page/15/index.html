@@ -1,0 +1,931 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="突然觉得在py运行时检查版本是一件很有必要的事情.所以上网确认了下用法. import sys
+print(sys.version_info)
+'''
+(major, *default) = sys.version_info
+''' ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/15/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/13/%E8%BF%90%E8%A1%8C%E6%97%B6%E6%A3%80%E6%9F%A5Python%E7%89%88%E6%9C%AC./">运行时检查Python版本.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-13T18:38:00+08:00" pubdate data-updated="true">May 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>突然觉得在py运行时检查版本是一件很有必要的事情.所以上网确认了下用法.</p>
+
+<pre lang="python">
+import sys
+print(sys.version_info)
+'''
+(major, *default) = sys.version_info
+'''
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/13/firefox+%E4%B8%8E+chrome+CSS%E5%AE%9A%E4%BD%8D%E4%BF%AE%E6%94%B9/">Firefox 与 Chrome CSS定位修改</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-13T17:14:00+08:00" pubdate data-updated="true">May 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本来想搞定wp_nonce_url就继续python了.` 结果中途想起了成昊同学说我的页面在chrome下显示不正常.所以我就下载了chromium-browser测试了下. 嘿. 还真是错的. 我当时就纠结了.
+仔细观察了下. 发现是content和sidebar定位错误.由于好长时间没有用chromium了.所以也不记得css测试的插件了. 所以就到ff下查看了下css格局.
+由于css不是自己写的.所以理清楚他的结构还真费了点时间.下面是他的结构.</p>
+
+<pre lang="bash">
+----#page
+------#header
+------#content
+--------#content_body
+--------#content .content_sidebar
+------#footer
+</pre>
+
+
+<p>然后我就重点修改了下content_body和.content_sidebar的定位.</p>
+
+<pre lang="css">
+#content{
+    width: 100%;
+}
+#content_body{
+    width: 75%;
+    float: left;
+}
+.content_sidebar{
+    width: 25%;
+    float: left;
+}
+</pre>
+
+
+<p>这下在chrome下显示正常了.不过在ff中又崩溃了.
+然后纠结了将近5分钟.尝试性的修改</p>
+
+<pre lang="css">
+.content_sidebar{
+     float:right;
+}
+</pre>
+
+
+<p>这下竟然全都显示正常了.
+疑问就来了. 我记得W3C盒子模型.在float上应该没差别啊.为什么float左,右显示不正确呢?
+然后我就在ff下写了一个测试页面.</p>
+
+<pre lang="html">
+<html>
+<head>
+<style type="text/css">
+*{margin:0;padding:0}
+#page{
+   width:960px;
+   margin:0 auto;
+}
+#id1{
+   width:70%;
+   float:left;
+   background-color:red;
+}
+#id2{
+   width:30%;
+   float:left;
+   background-color:blue;
+}
+</style>
+</head>
+<body>
+<div id="page">
+<div id="id1">&nbsp;</div>
+<div id="id2">&nbsp;</div>
+</div>
+</body>
+</html>
+</pre>
+
+
+<p>显示正常&#8230;所以我怀疑是因为作者某个地方思考不完善,冗余定位导致.[后来在某一个id标签和类标签混合处发现问题所在&#8230;哎. 定位真是个纠结的事情.]</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/12/python%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E5%8F%8A%E5%85%B6%E4%BB%96./">Python函数参数及其他.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-12T13:08:00+08:00" pubdate data-updated="true">May 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今个休息了一天. 太舒坦了. 不过也思考了很多. ` 最近的时间很紧,但是实验室的任务老师的期望很重, 做人要有一个判断力, 能干的活就干, 不能干的就做好后续的铺垫, so, 我还是找老周聊聊吧.
+不过老周一直到现在还没来. 估计今天不会来了吧. 那我就继续看看Python吧.
+首先,我想把Perl的push,pop,unshift,shift移植过来使用.具体看代码吧.</p>
+
+<pre lang="python">
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+
+# Perl BUILDIN FUNCTION
+def push(array, *value):
+    '''
+    push value to array
+    '''
+    if len(value) == 1:
+        array.append(value)
+    else:
+        array.extend(value)
+
+def pop(array):
+    '''
+    pop value from array
+    '''
+    return array.pop()
+
+def unshift(array, *value):
+    '''
+    unshift value to array
+    '''
+    if len(value) == 1:
+        array.insert(0, value)
+    else:
+        for i in value:
+            array.insert(0, i)
+        
+def shift(array):
+    '''
+    shift value from array
+    '''
+    return array.pop(0)
+</pre>
+
+
+<p>上面的代码没什么复杂的. 唯一需要注意的就是参数位置的<em>.
+Python中传递参数有4种形式.
+1.普通传递.
+2.默认参数传递.
+3.</em>传递.[未知数量参数]
+4.**传递.[按dict形式传递.传参数时必须指明行参.]
+That&#8217;s all.
+在oschina上看到别人频繁的使用<strong>str</strong>方法.自己试验了下.果然好用.</p>
+
+<pre lang="python">
+class A():
+    def __init__(self):
+        self.info = "Hello"
+    def __str__(self):
+        return "Hello" + self.info
+
+if __name__ == '__main__':
+    var = A()
+    print var
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/11/ubuntu+%E5%8D%87%E7%BA%A7gnome3/">Ubuntu 升级gnome3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-11T12:19:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>现在无聊中. 升级gnom3`</p>
+
+<pre lang="bash">
+add-apt-repository ppa:gnome3-team/gnome3
+apt-get update
+apt-get dist-upgrade
+apt-get install gnome-shell
+</pre>
+
+
+<p>本来没多少工作量的过程. 就因为某些人不把问题说清除<code>. 搞得我又修复了半天.
+首先这些工作完成后.包管理器可能会出现问题</code>. 这时候我忽略了.然后重启就进不了桌面了. 切换到终端. 安装了fluxbox. 然后重新安装了下gnome-shell.这下还是不成功`. cannot load gnome session.
+上网google了半天.</p>
+
+<pre lang="bash">
+apt-get install gnome-session
+</pre>
+
+
+<p>重启搞定..
+gnome3太消耗资源了.<code>我的小Y风扇转的我心疼. 所以稍微体验了下. 还是放弃了.</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/10/python%E7%B1%BB%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E5%92%8C%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/">Python类中的静态成员和静态方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-10T03:06:00+08:00" pubdate data-updated="true">May 10<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天偶然看到了类修饰符. 以前没有接触过<code>. 所以今天就彻底了解下. 尽管明天还有考试...</code> 好吧.我又不干正事了. <code>
+python类中存在静态方法.可以用@staticmethod来修饰. 但是不存在类静态变量.不过我们可以巧妙的实现.</code> [具体有没有.我也没见文档说.不过google到没有.]</p>
+
+<pre lang="python">
+#!/usr/bin/python3
+class A:
+    i = 0
+    @staticmethod
+    def getCount():
+        return A.i
+    @classmethod
+    def __init__(this):
+        this.name = 'wxm'
+        A.i++
+    def getStr(this):
+        return this.name
+
+a = A()
+print(A.getCount())
+b = A()
+print(B.getCount())
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/09/python%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%8B%B7%E8%B4%9D%E5%92%8C%E5%BC%95%E7%94%A8/">Python中关于拷贝和引用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-09T13:06:00+08:00" pubdate data-updated="true">May 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天上毛邓的时候又看了看python.听课对我来说还是比较难得 <code>.今天博客的重点就是关于python各种数据结构的拷贝复制.然后就是函数参数传递时引用与否吧.
+普通变量是不存在引用问题的.这里普通变量指的就是字符串.数值等不可变的变量.他们是不存在引用问题的.</code> 如果想要改变他们的值/ 最好以list的形式传入函数,
+然后就是list.</p>
+
+<pre lang="python">
+names = ['apple', 'orange', 'banana']
+bak1 = names
+names[1] = 'xxxx'
+print("names: " + str(names))
+print("bak1: " + str(bak1))
+
+bak2 = names[:]
+names[1] = 'yyyy'
+print("names: " + str(names))
+print("bak2: " + str(bak2))
+</pre>
+
+
+<p>然后就是关于dict.</p>
+
+<pre lang="python">
+#深拷贝 浅拷贝.
+#浅拷贝只拷贝一层.当第一层内有其他的引用时.不改变第二层引用..
+info = {'name':'wxm', 'age':20}
+bak1 = info
+#这个只是单纯的引用.
+bak2 = info.copy()
+#这个是简单的浅拷贝.
+from copy import deepcopy
+bak3 = info.deepcopy()
+#这个是深拷贝
+</pre>
+
+
+<p>这就是大概的内容了. <code>根据上面我们可以知道. 当list,dict作为函数参数传递时,传递的是引用,我们可以改变他们的值.当string,number作为参数传递时,我们是不能改变他们的值的.</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/07/python3%E5%8F%98%E5%8C%96/">Python3变化</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-07T20:50:00+08:00" pubdate data-updated="true">May 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>4点多的时候帮肖娜改代码. 就切到windows了. 改完代码之后没事情干. 就继续python吧 . windows上有cygwin.不过还是下载了python3.1.
+仅仅是写了三行代码.我就发现了不对劲的地方.所以就上网查了下python3到底改进了些什么.
+首先.python实现了现实意义上的除法.</p>
+
+<pre lang="python">
+1/2       #0.5
+int(1/2) #0
+</pre>
+
+
+<p>然后就是long和int统一为一个类型.省去了后缀L.
+还有就是True,False,None现在都已经成为了关键字.
+接下来就是print的变化.pring现在已经成为一个函数来使用.</p>
+
+<pre lang="python">
+import os
+print(os.name)
+
+infile = open(file, 'a')
+print(str, file=infile)
+
+print("Hello","World",sep="%")
+</pre>
+
+
+<p>这样的print函数虽然需要你去适应一段时间.但是带来的效率还是值得肯定的.
+然后就是python3特有的格式化字符串.在python2中需要使用%操作符.但是这个只是个2元操作符.所以python3中又拓展出了新的格式化方式.,</p>
+
+<pre lang="python">
+str = "I love {0} This is a {1}".format('wxm','secret')
+str = "I love {name} This is a {thing}".format(name="wxm",thing="secret")
+</pre>
+
+
+<p>还有一些其他的&#8230;等待进一步研究`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/07/pygame%E7%BC%96%E7%A8%8B/">Pygame编程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-07T15:37:00+08:00" pubdate data-updated="true">May 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本来我是想下一个关于python的视频教学的.本想稍微复习下.结果误打误撞的下到了pygame的视频教学.那我就索性学习下吧
+首先是pygame.可以上google找到其官网.我直接懒得上官网下文档了.索性看英文视频算了.</p>
+
+<pre lang="bash">
+aptitude search pygame
+aptitude install python-pygame
+</pre>
+
+
+<p>安装好pygame后我们就可以import查看version.来观察是否安装成功.</p>
+
+<pre lang="python">
+import pygame
+print pygame.ver
+#1.9.1release
+</pre>
+
+
+<p>接下来我们写一个简单的程序.</p>
+
+<pre lang="python">
+#!/usr/bin/python
+import pygame, sys
+from pygame.locals import *
+
+#初始化
+pygame.init()
+screen = pygame.display.set_mode((320,240), 0, 32)
+# 第一个参数是大小.第三个参数是色彩
+
+# 载入图片
+bg_pic = 'bg.xcf'
+mouse_pic = 'mouse.xcf'
+background = pygame.image.load(bg_pic).convert()
+mouseCur = pygame.image.load(mouse_pic).convert_alpha()
+# convert转化为普通图片.convert_alpha转化为分层图片.即背景透明.
+
+# 进入MainLoop显示界面.
+while True:
+   # 捕捉事件
+   for event in pygame.event.get():
+         if event.type == QUIT:
+             pygame.quit()
+             sys.exit()
+   # 设置背景
+   screen.blit(background, (0,0))
+   
+   # 设置鼠标所指为图片中心
+   x,y = pygame.mouse.get_pos()
+   x -= background.get_width()/2
+   y -= mouseCur.get_height()/2
+   
+   screen.blit(mouseCur, (x, y))
+   
+   pygame.display.update()
+</pre>
+
+
+<p>接下来我们探讨下如何进一步捕捉键盘事件.</p>
+
+<pre lang="python">
+for event in pygame.event.get():
+    if event.type == QUIT:
+        # 退出事件.
+        pygame.quit()
+        sys.exit()
+    elif event.type == KEYDOWN:
+        # 键盘按下事件
+        if event.key == K_UP:
+        # 按下上键. 键盘对应键为K_UP,K_DOWN,K_x等.
+</pre>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/05/07/pygame%E7%BC%96%E7%A8%8B/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/05/06/%E5%85%B3%E4%BA%8E%E8%BF%99%E5%87%A0%E5%A4%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">关于这几天的一些想法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-06T11:26:00+08:00" pubdate data-updated="true">May 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>好久没有碰技术了.不知道为啥.热情提不起来了.真的现实与我当初的想法出现了冲突矛盾的时候,我会选择暂时逃避一段时间.但想到自己的颓废时候又更是一种无形的压力.
+不是因为魔兽世界.不是因为touch.只是因为自己的心结.
+不废话了.说那么多.who care.
+今天立夏了.也是我连续的第二个通宵.早上下雨了.在睡梦中听雨.感觉很好.
+前天晚上把实验室的机子装上了win7+fedora.xp真的不行.与linux共存互访后,偶尔会出现无法修复的BUG.所以还是到win7吧.还有一个原因是因为通宵挂机下载的时候linux的下载工具真的不是很给力.
+说的fedora.这次不准备用kde了.想朴素点.怀旧点.就果断使用fluxbox了.</p>
+
+<pre lang="bash">
+yum update
+yum install fluxbox
+</pre>
+
+
+<p>然后注销.选择fluxbox为桌面.然后登录就可以了.
+然后就是汉化的问题.之前都是yum install i10n-kde-chinese.这里估计起不了太大作用.也没尝试.就这样了.
+fluxbox默认是xterm.对字符宽度显示有问题.我也懒得管了.毕竟xterm太丑了.</p>
+
+<pre lang="bash">
+yum install gnome-terminal
+</pre>
+
+
+<p>然后就是到~/.fluxbox下进行一些fluxbox的设置.
+之后又安装了idesk.这样就初步成型了.
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;华丽丽的分割线
+今天把&lt;&lt;结网>>看完了.很薄的一本书.但是内容很值得消化.糗事百科创始人的视角很独特很细腻.中间有许多我们需要学习的.
+不废话了.最近考试比较多.事也比较多.没有时间可以浪费了.
+减肥锻炼也该继续了.touch的话游戏还是少玩点吧.多看看书不错.
+实验室的事情该上点心了.<code>
+加油</code>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/04/28/4.28.+Ub11.04+%E5%8F%91%E5%B8%83/">4.28. Ub11.04 发布</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-28T01:39:00+08:00" pubdate data-updated="true">Apr 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨晚看小说看的太HIGH了. 早上起来就7:50了. 赶紧洗涮了就飞奔. 到了教室才发现忘了带眼镜了. 所以后半节课就果断翘课了.
+昨晚清哥写代码写到很晚. 抽住了. 有女生求他写代码 . 他就写的更入迷了似的. 上学期课设的时候我做过这个. 不过代码丢了. 大概印象还是有的. 现在就把代码确认下.
+大概思路先说下:</p>
+
+<pre lang="bash">
+首先connect默认是阻塞连接.阻塞连接时会持续请求连接.
+大概30秒或者更长的时间才会返回.
+当我们做端口扫描的时候完全不可能等待那么长时间.
+所以我们需要先把socket设置成非阻塞的.
+那么connect就会瞬间返回.[我们可以设置connect时间.].
+然后我们通过select来判断套接字是否可读写.
+这样就可以了.
+</pre>
+
+
+<p>下面看代码.</p>
+
+<pre lang="cpp">
+#include "stdio.h"                                                  
+#include "winsock2.h"                                                
+#pragma comment(lib, "ws2_32.lib")             
+                                                                                                                             
+#define IP_ADDRESS "127.0.0.1"       
+#define PORT 8080          
+                                                                                                                             
+int main(void){     
+        WSADATA wsaData;  
+        WSAStartup(MAKEWORD(2,0), &wsaData); 
+        SOCKET client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); 
+        //int timeOut = 2000; // 2 seconds    
+        //setsockopt(client, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeOut, sizeof(timeOut));    
+        //setsockopt(client, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeOut, sizeof(timeOut));
+        unsigned long ul = 1;   
+        ioctlsocket(client, FIONBIO, (unsigned long *)&ul);   
+        SOCKADDR_IN saddr;         
+        saddr.sin_family = AF_INET; 
+        saddr.sin_addr.s_addr = inet_addr(IP_ADDRESS);  
+        saddr.sin_port = htons(PORT);    
+        connect(client, (SOCKADDR *)&saddr, sizeof(SOCKADDR)); 
+        struct timeval timeout;
+        fd_set r;        
+        FD_ZERO(&r);      
+        FD_SET(client, &r);   
+        timeout.tv_sec = 2;  
+        timeout.tv_usec = 0;    
+        int ret = select(0, 0, &r, 0, &timeout); 
+        // TODO with ret  
+        if(ret > 0){     
+                // Socket Open    
+        }else{                   
+                // Socket Close
+        }
+        closesocket(client);
+        WSACleanup();
+        return 0;
+}
+</pre>
+
+
+<p>That&#8217;s All.`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/16/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/14/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

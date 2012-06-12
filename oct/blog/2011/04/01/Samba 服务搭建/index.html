@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Samba 服务搭建 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="Samba是一个网络服务器.用于linux/windows之间共享文件.如果只是进行linux之间的文件共享的话,应该选择更好的NFS.Samba常用于共享文件和共享打印机.
+Samba有两个服务器,一个是smb,一个是nmb.smb是主要启动服务器.让其他机器知道服务器共享了哪些目录. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/04/01/Samba+%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Samba 服务搭建</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-01T07:52:00+08:00" pubdate data-updated="true">Apr 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Samba是一个网络服务器.用于linux/windows之间共享文件.如果只是进行linux之间的文件共享的话,应该选择更好的NFS.Samba常用于共享文件和共享打印机.
+Samba有两个服务器,一个是smb,一个是nmb.smb是主要启动服务器.让其他机器知道服务器共享了哪些目录.nmb如果不开启的话.其他用户只能通过IP进行访问.
+启动和关闭Samba的时候只要对smb进行操作就可以了.</p>
+
+<pre lang="bash">
+# Ubuntu
+service smbd status/start/stop/restart
+# Or
+/etc/init.d/smb status/start/stop/restart
+# 我的ubuntu中不带如上启动脚本.
+</pre>
+
+
+<p>查看Smaba服务器端口以及防火墙状态.确保Samba正常使用.</p>
+
+<pre lang="bash">
+netstat -lnp | grep smbd
+# iptables
+service iptables status
+</pre>
+
+
+<br />
+
+
+<p>先不去管配置细节.假设现在已经有一台配置好的Samba服务器.那么我们可以查看服务器上的资源.</p>
+
+<pre lang="bash">
+smbclient -L //IP [-U user]
+</pre>
+
+
+<p>如果服务器设置为share模式.连接时仍然会提醒输入密码.此时直接回车就可以了.
+使用smbclient登录服务器后.就可以进行一些命令行下的操作了.当然你也可以使用IDE的sambaclient.</p>
+
+<pre lang="bash">
+# smbclient login success
+?/help #HELP
+! shellcommand #EXEC SHELLCOMMAND
+cd directory #change work directory SERVER
+lcd directory #change work directory CLIENT
+ls/dir #list files
+get file1 [file2] #download file1 and save as file2
+mget file1 file2 file3 #download files from server
+put file1 [file2] #upload file1 to server and save as file2
+mput file1 file2 file3 #upload files to server
+md/mkdir #mkdir directory
+rd/rmdir #rmdir directory
+</pre>
+
+
+<p>挂在smb.可以使用mount也可以使用smbmount.推荐使用smbmount.因为mount需要设置挂在文件系统以及登录.比较复杂.当然IDE下操作也是相当不错的.</p>
+
+<pre lang="bash">
+smbmount //IP/directory /mnt -o iocharset=utf8
+</pre>
+
+
+<!--more-->
+
+
+<p>接下来我们根据两个例子来学习下samba.
+1.匿名用户可以读写的samba.
+修改smb.conf前先做好备份.</p>
+
+<pre lang="bash">
+cd /etc/samba
+cp smb.conf smb.conf.bak
+</pre>
+
+
+<p>接下来我们开始配置smb.conf.</p>
+
+<pre lang="bash">
+[global]
+workgroup = WXM
+netbios name = WXM
+server string = WXM Samba Server
+security = share
+
+[WXM]
+    path = /home/wxm/samba
+    writeable = yes
+    browseable = yes
+    guest ok = yes
+</pre>
+
+
+<p>这里需要解释下.global是全局配置.workgroup是工作组.netbios name是计算机名.server string是服务器说明.security是验证和登录方式.常用的有两种.一个是share.不需要输入帐号密码.一个是user.需要进行验证.
+接下来我们就需要对我们的samba目录进行操作.</p>
+
+<pre lang="bash">
+chown nobody:nobody /home/wxm/samba -R
+</pre>
+
+
+<p>第二个例子是一个相对复杂点的设置.适合10人左右的环境.</p>
+
+<pre lang="bash">
+# Environment Setup.
+mkdir -p /home/samba/admin
+cd /home/samba/admin
+mkdir sir1 sir2 sir3 sir4 sir5
+</pre>
+
+
+<p>然后添加相应的用户.</p>
+
+<pre lang="bash">
+groupadd admin sir1 sir2 sir3 sir4 sir5
+adduser -g sir1 -G sir1 -d /home/samba/admin/sir1 \
+    -s /sbin/nologin sir1
+</pre>
+
+
+<p>添加samba用户.并设置密码.</p>
+
+<pre lang="bash">
+smbpasswd -a admin
+smbpasswd -a sir1
+</pre>
+
+
+<p>然后设置相应的目录访问设置就可以了.
+最简单的是下载图形界面的配置samba工具.很是方便.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-01T07:52:00+08:00" pubdate data-updated="true">Apr 1<span>st</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/linux/'>Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/04/01/Samba+%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/04/01/Samba+%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/03/31/JQuery+Post+Ajax./" title="Previous Post: JQuery Post Ajax.">&laquo; JQuery Post Ajax.</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/04/01/Apache+CGI%E9%85%8D%E7%BD%AE./" title="Next Post: Apache CGI配置.">Apache CGI配置. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

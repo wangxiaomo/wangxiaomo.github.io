@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ubuntu | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ubuntu pdf 乱码]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/10/19/ubuntu+pdf+%E4%B9%B1%E7%A0%81/"/>
+    <updated>2011-10-19T12:22:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/10/19/ubuntu pdf 乱码</id>
+    <content type="html"><![CDATA[<p>ubuntu pdf 乱码.是因为字体的原因.最终极的解决方法就是安装adobe reader.不过太大了.解决方案就是安装poppler-data.</p>
+
+<pre lang="bash">
+aptitude install poppler-data
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ubuntu skills]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/10/15/ubuntu+skills/"/>
+    <updated>2011-10-15T00:36:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/10/15/ubuntu skills</id>
+    <content type="html"><![CDATA[<p>好困啊好困啊. 死郭靖不来实验室. .我没钥匙也走不了..哎..
+<font color="red">安装升级</font>
+1.查看软件安装状态.</p>
+
+<pre lang="bash">
+dpkg -l app_name
+</pre>
+
+
+<p>2.查看软件安装内容.</p>
+
+<pre lang="bash">
+dpkg -L app_name
+</pre>
+
+
+<p>3.查看软件注释.</p>
+
+<pre lang="bash">
+apt-cache show app_name
+</pre>
+
+
+<p>4.查看文件属于哪个包.</p>
+
+<pre lang="bash">
+#安装apt-file
+#apt-get install apt-file
+#更新apt-file cache
+#apt-file update
+apt-file search file_name
+</pre>
+
+
+<p>5.查看软件依赖哪些包.</p>
+
+<pre lang="bash">
+apt-cache depends app_name
+</pre>
+
+
+<p>6.查看软件被哪些包依赖.</p>
+
+<pre lang="bash">
+apt-cache rdepends app_name
+</pre>
+
+
+<p>7.系统升级.</p>
+
+<pre lang="bash">
+apt-get install update-manager-core
+do-release-upgrade
+</pre>
+
+
+<p><font color="red">网络</font>
+1.设置静态IP.</p>
+
+<pre lang="bash">
+iface eth0 inet static
+pre-up ifconfig eth0 hw ether 01:01:01:01:01:01
+address 192.168.1.10
+netmask 255.255.255.0
+gateway 192.168.1.1
+</pre>
+
+
+<p>2.防止sshserver被暴力破解.</p>
+
+<pre lang="bash">
+apt-get install denyhosts
+</pre>
+
+
+<p><font color="red">服务</font>
+1.服务管理. update-rc.d
+2.增加用户到管理组.使其获得sudo权限.</p>
+
+<pre lang="bash">
+#visudo
+usermod -G admin -a 用户名
+</pre>
+
+]]></content>
+  </entry>
+  
+</feed>

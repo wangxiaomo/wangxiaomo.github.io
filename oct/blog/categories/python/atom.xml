@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Python | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[重写数据库连接库.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/10/14/%E9%87%8D%E5%86%99%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E5%BA%93./"/>
+    <updated>2011-10-14T15:44:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/10/14/重写数据库连接库.</id>
+    <content type="html"><![CDATA[<p>之前一直用着郑叶平学长封装好的库与数据库进行交互.后来用着发现许多基本的需求都没有很好的解决.晚上的时候对sae的sql文档进行了仔细阅读.发现里面一些功能我需求也不是很大.仔细思考过去曾经的应用.重新封装了下.
+基本的需求:
+1.增. 返回id
+2.删改. 返回受影响的行数.
+3.查. 返回结果.
+4.后续需求再加.
+目录结构如下：
+-----+SQLParser
+-------- <strong>init</strong>.py
+-------- var.py
+-------- parser.py
+-------- mysql_parser.py
+-------- sqlite_parser.py</p>
+
+<p>基本代码如下：
+1.var.py 一些基本的配置信息.</p>
+
+<pre lang="python">
+#-*- coding: utf-8 -*-
+
+EXCEPTION = '========> Exception Caught Here <========='
+
+DEFAULT_SQLITE_DB = 'default.db'
+
+DEFAULT_MYSQL_HOST = 'localhost'
+DEFAULT_MYSQL_USER = 'root'
+DEFAULT_MYSQL_PASS = '123'
+DEFAULT_MYSQL_DB = 'default'
+</pre>
+
+
+<p>2.parser.py 虚拟类.</p>
+
+<pre lang="python">
+#-*- coding: utf-8 -*-
+import traceback
+import var
+
+class Parser(object):
+    """
+    abstract class
+    """
+    def __init__(self):
+        self.conn = None
+        self.cursor = None
+
+    def __del__(self):
+        try:
+            self.cursor.close()
+            self.conn.close()
+        except Exception as e:
+            print var.EXCEPTION
+            traceback.print_exc()
+
+    def commit(self):
+        self.conn.commit()
+
+    def insert(self, sql):
+        try:
+            self.cursor.execute(sql)
+        except Exception as e:
+            print var.EXCEPTION
+            traceback.print_exc()
+        return self.cursor.lastrowid
+
+    def delete(self, sql):
+        try:
+            self.conn.execute(sql)
+            self.commit()
+        except Exception as e:
+            print var.EXCEPTION
+            traceback.print_exc()
+        return self.conn.total_changes
+
+    def update(self, sql):
+        return self.delete(sql)
+
+    def select(self, sql):
+        try:
+            self.cursor.execute(sql)
+        except Exception as e:
+            print var.EXCEPTION
+            traceback.print_exc()
+        return self.cursor.fetchall()
+
+if __name__ == '__main__':
+    import sys
+    sys.exit(0)
+</pre>
+
+
+<p>3.mysql_parser.py</p>
+
+<pre lang="python">
+#-*- coding: utf-8 -*-
+
+import MySQLdb
+
+from var import DEFAULT_MYSQL_HOST, \
+    DEFAULT_MYSQL_USER, \
+    DEFAULT_MYSQL_PASS, \
+    DEFAULT_MYSQL_DB
+from parser import Parser
+
+class MySQL(Parser):
+    def __init__(self,
+            host=DEFAULT_MYSQL_HOST,
+            user=DEFAULT_MYSQL_USER,
+            passwd=DEFAULT_MYSQL_PASS,
+            db=DEFAULT_MYSQL_DB):
+
+        Parser.__init__(self)
+        self.conn = MySQLdb.connect(host=host,
+            user=user,
+            passwd=passwd,
+            db=db);
+        self.cursor = self.conn.cursor()
+
+if __name__ == '__main__':
+    import sys
+    sys.exit(0)
+</pre>
+
+
+<p>4.sqlite_parser.py</p>
+
+<pre lang="python">
+#-*- coding: utf-8 -*-
+
+import sqlite3
+
+import var
+from parser import Parser
+
+class SQLite(Parser):
+    def __init__(self, db_path=None):
+        Parser.__init__(self)
+        if not db_path:
+            print "Database Not Specified, Use Default"
+            print "Default DB: ", var.DEFAULT_SQLITE_DB
+            self.conn = sqlite3.connect(var.DEFAULT_SQLITE_DB)
+        else:
+            self.conn = sqlite3.connect(db_path)
+        self.cursor = self.conn.cursor()
+
+if __name__ == '__main__':
+    import sys
+    sys.exit(0)
+</pre>
+
+
+<p>好多重复的代码. 不知道怎么才能写的美观些. 设计上感觉也不够简洁.等待改进...</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[pylucene 安装.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/21/pylucene+%E5%AE%89%E8%A3%85./"/>
+    <updated>2011-09-21T03:16:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/09/21/pylucene 安装.</id>
+    <content type="html"><![CDATA[<p>智能web算法里面用beanshell讲解了各种算法.书的开头就讲解了java lucene的使用.不过我不想在java下学习智能算法. 所以还是寻找到python的迁移吧. 首先就是pylucene和lupy.这是lucene的两个方案.lupy是lucene的python全重写, 不依赖java, java lucene.但是跟不上版本,可用版本只到04年.而且现在已经停止更新了.而pylucene是对java lucene的一种包装,所以版本不是问题,但是离不开java lucene.
+首先说安装.我是在ubuntu下进行测试的. apt-get包管理器很容易的找到pylucene.安装也很容易.但是进入python之后却找不到lucene,PyLucene等模块.[他们两者的区别不是很清楚] 通过包管理器安装失败后,我就通过源码进行编译安装. 编译过程看document/readme.html. 先编译jcc,然后编译pylucene.安装好之后python2.7没有lucene模块,python2.6有lucene模块.所以做个链接就可以用了. 包管理器安装失败不知道是不是上面这个原因..有机会再测试吧.
+接下来就是跑 Sample. 恩. Sample这里出问题了. 问题就出在初始化java vm上.google了半天,没有什么合适的答案.
+今天早上上网随便浏览的时候,发现了解决方案
+默认是这样.</p>
+
+<pre lang="python">
+import lucene
+lucene.initVM()
+</pre>
+
+
+<p>我们需要修改为.</p>
+
+<pre lang="python">
+import lucene
+lucene.initVM(lucene.CLASSPATH)
+</pre>
+
+
+<p>先这样...</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SL4A.` [Python]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/18/SL4A.%60+%5BPython%5D/"/>
+    <updated>2011-09-18T12:25:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/09/18/SL4A.` [Python]</id>
+    <content type="html"><![CDATA[<p>最近没有什么项目, 所以随便拿起书来就阅读. ppurl上找到的pro android programming with sl4a. 随便翻阅了下, 就被第一页的一条言论吸引.quote: One is that not everyone is a fan of Java. 所以决定阅读下去...
+之前较为系统的学习过android开发. 不过一直没了解过SL4A. 虽然知道可以用php直接对android进行编程.借着这次机会, 可以更加深入的了解了..
+SL4A means Script Layer 4 Android.至于为什么用Script进行Android开发,文章开始已经说的很清楚了, 并不是所有的人都喜欢JAVA. 目前SL4A支持的语言有:Beanshell, JRuby, Lua, Perl, PHP, Python, and Rhino.哈哈.3P&amp;lua都支持.所以我现在已经非常看好SL4A了.[ps.目前不知道SL4A的支持程度, 具体的参见官网 <a href="http://code.google.com/p/android-scripting" target="_blank">http://code.google.com/p/android-scripting/</a>/.]SL4A once names ASE[Android Script Environment]
+SL4A与Android System的交互是通过RPC和JSON来实现的.SL4A大量的使用JSON来进行数据传递.
+<font color="red">SL4A环境搭建</font>
+1.首先安装SL4A的环境到Android Device.
+2.进入SL4A, 点击menu键.然后点击View.然后点击interpreter(解释器).默认情况下只有SHELL解释器,我们需要安装其他的python解释器
+3.按menu.按add.选择python.
+之后,我们就可以进入python解释器,进行测试.</p>
+
+<pre lang="python">
+import android
+
+droid = android.Android()
+droid.makeToast("Hello SL4A's World")
+</pre>
+
+
+<p>这样调试很麻烦,我们可以远程连接Android,通过wifi或者usb.
+建立连接,首先我们需要打开Android Device上的Server.
+1.进入SL4A的解释器.然后按menu,点击Start Server.
+2.进入Notification. 查看Server 端口.
+在电脑上.以linux说明.
+1.export AP_PORT=9999
+2.adb forward tcp:9999 tcp:123456</p>
+
+<br />
+
+
+<br />
+
+
+<p>查看程序.</p>
+
+<pre lang="python">
+import android
+from pprint import pprint as print
+
+droid = android.Android()
+apps = droid.getLaunchableApplications()
+print apps.result
+</pre>
+
+
+<p>所有的python sl4a的api返回的都是一个具有以下三个值的object.
+1.id
+2.result: the return value of the api calls or null if no return
+3.error.
+查看手机的联系人.</p>
+
+<pre lang="python">
+import android
+
+droid = android.Android()
+contacts = droid.queryContent("content://com.android.contacts/data/phones',
+        ['display_name', 'data1'], None, None, None).result
+for c in contacts:
+    print c
+</pre>
+
+
+<p>Location Service.</p>
+
+<pre lang="python">
+import android
+droid = android.Android()
+droid.startLocating()
+info = droid.readLocation()
+droid.stopLocating()
+###################
+#Result(id=6, result={u'network': {u'altitude': 0, u'provider': u'network', u'longitude':
+#-84.480000000000004, u'time': 1296595452577L, u'latitude': 31.392499999999998, u'speed':
+#0, u'accuracy': 1000}}, error=None)
+###################
+</pre>
+
+
+<p>接下来.是关于用python建立ui方面的代码.</p>
+
+<pre lang="python">
+#建立一个输入对话框.
+droid.dialogGetInput("Title", "Promopt")
+
+#接下来建立一个包含三个按钮的对话框.
+title = "Alert"
+msg = "This is Message"
+
+droid.dialogCreateAlert(title, msg)
+droid.dialogSetPositiveButtonText('Yes')
+droid.dialogSetNegativeButtonText('No')
+droid.dialogSetNeutralButtonText('Cancel')
+droid.dialogShow()
+response = droid.dialogGetResponse().result
+
+#创建一个列表对话框.
+droid.dialogCreateAlert(title)
+droid.dialogSetItems(['one', 'two', 'three'])
+droid.dialogShow()
+response = droid.dialogGetResponse().result
+
+#创建单选按钮组的对话框.
+droid.dialogCreateAlert(title)
+droid.dialogSetSingleChoiceItems(['one', 'two', 'three'])
+droid.dialogSetPositiveButtonText('Done')
+droid.dialogShow()
+
+#创建带有复选组的对话框.
+droid.dialogCreateAlert(title)
+droid.dialogSetMultiChoiceItems(['one', 'two', 'three'])
+droid.dialogSetPositiveButtonText('Done')
+droid.dialogShow()
+droid.dialogGetResponse()
+ans = droid.dialogGetSelectedItems()
+
+#Android 进度条.
+droid.dialogCreateHorizontalProgress(title,msg,100)
+droid.dialogShow()
+for x in range(0,99):
+    time.sleep(0.1)
+    droid.dialogSetCurrentProgress(x)
+droid.dialogDismiss()
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Project4. LBS_Server. [Twisted+Qt]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/17/Project4.+LBS_Server.+%5BTwisted%2BQt%5D/"/>
+    <updated>2011-09-17T07:55:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/09/17/Project4. LBS_Server. [Twisted+Qt]</id>
+    <content type="html"><![CDATA[<p>只贴twisted主框架的Qt界面的.</p>
+
+<pre lang="python">
+#!/usr/bin/python 
+#-*- coding: utf-8 -*-
+
+import config
+from tools.helper import log
+from string import rstrip
+"""
+终端测试,剔除回车键.后期删除.
+"""
+
+from core import anyEvent
+
+from twisted.internet.protocol import Protocol, Factory
+from twisted.internet import reactor
+from twisted.internet.threads import deferToThread
+
+class Echo(Protocol):
+    """Echo Server"""
+    def connectionMade(self):
+        log("Connection Made")
+
+    def connectionLost(self, reason):
+        log("Connection Lost. Reason:%s\n\n" % reason.getErrorMessage())
+
+    def dataReceived(self, data):
+        log("Data Received")
+        data = data.rstrip()
+        log(data)
+        d = deferToThread(anyEvent, [data]) 
+        d.addBoth(self.send_back)
+
+    def send_back(self, data):
+        log(data)
+        self.transport.write(data)
+        #self.transport.loseConnection()
+
+
+class EchoFactory(Factory):
+    """Echo Factory"""
+    def __init__(self):
+        self.protocol = Echo
+
+def serve_forever(port=config.SERVER_PORT):
+    log("Serve at Port: %s\n"%port)
+    reactor.listenTCP(int(port), EchoFactory())
+    reactor.run()
+
+if __name__ == '__main__':
+    serve_forever()
+</pre>
+
+
+<p>QT</p>
+
+<pre lang="python">
+#-*- coding: utf-8 -*-
+
+import os
+import sys
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from server import serve_forever
+
+def alert(msg):
+    dlg = QMessageBox()
+    dlg.setWindowTitle("Alert")
+    dlg.setText(msg)
+    dlg.exec_()
+
+"""
+class ServerThread(QThread):
+    def __init__(self, port, parent=None):
+        super(ServerThread, self).__init__(parent)
+        self.port = port
+        self.setTerminationEnabled(True)
+
+    def run(self):
+        serve_forever(self.port)
+
+    def endThread(self):
+        self.exit(-1)
+
+Twisted do not run in the main thread.
+So system signal cannot be catched at all
+that's the reason why gui cannot terminate the server thread
+"""
+
+class ServerDialog(QDialog):
+    """
+    Server Dialog.
+    @FUNC1: set server port
+    @FUNC2: start server
+    @FUNC3: stop server
+    @FUNC4: show server's status
+    """
+    def __init__(self, parent=None):
+        super(ServerDialog, self).__init__(parent)
+        self.port = 0
+        self.daemon = None
+        self.isRunning = False
+
+        layout = QGridLayout()
+        portLabel = QLabel("Server's &Port: ")
+        self.portEdit = QLineEdit()
+        self.portEdit.setText("8080")
+        portLabel.setBuddy(self.portEdit)
+        input_layout = QHBoxLayout()
+        input_layout.addWidget(portLabel)
+        input_layout.addWidget(self.portEdit)
+        layout.addLayout(input_layout, 0, 0, 1, 3)
+        self.startBtn = QPushButton("Start")
+        layout.addWidget(self.startBtn, 1, 0)
+        self.stopBtn = QPushButton("Stop")
+        self.stopBtn.setEnabled(False)
+        layout.addWidget(self.stopBtn, 1, 1)
+        self.statusBtn = QPushButton("Status")
+        layout.addWidget(self.statusBtn, 1, 2)
+        self.setLayout(layout)
+        self.setWindowTitle("Server 4 LBS Share")
+        self.setFixedSize(250, 80)
+        self.__init_slots()
+
+    def __init_slots(self):
+        self.connect(self.startBtn, SIGNAL("clicked()"),
+            self.startService)
+        self.connect(self.stopBtn, SIGNAL("clicked()"),
+            self.stopService)
+        self.connect(self.statusBtn, SIGNAL("clicked()"),
+            self.showStatus)
+
+    def startService(self):
+        self.startBtn.setEnabled(False)
+        self.stopBtn.setEnabled(True)
+        self.portEdit.setReadOnly(True)
+        self.port = self.portEdit.text()
+        if self.isRunning == False:
+            self.isRunning = True
+            #self.daemon = ServerThread(self.port)
+            #self.daemon.start()
+            self.daemon = QProcess()
+            self.daemon.start("python server.py")
+
+    def stopService(self):
+        self.startBtn.setEnabled(True)
+        self.stopBtn.setEnabled(False) 
+        self.portEdit.setReadOnly(False)
+        if self.isRunning:
+            self.isRunning = False
+            #self.daemon.endThread()
+            #self.daemon = None
+            self.daemon.kill()
+
+    def showStatus(self):
+        if self.isRunning:
+            msg = "Server is Running on Port %s" % self.port
+        else:
+            msg = "Server is not Running"
+        alert(msg)
+
+def test():
+    app = QApplication(sys.argv)
+    dialog = ServerDialog()
+    dialog.show()
+    app.exec_()
+
+if __name__ == '__main__':
+    test()
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[twisted reactor debug]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/10/twisted+reactor+debug/"/>
+    <updated>2011-09-10T06:37:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/09/10/twisted reactor debug</id>
+    <content type="html"><![CDATA[<p>放假什么都不想干啊... 无聊无聊无聊...趁着现在没事可干,用pdb把twisted跑一遍吧.
+代码.</p>
+
+<pre lang="python">
+#!/usr/bin/python 
+#-*- coding: utf-8 -*-
+import pdb
+
+from twisted.internet import reactor
+pdb.set_trace()
+reactor.run()
+</pre>
+
+
+<p>第一步,执行到reactor.run()</p>
+
+<pre lang="python">
+> /home/wxm/debug.py(7)<module>()
+-> reactor.run()
+(Pdb) l
+  2     #-*- coding: utf-8 -*-
+  3     import pdb
+  4     
+  5     from twisted.internet import reactor
+  6     pdb.set_trace()
+  7  -> reactor.run()
+[EOF]
+</pre>
+
+
+<p>step进入,list代码.</p>
+
+<pre lang="python">
+1156 ->     def run(self, installSignalHandlers=True):
+1157            self.startRunning(installSignalHandlers=installSignalHandlers)
+1158            self.mainLoop()
+</pre>
+
+
+<p>reactor运行有好几种模式,默认装载了其中的一种模式,然后开始mainLoop.我们继续step进入 startRunning.看看里面发生了什么</p>
+
+<pre lang="python">
+1126 ->     def startRunning(self, installSignalHandlers=True):
+1127            """
+1128            Extend the base implementation in order to remember whether signal
+1129            handlers should be installed later.
+1130    
+1131            @type installSignalHandlers: C{bool}
+(Pdb) l
+1132            @param installSignalHandlers: A flag which, if set, indicates that
+1133                handlers for a number of (implementation-defined) signals should be
+1134                installed during startup.
+1135            """
+1136            self._installSignalHandlers = installSignalHandlers
+1137            ReactorBase.startRunning(self)
+</pre>
+
+
+<p>这里又出现了ReactorBase对象.继续step.
+step into之后,</p>
+
+<pre lang="python">
+657  ->     def startRunning(self):
+658             """
+659             Method called when reactor starts: do some initialization and fire
+660             startup events.
+661     
+662             Don't call this directly, call reactor.run() instead: it should take
+(Pdb) l
+663             care of calling this.
+664     
+665             This method is somewhat misnamed.  The reactor will not necessarily be
+666             in the running state by the time this method returns.  The only
+667             guarantee is that it will be on its way to the running state.
+668             """
+669             if self._started:
+670                 raise error.ReactorAlreadyRunning()
+671             self._started = True
+672             self._stopped = False
+673             threadable.registerAsIOThread()
+(Pdb) l
+674             self.fireSystemEvent('startup')
+</pre>
+
+
+<p>只是一些相关变量之类的设置.感觉作用不是很大,应该不会妨碍理解twisted mainLoop.所以我们一路n到mainLoop那里.then step into.</p>
+
+<pre lang="python">
+1161 ->     def mainLoop(self):
+1162            while self._started:
+1163                try:
+1164                    while self._started:
+1165                        # Advance simulation time in delayed event
+1166                        # processors.
+(Pdb) l
+1167                        self.runUntilCurrent()
+1168                        t2 = self.timeout()
+1169                        t = self.running and t2
+1170                        self.doIteration(t)
+1171                except:
+1172                    log.msg("Unexpected error in main loop.")
+1173                    log.err()
+1174                else:
+1175                    log.msg('Main loop terminated.')
+</pre>
+
+
+<p>我们执行到</p>
+
+<pre lang="python">
+> /usr/lib/python2.7/dist-packages/twisted/internet/base.py(1167)mainLoop()
+-> self.runUntilCurrent()
+</pre>
+
+
+<p>step into.</p>
+
+<pre lang="python">
+--Call--
+> /usr/lib/python2.7/dist-packages/twisted/internet/base.py(751)runUntilCurrent()
+-> def runUntilCurrent(self):
+(Pdb) l
+746                 return None
+747     
+748             return max(0, self._pendingTimedCalls[0].time - self.seconds())
+749     
+750     
+751  ->     def runUntilCurrent(self):
+752             """Run all pending timed calls.
+753             """
+754             if self.threadCallQueue:
+755                 # Keep track of how many calls we actually make, as we're
+756                 # making them, in case another call is added to the queue
+(Pdb) l
+757                 # while we're in this loop.
+758                 count = 0
+759                 total = len(self.threadCallQueue)
+760                 for (f, a, kw) in self.threadCallQueue:
+761                     try:
+762                         f(*a, **kw)
+763                     except:
+764                         log.err()
+765                     count += 1
+766                     if count == total:
+767                         break
+(Pdb) l
+768                 del self.threadCallQueue[:count]
+769                 if self.threadCallQueue:
+770                     self.wakeUp()
+771     
+772             # insert new delayed calls now
+773             self._insertNewDelayedCalls()
+774     
+775             now = self.seconds()
+776             while self._pendingTimedCalls and (self._pendingTimedCalls[0].time <= now):
+777                 call = heappop(self._pendingTimedCalls)
+778                 if call.cancelled:
+(Pdb) l
+779                     self._cancellations-=1
+780                     continue
+781     
+782                 if call.delayed_time > 0:
+783                     call.activate_delay()
+784                     heappush(self._pendingTimedCalls, call)
+785                     continue
+786     
+787                 try:
+788                     call.called = 1
+789                     call.func(*call.args, **call.kw)
+(Pdb) l
+790                 except:
+791                     log.deferr()
+792                     if hasattr(call, "creator"):
+793                         e = "\n"
+794                         e += " C: previous exception occurred in " + \
+795                              "a DelayedCall created here:\n"
+796                         e += " C:"
+797                         e += "".join(call.creator).rstrip().replace("\n","\n C:")
+798                         e += "\n"
+799                         log.msg(e)
+800     
+(Pdb) l
+801     
+802             if (self._cancellations > 50 and
+803                  self._cancellations > len(self._pendingTimedCalls) >> 1):
+804                 self._cancellations = 0
+805                 self._pendingTimedCalls = [x for x in self._pendingTimedCalls
+806                                            if not x.cancelled]
+807                 heapify(self._pendingTimedCalls)
+808     
+809             if self._justStopped:
+810                 self._justStopped = False
+811                 self.fireSystemEvent("shutdown")
+</pre>
+
+
+<p>一路n,这些语句都没执行.
+最终执行到</p>
+
+<pre lang="python">
+1170                        self.doIteration(t)
+</pre>
+
+
+<p>这里开始最终的mainLoop Select循环.</p>
+
+<pre lang="python">
+93  ->      def doSelect(self, timeout):
+ 94             """
+ 95             Run one iteration of the I/O monitor loop.
+ 96     
+ 97             This will run all selectables who had input or output readiness
+ 98             waiting for them.
+(Pdb) l
+ 99             """
+100             while 1:
+101                 try:
+102                     r, w, ignored = _select(self._reads.keys(),
+103                                             self._writes.keys(),
+104                                             [], timeout)
+105                     break
+106                 except ValueError, ve:
+107                     # Possibly a file descriptor has gone negative?
+108                     log.err()
+109                     self._preenDescriptors()
+(Pdb) l
+110                 except TypeError, te:
+111                     # Something *totally* invalid (object w/o fileno, non-integral
+112                     # result) was passed
+113                     log.err()
+114                     self._preenDescriptors()
+115                 except (select.error, IOError), se:
+116                     # select(2) encountered an error
+117                     if se.args[0] in (0, 2):
+118                         # windows does this if it got an empty list
+119                         if (not self._reads) and (not self._writes):
+120                             return
+(Pdb) l
+121                         else:
+122                             raise
+123                     elif se.args[0] == EINTR:
+124                         return
+125                     elif se.args[0] == EBADF:
+126                         self._preenDescriptors()
+127                     else:
+128                         # OK, I really don't know what's going on.  Blow up.
+129                         raise
+130             _drdw = self._doReadOrWrite
+131             _logrun = log.callWithLogger
+(Pdb) l
+132             for selectables, method, fdset in ((r, "doRead", self._reads),
+133                                                (w,"doWrite", self._writes)):
+134                 for selectable in selectables:
+135                     # if this was disconnected in another thread, kill it.
+136                     # ^^^^ --- what the !@#*?  serious!  -exarkun
+137                     if selectable not in fdset:
+138                         continue
+139                     # This for pausing input when we're not ready for more.
+140                     _logrun(selectable, _drdw, selectable, method, dict)
+141     
+142         doIteration = doSelect
+</pre>
+
+]]></content>
+  </entry>
+  
+</feed>

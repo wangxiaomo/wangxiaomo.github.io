@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>libsvm安装. - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="正式开始做项目了, 计划有变, 由话题跟踪变为分类聚类. 不过没什么太大关系&#8230; 接下来的三天内要用svm和knn的方法实现分类聚类.
+据我短时间的观察,ub源里面有一个python-libsvm,但是和著名的那个台湾人写的libsvm有点出入,所以我们最好去下载台湾的那个去. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/07/24/libsvm%E5%AE%89%E8%A3%85./">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Libsvm安装.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-24T05:01:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>正式开始做项目了, 计划有变, 由话题跟踪变为分类聚类. 不过没什么太大关系&#8230; 接下来的三天内要用svm和knn的方法实现分类聚类.
+据我短时间的观察,ub源里面有一个python-libsvm,但是和著名的那个台湾人写的libsvm有点出入,所以我们最好去下载台湾的那个去.然后安装过程中有一些问题.估计不是我一个人的个例,反正我解决了好长时间..
+下载好libsvm-3.1,我们需要在当前目录下make一下,然后就编译生成了svm_scale,svm_train,svm_predict等可执行文件.并在/usr/lib下生成了so文件.这时候在python子目录下进入python</p>
+
+<pre lang="python">
+from svm import *
+</pre>
+
+
+<p>错误,提示AttributeError: /usr/lib/libsvm.so.2: undefined symbol: svm_free_model_content
+google了半天也没有找到解决方法,后来灵光一闪,想起了nm命令,所以</p>
+
+<pre lang="python">
+nm /usr/lib/libsvm.so.2
+</pre>
+
+
+<p>输出没有可用的接口..所以我们基本可以确定是so文件出了问题.
+然后我们在python目录下make一下.这时候在..目录下生成了so文件.我们需要重新做一下软连接.</p>
+
+<pre lang="bash">
+ln -s /home/wxm/libsvm-3.1/libsvm.so.2 /usr/lib/libsvm.so.2
+</pre>
+
+
+<p>然后重启python,重新import下.成功&#8230;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-24T05:01:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/集体智慧/'>集体智慧</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/07/24/libsvm%E5%AE%89%E8%A3%85./" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/07/24/libsvm%E5%AE%89%E8%A3%85./" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/07/15/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D.mmseg%E8%BF%90%E7%94%A8.%60/" title="Previous Post: 中文分词.mmseg运用.`">&laquo; 中文分词.mmseg运用.`</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/08/02/%E7%B2%BE%E9%80%9APython/" title="Next Post: 精通Python">精通Python &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

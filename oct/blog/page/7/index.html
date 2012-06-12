@@ -1,0 +1,965 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="最近研究twisted, 理解起来存在一些困难. 因为对reactor和 defer模式不是很理解, 所以读起源码来比较吃力. 于是决定重点复习下设计模式.` Over.
+">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/7/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/09/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%A6%85/">设计模式之禅</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-02T09:16:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近研究twisted, 理解起来存在一些困难. 因为对reactor和 defer模式不是很理解, 所以读起源码来比较吃力. 于是决定重点复习下设计模式.` Over.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/09/01/python+sub%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%8D%95%E8%8E%B7%E5%88%B0%E7%9A%84%E5%80%BC/">Python Sub中使用捕获到的值</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-01T13:37:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>刚才看郭靖写代码的时候突然想到了这个,但是查了半天也没找到相关的文档.但是下面这个demo成功了.lambda果真是个变态级别的东西</p>
+
+<pre lang="python">
+import re
+s = "abc1abc"
+print re.sub(r'(\d+)', lambda m: "f"+m.group(0)+"f", s)
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/09/01/%E5%86%99%E7%9D%80%E7%8E%A9%E7%9A%84defer/">写着玩的defer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-01T09:20:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre lang="python">
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+
+def passthru(args):
+    """passthru function"""
+    return args
+
+class ErrBack(Exception):
+    """ErrBack"""
+    message = "TEST"
+
+class Deferred:
+    """My Deferred"""
+    def __init__(self):
+        """init defered"""
+        self.callbacks = []
+        self.result = None
+
+    def addCallbacks(self, callback=None, errback=None):
+        """addCallbacks"""
+        assert callable(callback)
+        assert errback == None or callable(errback)
+        self.callbacks.append((callback, errback or passthru))
+
+    def addCallback(self, callback):
+        """addCallback"""
+        self.addCallbacks(callback, None)
+
+    def addErrback(self, errback):
+        """addErrback"""
+        self.addCallbacks(passthru, errback)   
+        
+    def addBoth(self, callback):
+        """addBoth"""
+        self.addCallbacks(callback, callback)
+
+    def callback(self, result):
+        """callback start into chain"""
+        self._startRunCallbacks(result)
+
+    def errback(self, fail=None):
+        """errback start into chain"""
+        if not isinstance(fail, Exception):
+            fail = ErrBack()
+        self._startRunCallbacks(fail)
+
+    def _startRunCallbacks(self, result):
+        """start to run callbacks"""
+        self.result = result
+        self._runCallbacks()
+
+    def _runCallbacks(self):
+        """run callbacks"""
+        while self.callbacks:
+            callback,errback = self.callbacks.pop(0)
+            if not isinstance(self.result, Exception):
+                func = callback
+            else:
+                func = errback
+            try:
+                self.result = func(self.result)
+            except:
+                self.result = ErrBack()
+
+    def __str__(self):
+        result = getattr(self, 'result', "NO CALLBACKS")
+        if isinstance(result, Exception):
+            result = result.message
+        return result
+
+    def showCallbacks(self, debug=False):
+        if debug is True:
+            print self.callbacks 
+
+def main():
+    def a(_):
+        return "A"
+    def b(_):
+        raise Exception("Exception")
+
+    d = Deferred()
+    d.addCallbacks(a, b)
+    d.showCallbacks(True)
+    d.errback(True)
+    print d
+
+
+if __name__ == '__main__':
+    #TODO
+    import sys
+    print "This is a Module"
+    sys.exit
+else:
+    #TODO
+    main()
+
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/09/01/twisted+%E8%80%97%E6%97%B6%E4%BB%A3%E7%A0%81%E5%A4%84%E7%90%86/">Twisted 耗时代码处理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-01T06:45:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>deferred主要做的事情就是将一些可能会耗时，会阻塞主线程的事放到另一个线程中去做，然后返回一个deferred对象给主线程，主线程给这个deferred注册一些回调函数，当在子线程中耗时的函数处理完后会调用deferred的callback函数，调用之前注册好的回调函数，一次实现异步操作。</p>
+
+<pre lang="python">
+import time  
+def largeFibonnaciNumber():  
+    """ 
+    耗时的事 
+    """  
+    TARGET = 10000  
+  
+    first = 0  
+    second = 1  
+      
+    for i in xrange(TARGET - 1):  
+        new = first + second  
+        first = second  
+        second = new  
+    time.sleep(3)  
+    return second  
+  
+from twisted.internet import threads, reactor  
+  
+def fibonacciCallback(result):  
+    """ 
+    回调函数 
+    打印耗时函数的返回结果 
+    """  
+    print "largeFibonnaciNumber result =", result  
+  
+def run():  
+    """ 
+    主函数 
+    """  
+    # 将耗时函数放入另一个线程执行，返回一个deferred对象  
+    d = threads.deferToThread(largeFibonnaciNumber)  
+    # 添加回调函数  
+    d.addCallback(fibonacciCallback)  
+    print "1st line after the addition of the callback"  
+    print "2nd line after the addition of the callback"  
+  
+if __name__ == '__main__':  
+    run()  
+    reactor.run()
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/08/29/Twisted%E5%88%9D%E6%AD%A5Finger%E6%9C%8D%E5%8A%A1%E5%99%A8/">Twisted初步Finger服务器</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-29T13:23:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre lang="python">
+#!/usr/bin/python 
+#-*- coding: utf-8 -*-
+"""
+#DO NOTHING
+from twisted.internet import reactor
+reactor.run()
+"""
+from twisted.application import internet,service
+from twisted.internet import reactor,defer,utils
+from twisted.internet.protocol import Protocol,ServerFactory
+from twisted.protocols.basic import LineReceiver
+from twisted.web import client
+
+class FingerProtocol(LineReceiver):
+    def connectionMade(self):
+        self.setLineMode()
+    def dataReceived(self, user):
+        self.factory.getUser(user) \
+            .addErrback(lambda _: "Internal Error in server") \
+            .addCallback(lambda m:(  \
+                self.transport.write(m+"\r\n"),  \
+                self.transport.loseConnection())) 
+    def connectionLost(self, reason):
+        print reason.getErrorMessage()
+
+class FingerFactory(ServerFactory):
+    protocol = FingerProtocol
+    def getUser(self, user):
+        return utils.getProcessOutput("finger",(user))
+        #return client.getPage("http://wpxiaomo.sinaapp.com")
+
+application = service.Application('finger', uid=1, gid=1)
+factory = FingerFactory()
+internet.TCPServer(79, factory).setServiceParent(service.IServiceCollection(application))
+</pre>
+
+
+<pre lang="bash">
+twisted -ny finger_server.tac
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/08/26/Android%E9%87%8D%E5%8A%9B%E6%84%9F%E5%BA%94DEMO/">Android重力感应DEMO</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-26T14:30:00+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre lang="java">
+package test.common;
+ 
+import android.app.Activity; 
+import android.os.Bundle; 
+import android.hardware.SensorManager; 
+import android.hardware.Sensor; 
+import android.hardware.SensorEventListener; 
+import android.hardware.SensorEvent; 
+
+public class main extends Activity { 
+    private float x, y, z; 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        SensorManager sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
+        Sensor sensor = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        /*TYPE注解
+        intTYPE_ACCELEROMETER 加速度
+        intTYPE_ALL 所有类型，NexusOne默认为 加速度
+        intTYPE_GYROSCOPE 回转仪(这个不太懂)
+        intTYPE_LIGHT 光线感应
+        intTYPE_MAGNETIC_FIELD 磁场
+        intTYPE_ORIENTATION 定向（指北针）和角度
+        intTYPE_PRESSUR 压力计
+        intTYPE_PROXIMITY 距离？不太懂
+        intTYPE_TEMPERATURE 温度啦
+        */
+
+        SensorEventListener lsn = new SensorEventListener() {
+            public void onSensorChanged(SensorEvent e) {
+                x = e.values[SensorManager.DATA_X]; 
+                y = e.values[SensorManager.DATA_Y]; 
+                z = e.values[SensorManager.DATA_Z];
+                setTitle("x="+(int)x+","+"y="+(int)y+","+"z="+(int)z);
+            }
+
+            public void onAccuracyChanged(Sensor s, int accuracy) {
+            }
+
+        };
+
+        //注册listener，第三个参数是检测的灵敏度
+        sensorMgr.registerListener(lsn, sensor, SensorManager.SENSOR_DELAY_GAME);
+        /*
+        SENSOR_DELAY_FASTEST 最灵敏，快的然你无语
+        SENSOR_DELAY_GAME 游戏的时候用这个，不过一般用这个就够了，和上一个很难看出区别
+        SENSOR_DELAY_NORMAL 比较慢。
+        SENSOR_DELAY_UI 最慢的，几乎就是横和纵的区别
+        */
+    }
+}
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/08/26/Android%E9%87%8D%E5%8A%9B%E6%84%9F%E5%BA%94%E7%BC%96%E7%A8%8B%E6%80%9D%E8%B7%AF/">Android重力感应编程思路</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-26T13:40:00+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>添加当重力变化时的处理函数
+在创建监听器时调用的函数 doSomething(x, y, z) 是自己定义的方法。
+当手机倾斜方向改变时，监听器会调用该方法。
+我们要做的，就是填充该方法，用于在重力发生变化时进行我们自己的处理。
+当 x=y=0 时，手机处于水平放置状态。
+当 x=0 并且 y>0 时，手机顶部的水平位置要大于底部，也就是一般接听电话时手机所处的状态。
+当 x=0 并且 y<0 时，手机顶部的水平位置要小于底部。手机一般很少处于这种状态。
+当 y=0 并且 x>0 时，手机右侧的水平位置要大于左侧，也就是右侧被抬起。
+当 y=0 并且 x<0 时，手机右侧的水平位置要小于左侧，也就是左侧被抬起。
+当 z=0 时，手机平面与水平面垂直。
+当 z>0 时，手机屏幕朝上。
+当 z&lt;0 时，手机屏幕朝下。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/08/17/%E5%85%AD%E5%BA%A6%E5%88%86%E5%89%B2%E7%90%86%E8%AE%BA+%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">六度分割理论 算法分析</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-17T05:53:00+08:00" pubdate data-updated="true">Aug 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>转自sae kobe.
+今天同事问我一事，就是关于这个路子的用户关系查找是怎么实现的，首先说明几点：
+1，经过我实验，结果不是100%准确，有些明明存在的6,7步的关系找不出来，报“没有找到相关记录”；即使出了结果，优先级有时误差很大
+2，结果不是事先算好的，否则不应该有时计算时间多达10多秒
+3，离线做了优化，否则不会有这句话“可能是由于新用户或者我们的数据还不完全”
+这个问题的实质可以转化为有向图（关注和粉丝为双向）的任意两个几点之间的最优路径（准确的说是最优的一些路径）问题，可能的实现方案有：
+1，floyd算法：
+该算法就是标准的图求任意两点之间最短路径的算法，基本原理是利用动态规划解释一下公式，A到C的最短距离一定是
+min（A到B的最短距离+B到C的最短距离,A到C的最短距离）
+但weibook采用这种办法的可能性是0，有以下几个原因，首先该算法是完全准确的算法，不会出现在数据存在的情况下找不出来关系的问题。另外该算法需要离线海量运算，因为复杂度为O(N<sup>3)，假设用户级别为1000万，那么就是1000万的三次方，天文计算了。另外还有一点，该算法的最终结果保存挺费空间的，因为需要N*N的节点都保存自己的路径，也是个海量的数据，所以肯定不可行。</sup>
+2，迪杰斯卡尔算法
+著名的单源最短路径算法，其实也不太可能，主要原因还是计算量大，而且用该算法无法模拟出weibook的效果，即不仅是最短（优）的路径，而是若干个最短（优）的路径。因为该算法是以贪婪的方式每次伸出最短枝，一旦触及到目的地，算法即终止，只能选出唯一一个路径（最优的那个）。所以也不太可能。
+3，
+Easy提出一个从源和目的两边同时发散出几级好友，然后取交集的做法。该算法的实现相对简单，但问题还在于运算量，如果级数有限制还好说，比如4级，如果没限制就麻烦了，因为是指数增长，运算量太大。而weibook的结果有的就是7级的关系，这样的取交集计算量有点太大了。该方法另一个不可能的原因和迪杰斯卡尔有点类似，就是只能选出同一级的多个最优算法，而不能选出不同级的多个最优算法。因为算法的终止条件就是找到了目的即终止。比如：
+找A和B的关系，A的一级粉丝有200个，A的二级粉丝有40000个，B的一级粉丝有100个，二级粉丝有10000个；而双方的二级粉丝有交集。其实就是A=>C=>D=>F=>B
+A到B是4级的关系，那么用该算法，如果取最优的N个关系，只能选出同为4级的一些关系，而无法获取到5级、6级的关系。这明显与weibook的效果不一样。如果该算法继续算5级、6级的关系，可以想象，我们无法设计出该算法的终止条件。
+4，A<em>算法
+其实该算法还是很适合解决这类问题的，但问题是我们无法仅仅通过粉丝名，预判其关系度。如果我们能通过粉丝名，预判出关系度，那么就可以设计评估函数，然后使A</em>了，但很遗憾，不能。
+5,带剪枝的启发式搜索
+我们看weibook的实现，基本有以下特点：
+1，有这么一个思路，通过某种逻辑找最优路径，在寻找的过程中，捎带的把一些比较优的路径（如果有的话）也输出。
+2，应该有剪枝，如果没有剪枝，则结果肯定是100%准确了，而且我们发现weibook找的这些人，基本都是较活跃的用户，所以可以肯定寻路中会舍弃一些节点。
+所以我猜可能是这么实现的：
+首先，点和点之间有权值，权值根据用户间的回复、评论等情况做校正，权值越低，表示用户关系越紧密（一定要转换为最短路径问题，因为最长路径问题是NP）；从源用户开始，以类似宽度优先的方式做查找，只不过宽度优先的queue换成了优先队列，优先级按照当前路径的权值和从低到高排序。不是所有寻路分支都会进优先队列，过低的权值的节点会舍弃。通过这种方式找到最优路径后，把中间找到的其他路径一并按权值和做排序，最终输出。
+=>(2)B =>(2)E =>(1) X
+A =>(30)C
+=>(1)D =>(10) X
+上面表示A有3个粉丝（B、C、D），关系权值分别是2、3、1（权值越低关系越好），B有粉丝E，E有粉丝X；D有粉丝X；我们要找A到X的最优关系。假设我们的剪枝门阀是20，于是C节点在第一层就被剪掉了，于是B和D进入优先队列，按照从低到高为D，B；下层搜索先从D开始，D有一个粉丝直接就到X了，于是找到了一个路径（权值为1+10=11）。但根据优先队列，这时B会冒在优先队列的第一个了（2&lt;11），所以继续从B开始搜索，于是到E到X，这时路径权值为2+2+1=5，此时优先队列没有更优的待选分支，且已经找到X，于是吧找到的两个路径一起输出。一个是最优路径A=>B=>E=>X，另一个是次优路径，A=>D=>X</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/08/14/%E8%9B%8B%E7%96%BC%E5%86%99%E7%9A%84%E8%84%9A%E6%9C%AC.%60/">蛋疼写的脚本.`</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-14T11:41:00+08:00" pubdate data-updated="true">Aug 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre lang="python">
+#!/usr/bin/python 
+#-*- coding: utf-8 -*-
+ 
+APP_KEY = "2986120742"
+APP_SECRET = "796b90d5a6e3a1cc4d719726f5f99f7d"
+
+from weibopy.auth import OAuthHandler
+from weibopy.api import API
+from urlparse import parse_qsl
+from getPIN import GetPIN
+
+def get_access_token(username, password):
+    auth = OAuthHandler(APP_KEY, APP_SECRET)
+    auth_url = auth.get_authorization_url()
+    print "Auth URL: ",auth_url
+    veri_obj = GetPIN(auth_url, username, password)
+    verifier = veri_obj.getPIN()
+    print "VERIFIER: ",verifier
+    if verifier==-1:
+        raise Exception("Error Account")
+    token = auth.get_access_token(verifier)
+    return dict(parse_qsl(str(token)))
+
+
+def get_province_id(access_token, uid='', user='' ):
+    auth = OAuthHandler(APP_KEY, APP_SECRET)
+    auth.setToken(access_token['oauth_token'], access_token['oauth_token_secret'])
+    api = API(auth)
+    try:
+        if uid:
+            account = api.get_user(id=uid)
+        else:
+            account = api.get_user(screen_name=user)
+    except:
+        return None
+    else:
+        return account.province
+
+def get_followers_ids(access_token, user):
+    auth = OAuthHandler(APP_KEY, APP_SECRET)
+    auth.setToken(access_token['oauth_token'], access_token['oauth_token_secret'])
+    api = API(auth)
+    followers = api.followers_ids(screen_name=user, count=5000)
+    return followers.ids
+
+def get_followers(access_token, user):
+    auth = OAuthHandler(APP_KEY, APP_SECRET)
+    auth.setToken(access_token['oauth_token'], access_token['oauth_token_secret'])
+    api = API(auth)
+    users = []
+    is_first_request = True
+    page = 1
+    cursor = -1
+    count = 200
+    while True:
+        try:
+            followers = api.followers(screen_name=user,cursor=cursor, count=count)
+            if len(followers) == 0:
+                break
+            else:
+                print "GOT %d Users" % len(followers)
+            users.extend(followers)
+            if is_first_request:
+                cursor = cursor+1+len(followers)
+                is_first_request = False
+            else:
+                cursor = cursor+len(followers)
+            page = page+1
+        except:
+            break
+    return users
+
+province_table = {'34':'安徽','11':'北京','50':'重庆','35':'福建','62':'甘肃','44':'广东',    \
+                  '45':'广西','52':'贵州','46':'海南','13':'河北','23':'黑龙江','41':'河南',  \
+                  '42':'湖北','43':'湖南','15':'内蒙古','32':'江苏','36':'江西','22':'吉林',  \
+                  '21':'辽宁','64':'宁夏','63':'青海','14':'山西','37':'山东','31':'上海',    \
+                  '51':'四川','12':'天津','54':'西藏','65':'新疆','53':'云南','33':'浙江',    \
+                  '61':'陕西','71':'台湾','81':'香港','82':'澳门','400':'海外','100':'其他'}
+
+def get_province_by_id(province_id):
+     return province_table[province_id]
+
+def init_map():
+    return {x:0 for x in province_table.keys()}
+
+#token = get_access_token('xxxx','xxxx')
+users = get_followers(token, '小默的研究中心')
+user_map = init_map()
+for user in users:
+    user_map[user.province] = user_map[user.province] + 1
+user_map = [(user_map[p_id], p_id) for p_id in user_map.keys()]
+user_map.sort()
+user_map.reverse()
+for num,p_id in user_map:
+    print "%-11s %-4d" % (get_province_by_id(p_id), num)
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/08/13/subversion+server%E6%90%AD%E5%BB%BA.%5Bapache2%5D/">Subversion Server搭建.[apache2]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-13T07:36:00+08:00" pubdate data-updated="true">Aug 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>好久没有更新了. 恩. 各种乱七八糟的事情. <code>舆情监测的代码好久都没有动了. 开学之后要好好恶补下知识.</code>争取能把这个项目当作毕设来做.
+今天搭建了下subversion. 之前是用hg的. 因为舆情监测这个项目, 就转到svn上了.不过没什么太大的差别.
+这次的搭建环境是ubuntu.`
+恩.Let&#8217;s Begin.</p>
+
+<pre lang="bash">
+aptitude install subversion subversion-tools
+aptitude install apache2 libapache2-svn
+</pre>
+
+
+<p>这个就是基本的准备工作.安装好之后. 就开始配置.
+首先,我们先建立版本库.</p>
+
+<pre lang="bash">
+mkdir -p /var/www/svn
+svnadmin create /var/www/svn
+</pre>
+
+
+<p>建立好版本库之后,我们需要修改一些配置文件.</p>
+
+<pre lang="bash">
+#vim conf/svnserver.conf
+anon-access read
+auth-access write
+password-db passwd
+#vim conf/passwd
+xiaomo 123123123
+</pre>
+
+
+<p>之后,我们便可以启动svn server.</p>
+
+<pre lang="bash">
+svnserver -d -r /var/www/svn
+</pre>
+
+
+<p>此时,便可以以经典的svn://方式来使用.
+然后,我们开始配置apache2.</p>
+
+<pre lang="bash">
+#vim /etc/apche2/sites-available/default
+<Location /svn>
+        DAV svn
+        SVNPath /var/www/svn
+        AuthType Basic
+        AuthName "SVN Auth"
+        AuthUserFile /etc/subversion/passwd 
+</Location>
+</pre>
+
+
+<p>然后重启apache2就可以了.
+如果出现不能访问的情况,请注意版本库的权限.</p>
+
+<pre lang="bash">
+ls -l /var/www | grep svn
+#drwxr-xr-x 3 root root 4096 2011-08-13 15:23 svn/
+</pre>
+
+
+<p>至于authz的配置. 用到再说.`
+恩.忘了说怎么导入以及如何设置用户了..
+导入的话.</p>
+
+<pre lang="bash">
+svn import ~/code svn://127.0.0.1/ --username xiaomo --password 123123
+</pre>
+
+
+<p>然后设置用户的话,我们用apache的htpasswd</p>
+
+<pre lang="bash">
+#first time
+htpasswd  -c /etc/subversion/passwd xiaomo
+#after
+htpasswd -m /etc/subversion/passwd xiaomo
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/8/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/6/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

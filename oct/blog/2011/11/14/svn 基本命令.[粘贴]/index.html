@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>svn 基本命令.[粘贴] - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="svn log svn://127.0.0.1/zxProject/ &#8211;username xxxxxx &#8211;password xxxxxx |grep &#8220;2009-05-29 16:38*&#8221;
+[xx@wap01 xx]$ svn log -v - &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/11/14/svn+%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4.%5B%E7%B2%98%E8%B4%B4%5D/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Svn 基本命令.[粘贴]</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-14T07:07:00+08:00" pubdate data-updated="true">Nov 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>svn log svn://127.0.0.1/zxProject/ &#8211;username xxxxxx &#8211;password xxxxxx |grep  &#8220;2009-05-29 16:38*&#8221;
+[xx@wap01 xx]$ svn log -v -r134 svn://127.0.0.1/zxProject/ &#8211;username xxxxxx &#8211;password xxxxxx
+[xx@wap01 xx]$ svn log -v -r134:135 svn://127.0.0.1/zxProject/ &#8211;username xxxxxx &#8211;password xxxxxx</p>
+
+<p>svn 命令</p>
+
+<p>1、将文件checkout到本地目录
+svn checkout path（path是服务器上的目录）
+例如：svn checkout svn://192.168.1.1/pro/domain
+简写：svn co</p>
+
+<p>2、往版本库中添加新的文件
+svn add file
+例如：svn add test.php(添加test.php)
+svn add *.php(添加当前目录下所有的php文件)</p>
+
+<p>3、将改动的文件提交到版本库
+svn commit -m “LogMessage“ [-N] [&#8211;no-unlock] PATH(如果选择了保持锁，就使用–no-unlock开关)
+例如：svn commit -m “add test file for my test“ test.php
+简写：svn ci</p>
+
+<p>4、加锁/解锁
+svn lock -m “LockMessage“ [&#8211;force] PATH
+例如：svn lock -m “lock test file“ test.php
+svn unlock PATH</p>
+
+<p>5、更新到某个版本
+svn update -r m path
+例如：
+svn update如果后面没有目录，默认将当前目录以及子目录下的所有文件都更新到最新版本。
+svn update -r 200 test.php(将版本库中的文件test.php还原到版本200)
+svn update test.php(更新，于版本库同步。如果在提交的时候提示过期的话，是因为冲突，需要先update，修改文件，然后清除svn resolved，最后再提交commit)
+简写：svn up</p>
+
+<p>6、查看文件或者目录状态
+1）svn status path（目录下的文件和子目录的状态，正常状态不显示）
+【?：不在svn的控制中；M：内容被修改；C：发生冲突；A：预定加入到版本库；K：被锁定】
+2）svn status -v path(显示文件和子目录状态)
+第一列保持相同，第二列显示工作版本号，第三和第四列显示最后一次修改的版本号和修改人。
+注：svn status、svn diff和 svn revert这三条命令在没有网络的情况下也可以执行的，原因是svn在本地的.svn中保留了本地版本的原始拷贝。
+简写：svn st</p>
+
+<p>7、删除文件
+svn delete path -m “delete test fle“
+例如：svn delete svn://192.168.1.1/pro/domain/test.php -m “delete test file”
+或者直接svn delete test.php 然后再svn ci -m ‘delete test file‘，推荐使用这种
+简写：svn (del, remove, rm)</p>
+
+<p>8、查看日志
+svn log path
+例如：svn log test.php 显示这个文件的所有修改记录，及其版本号的变化</p>
+
+<p>9、查看文件详细信息
+svn info path
+例如：svn info test.php</p>
+
+<p>10、比较差异
+svn diff path(将修改的文件与基础版本比较)
+例如：svn diff test.php
+svn diff -r m:n path(对版本m和版本n比较差异)
+例如：svn diff -r 200:201 test.php
+简写：svn di</p>
+
+<p>11、将两个版本之间的差异合并到当前文件
+svn merge -r m:n path
+例如：svn merge -r 200:205 test.php（将版本200与205之间的差异合并到当前文件，但是一般都会产生冲突，需要处理一下）</p>
+
+<p>12、SVN 帮助
+svn help
+svn help ci</p>
+
+<p>13、版本库下的文件和目录列表
+svn list path
+显示path目录下的所有属于版本库的文件和目录
+简写：svn ls</p>
+
+<p>14、创建纳入版本控制下的新目录
+svn mkdir: 创建纳入版本控制下的新目录。
+用法: 1、mkdir PATH…
+2、mkdir URL…
+创建版本控制的目录。
+1、每一个以工作副本 PATH 指定的目录，都会创建在本地端，并且加入新增
+调度，以待下一次的提交。
+2、每个以URL指定的目录，都会透过立即提交于仓库中创建。
+在这两个情况下，所有的中间目录都必须事先存在。</p>
+
+<p>15、恢复本地修改
+svn revert: 恢复原始未改变的工作副本文件 (恢复大部份的本地修改)。revert:
+用法: revert PATH…
+注意: 本子命令不会存取网络，并且会解除冲突的状况。但是它不会恢复
+被删除的目录</p>
+
+<p>16、代码库URL变更
+svn switch (sw): 更新工作副本至不同的URL。
+用法: 1、switch URL [PATH]
+2、switch –relocate FROM TO [PATH&#8230;]
+1、更新你的工作副本，映射到一个新的URL，其行为跟“svn update”很像，也会将
+服务器上文件与本地文件合并。这是将工作副本对应到同一仓库中某个分支或者标记的
+方法。
+2、改写工作副本的URL元数据，以反映单纯的URL上的改变。当仓库的根URL变动
+(比如方案名或是主机名称变动)，但是工作副本仍旧对映到同一仓库的同一目录时使用
+这个命令更新工作副本与仓库的对应关系。</p>
+
+<p>17、解决冲突
+svn resolved: 移除工作副本的目录或文件的“冲突”状态。
+用法: resolved PATH…
+注意: 本子命令不会依语法来解决冲突或是移除冲突标记；它只是移除冲突的
+相关文件，然后让 PATH 可以再次提交。</p>
+
+<p>18、输出指定文件或URL的内容。
+svn cat 目标[@版本]…如果指定了版本，将从指定的版本开始查找。
+svn cat -r PREV filename > filename (PREV 是上一版本,也可以写具体版本号,这样输出结果是可以提交的)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-14T07:07:00+08:00" pubdate data-updated="true">Nov 14<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/svn/'>svn</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/11/14/svn+%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4.%5B%E7%B2%98%E8%B4%B4%5D/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/11/14/svn+%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4.%5B%E7%B2%98%E8%B4%B4%5D/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/11/01/%40Charley+makefile/" title="Previous Post: @Charley makefile">&laquo; @Charley makefile</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/11/18/arch+%E6%9F%A5%E7%9C%8B%E5%8C%85%E6%83%85%E5%86%B5/" title="Next Post: arch 查看包情况">arch 查看包情况 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T18:08:58+08:00</updated>
+  <updated>2012-06-12T19:58:29+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,11 +14,1406 @@
 
   
   <entry>
-    <title type="html"><![CDATA[测试 octopress]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/12/title/"/>
-    <updated>2012-06-12T18:03:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/12/title</id>
-    <content type="html"><![CDATA[<p>test from octopress</p>
+    <title type="html"><![CDATA[emacs auto-complete plugins]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/11/emacs+auto-complete+plugins/"/>
+    <updated>2012-06-11T11:21:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/06/11/emacs auto-complete plugins</id>
+    <content type="html"><![CDATA[<p>今天按照官网的文档 http://cx4a.org/software/auto-complete/manual.html#Installation 安装 emacs complete plugin 的时候出错,提示 varible ac-dictionary-directories 错误.
+之后发现官网文档有误,需要先载入 auto-complete-config 之后才能引入该变量.
+所以配置文件为</p>
+
+<pre lang="emacs">
+(add-to-list 'load-path ".emacs.d/")
+(add-to-list 'load-path ".emacs.d/auto-complete-1.3.1/")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories ".emacs.d/auto-complete-1.3.1/ac-dict")
+(ac-config-default)
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LaTex CJK 字体问题[Linux]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/"/>
+    <updated>2012-06-09T13:03:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/06/09/LaTex CJK 字体问题[Linux]</id>
+    <content type="html"><![CDATA[<p>安装 Adobe Reader.然后添加 Adobe 字体添加到系统字体中..
+需要将opt/Adobe/Reader9/Resource/这个路径加到/etc/fonts/fonts.conf中
+之后使用fc-cache -vf更新字库缓存并查看fc-list。可以确认一下是否安装了Adobe的字体
+fc-list|grep -i &#8220;Adobe&#8221;</p>
+
+<p>如果觉得中文字体还是少了点且你是Windows/Linux双系统的话可以从Windows中拿点过来：
+sudo mkdir /usr/share/fonts/win
+sudo cp /media/Win系统盘挂载点/Windows/Fonts/{SIM,sim}* /usr/share/fonts/win/</p>
+
+<p><font color="red">Update:2012/06/10</font>
+ubuntu cjk 默认情况下不需要额外安装字体.安装完 latex-cjk-all 之后会附属安装 gkai,gbsn, bkai, bsmi字体..</p>
+
+<pre lang="tex">
+\documentclass{article}
+\usepackage{CJKutf8}
+
+\begin{document}
+\begin{CJK}{UTF8}{gkai}
+测试啊
+\end{CJK}
+\end{document}
+</pre>
+
+
+<p>还有需要用 latex 编译. beamer 可以用 pdflatex 编译.不能用 xelatex 直接编译~
+xelatex 默认支持 unicode .详情察看 wiki http://zh.wikipedia.org/wiki/XeTeX</p>
+
+<pre lang="tex">
+\documentclass[11pt]{article}
+\usepackage{xltxtra}
+\setmainfont[Mapping=tex-text]{WenQuanYi Micro Hei}
+
+\begin{document}
+测试
+\end{document}
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[nmap 使用.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./"/>
+    <updated>2012-06-08T11:26:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/06/08/nmap 使用.</id>
+    <content type="html"><![CDATA[<p>nmap 的主要功能如下:1.探测主机是否在线.2.扫描主机端口.3.推断主机所用操作系统.</p>
+
+<br />
+
+
+<p>参数说明:
+1.-sL.蛮力扫描.扫描IP,等待回应.
+2.-sP.采用 ping 模式扫描网段,并获取 mac 地址.
+3.-sS.半开扫描.</p>
+
+<p>扫描网段.</p>
+
+<pre lang="bash">
+nmap -sP 192.168.1.0/24
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Arch PGP xxx unknown 解决]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/"/>
+    <updated>2012-06-07T02:37:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/06/07/Arch PGP xxx unknown 解决</id>
+    <content type="html"><![CDATA[<p>Arch 目前使用 PGP 来验证包是否安全.详情可以见 <a href="https://wiki.archlinux.org/index.php/Pacman-key_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">https://wiki.archlinux.org/index.php/Pacman-key_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29</a>
+现在我们绕过 PGP。网上说是改 SigLevel = Never 但是我不成功。仔细看文档之后发现，需要把其他源的 SigLevel 注释掉.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mongo 聚合]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/"/>
+    <updated>2012-06-04T05:28:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/06/04/Mongo 聚合</id>
+    <content type="html"><![CDATA[<p>1.count</p>
+
+<pre lang="mongo">
+>db.foo.count()
+0
+>db.foo.insert({x:1})
+>db.foo.count()
+1
+>db.foo.count({x:1})
+1
+</pre>
+
+
+<p>增加查询条件会使 count 变慢.</p>
+
+<p>2.distinct</p>
+
+<pre lang="mongo">
+>db.runCommand({distinct:"users", key:"username"})
+</pre>
+
+
+<p>distinct 的 value 是 collection name. 而 key 是 distinct 的字段.</p>
+
+<p>3.group group 会根据分组所依据的 key 将 document 分成若干组.然后通过聚合每一组内的 document 产生一个文档结果.
+先把集合按天分组,然后取出每一组内的最新时间戳的文档.</p>
+
+<pre lang="mongo">
+>db.runCommand({group:{
+    ns:"stocks",      # 指定要分组的集合.
+    key:"day",        # 指定分组依据的 key
+    initial:{time:0}, # reduce 的初始化
+    $reduce:function(doc, prev){
+        if(doc.time>prev.time){
+            prev.price = doc.price;
+            prev.time = doc.time;
+        }
+    }}})
+</pre>
+
+
+<p>使用完成器.
+finalizer 用以精简从数据库传到用户的数据.
+举例:每篇文章有多个 tag,现在找出每天最热门的 tag.</p>
+
+<pre lang="mongo">
+>db.posts.group({
+    key:{tags:true},
+    initial:{tags:{}},
+    $reduce:function(doc, prev){
+        for(i in doc.tags){
+            if(doc.tags[i] in prev.tags){
+                 prev.tags[doc.tags[i]]++;
+            }else{
+                 prev.tags[doc.tags[i]] = 1;
+            }
+        }
+    }})
+</pre>
+
+
+<p>返回的结果是这样的.</p>
+
+<pre lang="mongo">
+[
+  {day:2010/01/12, tags:{nosql:4,winter:10,sledding:2}},
+  {day:2010/01/13, tags:{soda:4}},
+  {day:2010/01/14, tags:{python:5, c:6}}
+]
+</pre>
+
+
+<p>现在我们加入 finalizer.</p>
+
+<pre lang="mongo">
+>db.funCommand({group:{
+    ns:'posts',
+    key:{tags:true},
+    initial:{tags:{}},
+    $reduce:function(doc, prev){
+       for(i in doc.tags){
+            if(doc.tags[i] in prev.tags){
+                 prev.tags[doc.tags[i]]++;
+            }else{
+                 prev.tags[doc.tags[i]] = 1;
+            }
+        }
+    },
+    finalize:function(prev){
+        var mostPopular = 0;
+        for(i in prev.tags){
+            if(prev.tags[i]>mostPopular){
+                prev.tag = i;
+                mostPopular = prev.tags[i];
+            }
+        }
+        delete prev.tags
+    }}})
+</pre>
+
+
+<p>好了.现在仅返回所希望的结果了.</p>
+
+<p>MapReduce MapReduce 能做 count,distinct,group 能做的所有事情.MapReduce 最开始是映射( map ),将操作映射到集合中的每个文档.这个操作要么是无作为,要么产生一些键和 X 个值.然后就是中间环节,称作洗牌( shuffle ),按照键分组,并将产生的键值组成列表放到对应的键中.化简( reduce )则把列表中的值化简称为一个单值,然后返回.
+使用 MapReduce 的代价就是速度.group 不是很快, MapReduce 更慢.绝不要把 MapReduce 用在实时环境中,要作为后台任务来运行 MapReduce.
+例1.找出集合中所有键.</p>
+
+<pre lang="mongo">
+>map = function(){
+    for(var key in this){
+        emit(key, {count:1});
+    }};
+</pre>
+
+
+<p>这样就有了 n 个 {count:1} 的文档.每一个都与集合中的一个键相关.它会传递给 reduce 函数.reduce 函数有两个参数,第一个是 emit 的第一个参数,就是 key.第二个参数是一个数组.有一个或多个对应于键的值组成.</p>
+
+<pre lang="mongo">
+>reduce = function(key, emits){
+    total = 0;
+    for(var i in emits){
+        total += emits[i].count;
+    }
+    return {count:total};
+ }
+>mr = db.runCommand({mapreduce:'foo', map:map, reduce:reduce})
+</pre>
+
+
+<p>之后结果会被放在一个临时集合中.在 MapReduce 连接关闭后会自动删除.</p>
+
+<pre lang="mongo">
+>db[mr.result].find()
+</pre>
+
+
+<p>查询结果.</p>
+
+<p>例2.网页分类.
+假设有个网站.人们可以提交其他网页的链接.然后附上链接的标签.现在用 MapReduce 找出最热门的标签.</p>
+
+<pre lang="mongo">
+map = function(){
+    for(var i in this.tags){
+        var recency = 1/(new Date()-this.date);
+        var scroe = recency*this.score;
+        emit(this.tags[i],{urls:[this.url], score:score});
+};
+reduce = function(key, emits){
+    var total = {urls:[], score:0};
+    for(var i in emits){
+        emits[i].urls.forEach(function(url){
+            total.urls.push(url);
+        }
+        total.score += emits[i].score;
+    }
+    return total;
+};
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mongo Shell]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/02/Mongo+Shell/"/>
+    <updated>2012-06-02T08:02:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/06/02/Mongo Shell</id>
+    <content type="html"><![CDATA[<p>show dbs 显示数据库列表
+show collections 显示当前数据库中的集合
+show users 显示用户</p>
+
+<br />
+
+
+<p>use <db_name> 切换数据库.
+db.help() 数据库帮助
+db.foo.help() 集合帮助</p>
+
+<br/>
+
+
+<p>db.dropDatabase() 删除当前的数据库
+db.cloneDatabase(&#8220;127.0.0.1&#8221;)  从目标克隆数据库.
+db.version() 查看 mongo 版本
+db.getMongo() 查看当前 db 的链接机器地址</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Gentoo Portage.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/05/27/Gentoo+Portage./"/>
+    <updated>2012-05-27T03:59:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/05/27/Gentoo Portage.</id>
+    <content type="html"><![CDATA[<p>Portage 具有高度灵活性以及其他大量的特性. Portage 完全使用 python 和 bash 来写的,所以 Portage 对于用户来说是完全可见的.绝大多数用户通过 emerge 工具来使用 Portage.
+[更新 Portage 树]</p>
+
+<pre lang="bash">
+emerge --sync
+#emerge-webrsync 由于防火墙设置无法使用 rsync 时可以使用这种方式来更新.
+</pre>
+
+
+<p>[软件包查询]</p>
+
+<pre lang="bash">
+emerge --search pdf
+emerge --searchdesc pdf
+</pre>
+
+
+<p>[软件安装]</p>
+
+<pre lang="bash">
+emerge gnumeric
+</pre>
+
+
+<p>很多应用程序互相依赖,试图安装其中任何一个,可能将会要求同时安装其所依赖的相关软件.我们可以通过 &#8211;pretend 选项来观察 Portage 会同时安装哪些软件.</p>
+
+<pre lang="bash">
+emerge --pretend gnumeric
+</pre>
+
+
+<p>[软件的移除]</p>
+
+<pre lang="bash">
+emerge --unmerge gnumeric
+</pre>
+
+
+<p>[更新系统]</p>
+
+<pre lang="bash">
+emerge --update --deep world
+emerge --update --deep -newuse world
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[tmux 使用配置.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/05/13/tmux+%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE./"/>
+    <updated>2012-05-13T12:52:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/05/13/tmux 使用配置.</id>
+    <content type="html"><![CDATA[<p>ssh 连接的时候我们经常使用 screen. 个人觉得 tmux 就是一个 screen 的 wrapper. 我们可以使用 tmux 来代替 screen.
+tmux 的按键与 screen 类似.只不过 global key 为 C-b 而不是 C-a. 不过 tmux 的高定制性为我们解决了很多问题.
+下面说下配置.</p>
+
+<pre lang="bash">
+$ vi ~/.tmux.conf
+set -g prefix ^a
+unbind ^b
+bind a send-prefix
+
+bind - splitw -v
+bind | splitw -h
+
+bind k selectp -U
+bind j selectp -D
+bind h selectp -L
+bind l selectp -R
+
+bind-key K resize-pane -U 10
+bind-key J resize-pane -D 10
+bind-key H resize-pane -L 10
+bind-key L resize-pane -R 10
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[面试...]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/25/%E9%9D%A2%E8%AF%95.../"/>
+    <updated>2012-04-25T12:39:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/04/25/面试&#8230;</id>
+    <content type="html"><![CDATA[<p>1.闭包概念.闭包应用环境.闭包这个词的来源.
+  闭包(Closure)是词法闭包(Lexical Closure)的简称。可以在词法上下文中引用自由变量。即使在自由变量离开了作用范围。
+2.lambda好处.函数式编程.意义?作用?
+  精简代码，省去复杂的定义过程。对于一些抽象的，不存在复用的函数定义起来不需要考虑命名。有些情况下还可以使代码更容易被理解。
+  函数式编程：没有变量和副作用。经常使用递归。
+3.php return 和 exit 区别.exit退出时系统做了什么·
+4.sae如何搭建
+5.负载均衡.\</p>
+
+<p>最最输在的地方是紧张和自我介绍.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SAE环境.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/20/SAE%E7%8E%AF%E5%A2%83./"/>
+    <updated>2012-04-20T17:35:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/04/20/SAE环境.</id>
+    <content type="html"><![CDATA[<p>SAE应用开发与标准的LAMP的差异基本在以下几个地方:</p>
+
+<pre lang="bash">
+传统LAMP环境             SAE平台环境
+
+本地I/O             =>   TmpFS/Wrapper
+htaccess            =>   Appconfig
+网络I/O             =>   FetchURL
+Mail                =>   SaeMail
+</pre>
+
+
+<p>1.Appconfig 替代 htaccess.
+安全.实现更高效.语法更人性化.
+2.MySQL分布式数据库服务.通过RDC提供.
+RDC是Relational DB Cluster（关系型数据库集群）的简称，是一种分布式的关系型数据库集群，主要用在支撑公有云计算平台的数据库集群，目前RDC支持的存储后端为MySQL（http://www.mysql.com/）。用户可以简单的理解RDC为MySQL的中间层或者代理层，类似MySQL Proxy。所有的SQL请求都由RDC传递到后端的实际存储上。RDC可以支持千万级的数据库后端，其自身也支持分布式水平扩展. RDC由Sina App Engine（http://sae.sina.com.cn）技术团队开发，目前用来支持Sina App Engine的分布式数据库。RDC虽然为分布式数据库集群，但是对终端用户完全透明，用户在使用RDC时，不会感觉到和使用传统的MySQL数据库有任何差异，甚至用户都不用知道RDC的存在。用户可以使用所有MySQL标准客户端（MySQL5以上）操作RDC，如mysql_query、mysql_connect等，错误处理和标准MySQL客户端处理模式一样。 RDC拥有强大的监控功能，能够实时监控用户的DB的健康状况和同步延迟情况，一旦发现异常，将会在15秒内完成切换工作，用户的请求会被转发到其他正常的机器上。RDC自身采用的是多进程非阻塞方式的通讯框架，自身性能消耗较少，根据内部测试，其代理层性能损耗在5%以内。RDC因为100%兼容MySQL5协议，所以对于普通开发者几乎没有任何学习成本，开发者根本无需关心RDC，甚至无需知道RDC的存在，只需和使用普通MySQL一样就可以了。
+3.Memcache分布式缓存服务
+4.Storage分布式文件存储服务
+5.KVDB分布式key-value持久化存储
+6.Cron分布式定时服务
+7.Image分布式图像处理服务
+8.FetchURL分布式网页抓取服务
+9.Mail分布式邮件服务
+10.TaskQueue异步轻量级任务队列
+11.DeferredQueue异步大任务延迟队列
+12.Counter分布式计数器服务
+13.Rank实时排行榜服务
+14.Appconfig应用配置模块.
+15.TmpFS本地临时文件读写模块
+16.Wrappers文件读写兼容接口
+17.XHProf.PHP调试工具.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Thread 退出错误问题.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/18/Android+Thread+%E9%80%80%E5%87%BA%E9%94%99%E8%AF%AF%E9%97%AE%E9%A2%98./"/>
+    <updated>2012-04-18T08:42:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/04/18/Android Thread 退出错误问题.</id>
+    <content type="html"><![CDATA[<p>Android Thread 退出的时候遇到了问题.无法 destory. 最后搜索到一个比较靠谱的文章. 说可以通过设置一个布尔变量来把 Thread 函数 return 掉就可以了.</p>
+
+<pre lang="java">
+class RingThread extends Thread {
+    MediaPlayer mPlayer;
+    Context mContext;
+    boolean flag;
+    
+    public RingThread(Context context){
+      mPlayer = new MediaPlayer();
+      mContext = context;
+      flag = false;
+    }
+    
+    @Override
+    public void run(){
+      Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+      try {
+
+        mPlayer.setDataSource(mContext, alert);
+        final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+            mPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);          
+            if(mPlayer.isPlaying()){
+              mPlayer.stop();
+              mPlayer.reset();
+            }
+            mPlayer.setLooping(true);
+            mPlayer.prepare();
+            mPlayer.start();
+        }
+      } catch (IllegalStateException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      if(flag){
+        return;
+      }
+    }
+    
+    public void stop_ringing(){
+      mPlayer.stop();
+      flag = true;
+    }
+  }
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]BinSearchTree]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/01/%5BDataTypes%5DBinSearchTree/"/>
+    <updated>2012-04-01T07:23:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/04/01/[DataTypes]BinSearchTree</id>
+    <content type="html"><![CDATA[<p>BinSearchTree.pm</p>
+
+<pre lang="perl">
+package BinSearchTree;
+use warnings;
+use strict;
+
+package TreeNode;
+sub new {
+    my $class = shift;
+    my $self  = {
+        KEY     =>  0,
+        LEFT    =>  undef,
+        RIGHT   =>  undef,
+    };
+    bless $self, $class;
+}
+
+package Tree;
+sub new {
+    my $class = shift;
+    my $self  = {
+        NODENUMS    =>  0,
+        ROOT        =>  undef,
+    };
+    bless $self, $class;
+}
+sub _add {
+    my $self = shift;
+    my $node = shift;
+    if ($self->{NODENUMS} == 0) {
+        $self->{ROOT} = $node;
+    } else {
+        my $root = $self->{ROOT};
+        my $key  = $node->{KEY};
+        my $walk; $walk = sub {
+            my $node = shift;
+            if ($key >= $node->{KEY}) {
+                return $node unless defined($node->{RIGHT});
+                $walk->($node->{RIGHT});
+            } else {
+                return $node unless defined($node->{LEFT});
+                $walk->($node->{LEFT});
+            }
+        };
+
+        my $target = $walk->($root);
+        if ($key >= $target->{KEY}) {
+            $target->{RIGHT}  = $node;
+        } else {
+            $target->{LEFT} = $node;
+        }
+    }
+    $self->{NODENUMS} += 1;
+}
+
+sub add {
+    my $self = shift;
+    foreach my $node (@_) {
+        $self->_add($node);
+    }
+}
+
+sub _LVR {
+    my $node = shift;
+    my $func = shift;
+    _LVR($node->{LEFT},  $func) if defined $node->{LEFT};
+    $func->($node);
+    _LVR($node->{RIGHT}, $func) if defined $node->{RIGHT};
+}
+
+sub do_LVR {
+    my $self = shift;
+    return if $self->{NODENUMS} == 0;
+    my $func = shift;
+    _LVR($self->{ROOT}, $func);
+}
+
+1;
+
+__END__
+package main;
+my $tree = Tree->new;
+my $nodeA = TreeNode->new;
+$nodeA->{KEY} = 2;
+my $nodeB = TreeNode->new;
+$nodeB->{KEY} = 1;
+my $nodeC = TreeNode->new;
+$nodeC->{KEY} = 3;
+$tree->add($nodeA,$nodeB,$nodeC);
+
+use Smart::Comments;
+### $tree
+my $f = sub { my $node = shift; print $node->{KEY}, "\n"; };
+$tree->do_LVR($f);
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]Heap]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/01/%5BDataTypes%5DHeap/"/>
+    <updated>2012-04-01T07:22:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/04/01/[DataTypes]Heap</id>
+    <content type="html"><![CDATA[<p>Heap.pm</p>
+
+<pre lang="perl">
+package Heap;
+use warnings;
+use strict 'vars';
+
+package DataNode;
+sub new {
+    my $class = shift;
+    my $self  = {
+        KEY     =>  0,
+    };
+    bless $self, $class;
+}
+
+package Heap;
+sub new {
+    my $class = shift;
+    my $self  = {
+        FLAG    =>  '>',
+        DATA    =>  [0,],
+    };
+    bless $self, $class;
+}
+
+sub _add {
+    my $self = shift;
+    my $data = shift;
+    if ($self->{DATA}->[0] == 0) {
+        push @{$self->{DATA}}, $data;
+    } else {
+        my $size   = $self->{DATA}->[0];
+        my $op     = $self->{FLAG};
+        my $i      = $size+1;
+        my $father = int($i/2);
+        my $check  = sub {
+            my ($a, $b) = @_;
+            if ($op eq '>') {
+                return $a>$b;
+            } else {
+                return $a<$b;
+            }
+        };
+
+        while ($father and $check->($data->{KEY}, $self->{DATA}->[$father])){
+            $self->{DATA}->[$i] = $self->{DATA}->[$father];
+            $i      = int($i/2);
+            $father = int($i/2);
+        }
+        $self->{DATA}->[$i] = $data;
+    }       
+    $self->{DATA}->[0] += 1;
+}
+
+sub push {
+    my $self = shift;
+    foreach my $data (@_) {
+        $self->_add($data);
+    }
+}
+
+sub pop {
+    my $self = shift;
+    return $self->{DATA}->[0]
+        if $self->{DATA}->[0] == 0;
+    
+    my $node = $self->{DATA}->[1];
+    $self->{DATA}->[0] -= 1;
+
+    my $size = $self->{DATA}->[0];
+    my $last = pop @{$self->{DATA}};
+    $self->_add($last);
+
+    return $node;   
+}
+
+1;
+__END__
+package main;
+my $heap  = Heap->new;
+$heap->{FLAG} = '<';
+my $dataA = DataNode->new;
+$dataA->{KEY} = 5;
+my $dataB = DataNode->new;
+$dataB->{KEY} = 3;
+
+$heap->push($dataA,$dataB);
+print $heap->{DATA}->[0],"\n";
+print $heap->{DATA}->[1]->{KEY},"\n";
+print $heap->{DATA}->[2]->{KEY},"\n";
+
+my $node = $heap->pop;
+print $node->{KEY}, "\n";
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]ThreadBinTree]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DThreadBinTree/"/>
+    <updated>2012-03-31T06:47:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]ThreadBinTree</id>
+    <content type="html"><![CDATA[<p>ThreadBinTree.pm</p>
+
+<pre lang="perl">
+package ThreadBinTree;
+use warnings;
+use strict 'vars';
+
+package TreeNode;
+sub new {
+    my $class = shift;
+    my $self  = {
+        DATA    =>  {},
+        LTHREAD =>  0,
+        RTHREAD =>  0,
+        LEFT    =>  undef,
+        RIGHT   =>  undef,
+    };
+    bless $self, $class;
+}
+
+package Tree;
+sub new {
+    my $class = shift;
+    my $self  = {
+        ROOT    =>  TreeNode->new,
+        NODENUMS=>  0,
+    };
+    bless $self, $class;
+}
+
+sub _LVR {
+    my $node = shift;
+    my $func = shift;
+    _LVR($node->{LEFT},  $func) if defined($node->{LEFT});
+    $func->($node);
+    _LVR($node->{RIGHT}, $func) if defined($node->{RIGHT});
+}
+
+sub pretreat {
+    my $self = shift;
+    return if $self->{NODENUMS} == 0;
+
+    use Queue;
+    my $queue     = Queue->new;
+    my $root      = $self->{ROOT};
+    my $node      = $root->{LEFT};
+    my $mark      = sub {
+        my $node = shift;
+        $queue->add($node);
+    };
+    _LVR($node, $mark);
+    my $nodes = [];
+    while($queue->size){
+        push @$nodes, $queue->get;
+    }
+    my $size = scalar @$nodes;
+    unshift @$nodes, $root;
+    push    @$nodes, $root;
+    foreach my $i (1 .. $size){
+        if (not defined($nodes->[$i]->{LEFT})) {
+            $nodes->[$i]->{LTHREAD} = 1;
+            $nodes->[$i]->{LEFT}    = $nodes->[$i-1];
+        }
+        if (not defined($nodes->[$i]->{RIGHT})) {
+            $nodes->[$i]->{RTHREAD} = 1;
+            $nodes->[$i]->{RIGHT}   = $nodes->[$i+1];
+        }
+    }
+}   
+
+sub view {
+    my ($self, $func) = @_;
+    return if $self->{NODENUMS} == 0;
+    use Queue;
+    my $queue = Queue->new;
+
+    my $root = $self->{ROOT};
+    my $walk = sub {
+        my $node = shift;
+        while($node->{LTHREAD} == 0){
+            $node = $node->{LEFT};
+        }
+        return $node;
+    }; 
+    
+    my $node = $walk->($root->{LEFT});
+    $queue->add($node);
+    my $next = $node->{RIGHT};
+    while($next != $root){
+        $queue->add($next);
+        $next = $next->{RIGHT};
+    }
+    
+    # thread view inorder
+    while($queue->size){
+        my $node = $queue->get;
+        $func->($node);
+    }
+}
+
+1;
+
+__END__
+package main;
+my $nodeA = TreeNode->new;
+$nodeA->{DATA}->{data} = "i'm nodeA!";
+my $nodeB = TreeNode->new;
+$nodeB->{DATA}->{data} = "i'm nodeB!";
+my $nodeC = TreeNode->new;
+$nodeC->{DATA}->{data} = "i'm nodeC!";
+
+$nodeA->{LEFT}    = $nodeB;
+$nodeA->{RIGHT}   = $nodeC;
+
+my $tree = Tree->new;
+$tree->{NODENUMS} = 3;
+$tree->{ROOT}->{LEFT} = $nodeA;
+
+=comment
+
+$nodeB->{LTHREAD} = 1;
+$nodeB->{LEFT}    = $tree->{ROOT};
+$nodeB->{RTHREAD} = 1;
+$nodeB->{RIGHT}   = $nodeA;
+$nodeC->{LTHREAD} = 1;
+$nodeC->{LEFT}    = $nodeA;
+$nodeC->{RTHREAD} = 1;
+$nodeC->{RIGHT}   = $tree->{ROOT};
+
+=cut
+
+my $f = sub {
+    my $node = shift;
+    print $node->{DATA}->{data}, "\n";
+};
+$tree->pretreat;
+$tree->view($f);
+
+__END__
+线索二叉树为了方便加入一个空的头结点。
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]BinTree]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DBinTree/"/>
+    <updated>2012-03-31T06:47:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]BinTree</id>
+    <content type="html"><![CDATA[<p>BinTree.pm</p>
+
+<pre lang="perl">
+package BinTree;
+use warnings;
+use strict 'vars';
+
+package Helper;
+sub METHOD {
+    my $param  = shift;
+    my $method = {
+        LEVEL_VIEW  =>  \&LEVEL_VIEW,
+        LVR         =>  \&LVR,
+        VLR         =>  \&VLR,
+        LRV         =>  \&LRV,
+    };
+    return $method->{$param};
+}
+
+sub LEVEL_VIEW {
+    my ($node, $func) = @_;
+    use Queue;
+    my $queue = Queue->new;
+    my $add_node_to_queue; $add_node_to_queue = sub {
+        my $node = shift;
+        $queue->add($node);
+        $add_node_to_queue->($node->{LEFT})  if defined($node->{LEFT});
+        $add_node_to_queue->($node->{RIGHT}) if defined($node->{RIGHT});
+    };
+
+    $add_node_to_queue->($node);
+    while ($queue->size) {
+        my $node = $queue->get;
+        $func->($node);
+    }
+}
+
+sub LVR {
+    my ($node, $func) = @_;
+    LVR($node->{LEFT}, $func) if defined($node->{LEFT});
+    $func->($node);
+    LVR($node->{RIGHT}, $func) if defined($node->{RIGHT});
+}
+sub VLR {
+    my ($node, $func) = @_;
+    $func->($node);
+    VLR($node->{LEFT}, $func) if defined($node->{LEFT});
+    VLR($node->{RIGHT}, $func) if defined($node->{RIGHT});
+}
+sub LRV {
+    my ($node, $func) = @_;
+    LRV($node->{LEFT}, $func) if defined($node->{LEFT});
+    LRV($node->{RIGHT}, $func) if defined($node->{RIGHT});
+    $func->($node);
+}
+
+package TreeNode;
+sub new {
+    my $class = shift;
+    my $self  = {
+        DATA    =>  {},
+        LEFT    =>  undef,
+        RIGHT   =>  undef,
+    };
+    bless $self, $class;
+}
+
+package Tree;
+sub new {
+    my $class = shift;
+    my $self  = {
+        NODENUMS    =>  0,
+        ROOT        =>  undef,
+    };
+    bless $self, $class;
+}
+
+sub get_nodes_num {
+    my $self = shift;
+    return $self->{NODENUMS};
+}
+
+sub get_root {
+    my $self = shift;
+    return $self->{ROOT};
+}
+
+sub do_LVR {
+    my $self = shift;
+    my $func = shift;
+    return if $self->{NODENUMS} == 0;
+    my $root = $self->{ROOT};
+    Helper::LVR($root, $func);
+}
+
+sub do_recursion_view {
+    my ($self, $recursion_method, $func) = @_;
+    ### $recursion_method
+    return if $self->{NODENUMS} == 0;
+    $recursion_method->($self->{ROOT}, $func);
+}
+
+1;
+
+__END__
+package main;
+my $nodeA = TreeNode->new;
+$nodeA->{DATA}->{'data'} = "i'm node A";
+my $nodeB = TreeNode->new;
+$nodeB->{DATA}->{'data'} = "i'm node B";
+my $nodeC = TreeNode->new;
+$nodeC->{DATA}->{'data'} = "i'm node C";
+$nodeA->{LEFT}  = $nodeB;
+$nodeA->{RIGHT} = $nodeC;
+
+my $tree = Tree->new;
+$tree->{NODENUMS} = 3;
+$tree->{ROOT}     = $nodeA;
+
+use Smart::Comments;
+### $tree
+
+my $f = sub {
+    my $node = shift;
+    print $node->{DATA}->{data}, "\n";
+};
+$tree->do_LVR($f);
+$tree->do_recursion_view(
+    Helper::METHOD("LVR"),
+    $f
+);
+Helper::METHOD("LEVEL_VIEW")->($tree->{ROOT}, $f);
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[DataTypes]Stack and Queue]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DStack+and+Queue/"/>
+    <updated>2012-03-31T06:46:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]Stack and Queue</id>
+    <content type="html"><![CDATA[<p>Stack.pm</p>
+
+<pre lang="perl">
+package Stack;
+use warnings;
+use strict 'vars';
+
+sub new {
+    my $class = shift;
+    my $self  = [];
+    bless $self, $class;
+}
+
+sub stack_push {
+    my $self = shift;
+    push @$self, @_;
+}
+
+sub stack_pop {
+    my $self = shift;
+    pop @$self;
+}
+
+sub size {
+    my $self = shift;
+    scalar @$self;
+}
+
+1;
+
+__END__
+
+package main;
+my $s = Stack->new;
+$s->stack_push(1, 2, 3, 4, 5);
+
+while(1){
+    last unless $s->size;
+    my $elem = $s->stack_pop;
+    print $elem, "\n";
+}
+</pre>
+
+
+<p>Queue.pm</p>
+
+<pre lang="perl">
+package Queue;
+use warnings;
+use strict 'vars';
+
+sub new {
+    my $class = shift;
+    my $self  = [];
+    bless $self, $class;
+}
+
+sub add {
+    my $self = shift;
+    push @$self, @_;
+}
+
+sub get {
+    my $self = shift;
+    shift @$self;
+}
+
+sub size {
+    my $self = shift;
+    scalar @$self;
+}
+
+1;
+
+__END__
+
+package main;
+my $q = Queue->new;
+$q->add(1,2,3,4,5);
+
+while(1){
+    last unless $q->size;
+    my $elem = $q->get;
+    print $elem, "\n";
+}
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[linux 各种 gui 美化方法]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/30/linux+%E5%90%84%E7%A7%8D+gui+%E7%BE%8E%E5%8C%96%E6%96%B9%E6%B3%95/"/>
+    <updated>2012-03-30T04:54:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/30/linux 各种 gui 美化方法</id>
+    <content type="html"><![CDATA[<p>linux 下 gui 无非就是 qt 或 gtk. 其他的不常见就不考虑美化的问题。
+qt 美化的需要安装：</p>
+
+<pre lang="bash">
+aptitude install qt3-qtconfig qt4-qtconfig
+</pre>
+
+
+<p>然后通过</p>
+
+<pre lang="bash">
+qtconfig-qt3
+qtconfig-qt4
+</pre>
+
+
+<p>来设置 qt style.
+gtk 美化的需要安装：</p>
+
+<pre lang="bash">
+aptitude install gtk-chtheme
+</pre>
+
+
+<p>然后通过</p>
+
+<pre lang="bash">
+gtk-chtheme
+</pre>
+
+
+<p>来设置。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[tint2 配置]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/30/tint2+%E9%85%8D%E7%BD%AE/"/>
+    <updated>2012-03-30T03:57:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/30/tint2 配置</id>
+    <content type="html"><![CDATA[<p>昨天 12.04 崩溃了。幸亏做了备份。今天恢复的进度也挺快的。。
+下面写下自己的 tint2 配置文件</p>
+
+<pre lang="bash">
+# Tint2 config file
+# Generated by tintwizard (http://code.google.com/p/tintwizard/)
+# For information on manually configuring tint2 see http://code.google.com/p/tint2/wiki/Configure
+
+# Background definitions
+# ID 1
+rounded = 7
+border_width = 2
+background_color = #000000 60
+border_color = #FFFFFF 16
+
+# ID 2
+rounded = 5
+border_width = 0
+background_color = #FFFFFF 40
+border_color = #FFFFFF 48
+
+# ID 3
+rounded = 5
+border_width = 0
+background_color = #FFFFFF 16
+border_color = #FFFFFF 68
+
+# Panel
+panel_monitor = all
+panel_position = bottom center horizontal
+panel_size = 95% 40
+panel_margin = 5 5
+panel_padding = 7 0 7
+panel_dock = 0
+wm_menu = 1
+panel_layer = top
+panel_background_id = 1
+
+# Panel Autohide
+autohide = 0
+autohide_show_timeout = 0.3
+autohide_hide_timeout = 2
+autohide_height = 2
+strut_policy = follow_size
+
+# Taskbar
+taskbar_mode = single_desktop
+#taskbar_mode = multi_desktop
+taskbar_padding = 2 3 2
+taskbar_background_id = 0
+taskbar_active_background_id = 0
+
+# Tasks
+urgent_nb_of_blink = 8
+task_icon = 1
+task_text = 1
+task_centered = 1
+task_maximum_size = 240 35
+task_padding = 6 2
+task_background_id = 3
+task_active_background_id = 2
+task_urgent_background_id = 2
+task_iconified_background_id = 3
+task_tooltip = 0
+
+# Task Icons
+task_icon_asb = 70 0 0
+task_active_icon_asb = 100 0 0
+task_urgent_icon_asb = 100 0 0
+task_iconified_icon_asb = 70 0 0
+
+# Fonts
+task_font = sans 7
+task_font_color = #FFFFFF 68
+task_active_font_color = #FFFFFF 83
+task_urgent_font_color = #FFFFFF 83
+task_iconified_font_color = #FFFFFF 68
+font_shadow = 0
+
+# System Tray
+systray = 1
+systray_padding = 0 4 5
+systray_sort = ascending
+systray_background_id = 0
+systray_icon_size = 16
+systray_icon_asb = 70 0 0
+
+# Clock
+time1_format = %H:%M
+time1_font = sans 8
+time2_format = %A %d %B
+time2_font = sans 6
+clock_font_color = #FFFFFF 74
+clock_padding = 1 0
+clock_background_id = 0
+clock_rclick_command = orage
+
+# Tooltips
+tooltip_padding = 2 2
+tooltip_show_timeout = 0.7
+tooltip_hide_timeout = 0.3
+tooltip_background_id = 1
+tooltip_font = sans 10
+tooltip_font_color = #000000 80
+
+# Mouse
+mouse_middle = none
+mouse_right = close
+mouse_scroll_up = toggle
+mouse_scroll_down = iconify
+
+# Battery
+battery = 1
+battery_low_status = 10
+battery_low_cmd = notify-send "battery low"
+battery_hide = 98
+bat1_font = sans 8
+bat2_font = sans 6
+battery_font_color = #FFFFFF 74
+battery_padding = 1 0
+battery_background_id = 0
+
+# End of config
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Pod::Simple::WikiBatch 额。假想包]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/11/Pod%3A%3ASimple%3A%3AWikiBatch+%E9%A2%9D%E3%80%82%E5%81%87%E6%83%B3%E5%8C%85/"/>
+    <updated>2012-03-11T10:34:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/11/Pod::Simple::WikiBatch 额。假想包</id>
+    <content type="html"><![CDATA[<p>今天抽风想把自己之前翻译或者代码中所写的 pod 全部上传到 readthedocs 上去. 结果纠结了一下午都没搞定。恩。其实也不能怪我，readthedocs 连个 manual book 都没有，我怎么能知道怎么用啊。
+首先。我以为它可以从 github 中自己构建文档，恩。我错了。 pod 是无法直接转成 sphinx 的。然后有个选项说是上传 html zip 文件上去，那我就开始找 Pod 2 HTML 批量转化的模块。找到一个 Pod::Simple::HTMLBatch，使用起来还是比较方便的。压缩上传后还是不行。然后我就开始仔细研究这个 sphinx。后来发现这个是 python 的一个模块，用来方便构建 python 文档。我就郁闷了。然后我就继续查移植性的东西，未果。
+既然都弄了这么半天了，我就搜索下转成 wiki 页面放在 SAE 上吧。继续 cpan 搜索 wiki 模块，结果没有找到批量转化的模块。所以就自己写了一个。应该可以申请 Pod::Simple::WikiBatch。
+最终的页面虽然简介丑陋，不过我觉得够用了。以后再优化吧。今天不在状态，递归老想歪。哎。。
+上代码。</p>
+
+<pre lang="perl">
+#!/usr/bin/perl
+use warnings;
+use strict 'vars';
+use vars qw/%opt $title $index $trees $in $out/;
+
+#use Smart::Comments;
+use Carp qw/croak/;
+use File::Basename;
+
+#-----------------------------------------------------
+
+sub build_wiki_file {
+    my $pod  = shift;
+    my ($name, $dir) = fileparse($pod);
+
+    my $wiki     = $out . substr($dir, length($in)) . $name;
+    my $wiki_dir = dirname $wiki;
+    my $cmd  = "mkdir -p $wiki_dir && pod2text $pod $wiki";
+    `$cmd`;
+}
+
+sub build_wiki {
+    my $root  = shift;
+    my @stack = ();
+    ### @stack
+    opendir IN, $root or croak;
+    my @dirs = map { $root . "/" . $_ } 
+                 grep { $_ ne "." and $_ ne ".." } readdir IN;
+    ### @dirs
+    foreach my $file (@dirs) {
+        ### FILE: $file
+        if (-d $file) {
+            unshift @stack, build_wiki($file);
+        } elsif (-f $file) {
+            next if $file =~ /(pm|pod|pl)^/;
+            unshift @stack, $file;
+            build_wiki_file($file);
+        } else {
+            warn "$file is not a standard pod file\n";
+        }
+    }
+    return \@stack;
+}
+
+sub writer {
+    my ($data, $file) = @_;
+    open OUT, ">", $file;
+    print OUT $data;
+}
+
+sub make_index_html {
+    my $html = <<HTML;
+<html>
+<head>
+<title>$title</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<frameset cols="25%,75%">
+    <frame src="left.html" />
+    <frame name="main" src="$index" />
+</frameset>
+</html>
+HTML
+    $html    = eval { $html };
+    ### $html
+    my $file = "$out/index.html";
+    writer $html, $file; 
+}
+
+sub get_sider_html {
+    my $items = shift;
+    my $html  = "<ul>";
+    ### @$trees
+    foreach my $item (@$items) {
+        if (ref $item) {
+            # 提取出该级目录名
+            my $item_name = basename($item->[0]);
+            $item->[0] =~ /(?:.*)\/(.*)\/$item_name/;
+            $html = $html . "<li><a>$1</a>"; 
+            $html = $html . get_sider_html($item);
+            $html = $html . "</li>";
+        } else {
+            $item = substr $item, length($in)+1;
+            $html = $html . "<li><a href=\"$item\" target=\"main\">$item</a></li>";
+        }
+    }
+    $html .= "</ul>";
+    return $html;
+}
+
+sub make_sider_html {
+    my $html = get_sider_html($trees);
+    my $file = "$out/left.html";
+    writer $html, $file;
+}
+
+#-------------------------------------------------------
+
+use Getopt::Std;
+getopts('i:t:', \%opt);
+### %opt
+($title, $index) = ("WiKi", "default.html");
+$title = $opt{t} if defined $opt{t};
+$index = $opt{i} if defined $opt{i};
+($in, $out)      = map { basename $_ } @ARGV;
+
+$trees  = build_wiki($in);
+make_index_html();
+make_sider_html();
+</pre>
+
+
+<p>另外。
+moose_cn 项目： <a href="http://moosecn.sinaapp.com">http://moosecn.sinaapp.com</a>
+perltut 项目：<a href="http://perltut.sinaapp.com">http://perltut.sinaapp.com</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ubuntu 安装 deepin-software-center]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/11/ubuntu+%E5%AE%89%E8%A3%85+deepin-software-center/"/>
+    <updated>2012-03-11T06:25:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2012/03/11/ubuntu 安装 deepin-software-center</id>
+    <content type="html"><![CDATA[<pre lang="bash">
+apt-get install aria2
+git clone git://github.com/manateelazycat/deepin-software-center.git
+cd deepin-software-center/src/ && ./main
+</pre>
+
 ]]></content>
   </entry>
   

@@ -1,0 +1,784 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="今天早上升国旗&#8230;6点半就起床了. 还真是要命. 既然起来了就来实验室吧. 昨晚还没给我的64MB ub server装上fluxbox了.
+来了整了一会.发现没什么进展.因为在vbox下ubuntu提示不能build kernel module.以前装arch的时候遇到过.解决方案是 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/19/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/21/CSS%E5%AE%9A%E4%BD%8D%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98./">CSS定位需要注意的一些问题.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-21T03:48:00+08:00" pubdate data-updated="true">Mar 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天早上升国旗&#8230;6点半就起床了. 还真是要命. 既然起来了就来实验室吧. 昨晚还没给我的64MB ub server装上fluxbox了.
+来了整了一会.发现没什么进展.因为在vbox下ubuntu提示不能build kernel module.以前装arch的时候遇到过.解决方案是:</p>
+
+<pre lang="bash">
+pacman -S kernel26-headers
+</pre>
+
+
+<p>所以我果断.</p>
+
+<pre lang="bash">
+aptitude install kernel26-headers
+</pre>
+
+
+<p>结果提示没有该包.然后我又aptitude search了半天.没装X.还得more查看.累死. 不过还是没有.就google了.还是没进展. 然后阿娇姐问我我的代码在win下不能运行.我就搞他去了.============>结果是编码的问题.在linux环境下编译的.UTF8编码.放到VC6下就不行了.
+然后我就准备改下主页的主题.
+首先下了F2.最后害怕opensalon的人说我抄袭.我就换了.找到一个比较给力的主题.于是马上准备动手hack之.结果打开后发现被加密了.算了.人家也不容易.就不要找解密软件hack了.再换一个.
+想找个朴素点的.就找了网上一个MiniWp主题.单纯的用CSS写的.
+然后还是有些地方不符合我的想法.继续HACK.
+他的CSS代码我改了半天也不行.定位老是错误.但是我自己写的测试是没问题的.我就奇怪了.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/03/21/CSS%E5%AE%9A%E4%BD%8D%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98./">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/20/%E6%A0%A1%E5%9B%AD%E5%B1%80%E5%9F%9F%E7%BD%91%E5%86%85%E8%8A%B1%E7%94%9F%E5%A3%B3%E7%9A%84%E6%B5%8B%E8%AF%95/">校园局域网内花生壳的测试</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-20T09:20:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>海洋的那个项目用到了一个渗透来得到每次开机登录ISP分配的IP.所以我想用花生壳来代替原来那个复杂的模块.毕竟部署起来还是这个比较方便.之前没有用过花生壳之类的软件.所以决定在自己的机子上做下测试.
+申请免费用户->开启花生壳服务程序.
+然后清空DNS缓存.
+Linux下:</p>
+
+<pre lang="bash">
+aptitude install nscd
+service nscd restart
+</pre>
+
+
+<p>Windows下:</p>
+
+<pre lang="bash">
+ipconfig /flushdns
+</pre>
+
+
+<p>然后使用nslookup来查看域名所对应的IP是否为公网IP.(这个有时候需要等一段时间.)
+OK.一致.
+但是无法通过公网访问.
+经过求助知道:学校为几个公网IP然后建立起来的复杂网络环境.而花生壳需要使用在公网/内网一一对应或者是有权操作主出口(端口映射)的环境中.
+好吧.所以.失败了&#8230;.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/20/CentOS+%E7%BD%91%E7%BB%9C%E5%AE%89%E8%A3%85/">CentOS 网络安装</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-20T06:37:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天安装Centos的时候.遇到了个小问题.因为自己是用NetInstall版本的.在选择HTTP安装后让填写Website和Directory.当时就傻了.
+后来一查.需要自己手动指定安装源.
+上网查.
+只要在Website处填写mirror.centos.org,在Directory填写centos/5.5/os/i386就可以了`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/18/%E5%AE%9A%E5%88%B6%E8%87%AA%E5%B7%B1%E7%9A%84%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6/">定制自己的命令提示符</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-18T11:22:00+08:00" pubdate data-updated="true">Mar 18<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天看了下Linux自动化管理.一直以来都是羡慕那些系统管理员.写写脚本.研究研究其他的.控制着很大的集群.很喜欢那样的感觉.一切在自己控制中的感觉.不过数据结构老师说了.人不可能按自己所想的轨迹生活.所以.还是强迫下自己比较好.比如说我最近的厌烦实验室的心态.
+扯远了.只不过是有些感慨.很羡慕那些一天对着计算机入魔的极客态度.又扯了.fuck.
+定制自己的命令提示符很有用.可以输出那些你想要的信息.所以还是比较有帮助的 . 尤其是在管理一些集群的时候.
+自己原来定制的PS1是:</p>
+
+<pre lang="bash">
+PS1='\u->'
+</pre>
+
+
+<p>很简单.但是很麻烦.毕竟不能显示当前目录.而且对当前的用户也显示的不是很好.
+今天看到了独特的两行模式的命令提示符号.感觉很不错.于是便有:</p>
+
+<pre lang="bash">
+if [ $UID -eq 0 ];then
+     SYM='#'
+else
+     SYM='$'
+fi
+DATE=`date +%D`
+PS1='\n$SYM-\u@\h $DATE \T \w Bash Version:\v\n$SYM-($?)->'
+</pre>
+
+
+<p>实际效果还是很理想的.
+下面是PS1的一些选项解释.
+\d 显示日期.不过因为系统的locale.所以显示格式比较垃圾.所以我自己通过date命令构建自己比较喜欢的方式.
+\H \h 主机名
+\u 用户名
+\t \T \A 显示时间.
+\w \W 显示当前目录.
+\v 显示bash版本
+上面那些就够了.其实借助环境变量以及shell命令.可以得到你所要的一切·</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/17/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%3A%E4%B8%AD%E7%BC%80%E8%BD%AC%E5%90%8E%E7%BC%80%E5%B9%B6%E8%BF%90%E7%AE%97/">数据结构:中缀转后缀并运算</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-17T11:52:00+08:00" pubdate data-updated="true">Mar 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在宿舍宅了两天.没怎么吃饭.就是wow了.正事耽搁了不少.哎.没事. 年轻么.就得疯狂疯狂. 只要自己有个度就行.
+上次把中缀表达式转后缀表达式搞定了.今天就来实验室把后缀表达式的运算写上吧.
+代码有点多.就不粘贴了.
+这是效果展示:</p>
+
+<pre lang="bash">
+wxm:~/090420124王杰$cat makefile
+main:main.o stack.o nodelist.o func.o
+    cc -o main main.o stack.o nodelist.o func.o -lm
+main.o:main.c stack.h nodelist.h func.h
+    cc -c main.c
+stack.o:stack.c
+    cc -c stack.c
+nodelist.o:nodelist.c
+    cc -c nodelist.c
+func.o:func.c
+    cc -c func.c -lm
+clean:
+    rm -rf main.o stack.o nodelist.o func.o main
+wxm:~/090420124王杰$make
+cc -c main.c
+cc -c stack.c
+stack.c: In function ‘addStack’:
+stack.c:18: warning: ignoring return value of ‘realloc’, 
+                   declared with attribute warn_unused_result
+cc -c nodelist.c
+cc -c func.c -lm
+cc -o main main.o stack.o nodelist.o func.o -lm
+wxm:~/090420124王杰$./main
+输入中缀表达式:1+2*3+4
+输出后缀表达式:1,2,3,*,+,4,+
+表达式的值为11
+</pre>
+
+
+<p>附件下载:<a href="http://wpxiaomo.sinaapp.com/wp-content/uploads/090420124.7z">090421024</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/14/ub%E5%AE%89%E8%A3%85amp%E7%8E%AF%E5%A2%83/">Ub安装amp环境</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-14T08:52:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨天晚上重装了ubuntu.今天要把基本的服务都搭建下.不准备用tasksel的lamp环境了.所以自己手动安装吧.</p>
+
+<pre lang="bash">
+apt-get install apache2
+apt-get install php5
+apt-get install libapache2-mod-php5
+apt-get install mysql-server
+apt-get install libapache2-mod-mysql-auth
+apt-get install php5-mysql
+</pre>
+
+
+<p>搞定·</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/13/Bash%E5%AD%A6%E4%B9%A0%28%E5%9B%9B%29.%E4%BF%A1%E5%8F%B7/">Bash学习(四).信号</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-13T03:02:00+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Bash和Perl一样.都有着相对完善的信号处理机制.Bash是通过trap来实现,而Perl是通过%SIG来实现的.
+今天说下Bash的trap实现.
+先看一个简单的例子.</p>
+
+<pre lang="bash">
+trap "echo 'u press ^c'" INT
+trap "echo 'u press ^z';exit;" TERM
+while true; do
+     sleep 60
+done
+</pre>
+
+
+<p>运行下例子就可以很容易的理解.
+trap的语法为:</p>
+
+<pre lang="bash">
+trap cmd sig1 sig2 sig3
+</pre>
+
+
+<p>切记对信号的处理要放在处理代码之前.
+有时候我们不想对信号进行任何处理.甚至不想让系统对该信号做出响应.我们同样是通过trap实现的.</p>
+
+<pre lang="bash">
+trap "" INT TERM
+while true; do
+     sleep 60
+done
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/12/webxml%E5%A4%A9%E6%B0%94%E9%A2%84%E6%8A%A5%E6%9C%8D%E5%8A%A1%E6%AD%A3%E7%A1%AE%E6%B5%8B%E8%AF%95./">Webxml天气预报服务正确测试.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-12T10:36:00+08:00" pubdate data-updated="true">Mar 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天下午和兄弟一起去踏青了.照片等完了再发布.很愉快的记忆.很久没有这么放松过了.最近在忙FF高校宣传日的事情,下午的时候丁文心把策划搞定了.我赶回来稍微修改了下.然后又把问题抛回给组员了.让他们再斟酌斟酌.然后明晚确定最终版本.
+7点的时候开源沙龙就要举办这个学期的第一次聚会了.这么点事件就把之前没调通的WebService调下吧.
+<a href="http://www.webxml.com.cn/zh_cn/index.aspx" target="_blank">WebXML</a>提供了很多在线服务.还是免费的.所以在工作中可以帮你免去很多麻烦.之前再调一个天气预报的.一直报错误.try_catch了也不行.今天再试下,毕竟昨天在网吧写了个测试还是可以使用的.
+一步一步的进行调试.
+*.获得可调用函数以及所需参数.</p>
+
+<pre lang="php">
+<?php
+$c = new SoapClient('http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl');
+$array = $c->__getTypes();
+var_dump($array);
+?>
+</pre>
+
+
+<p>因为需要获得参数类型.所以在php.net查到了这个函数.获得比__getFunctions更多的内容,比较好用.
+*.获得省份代号.</p>
+
+<pre lang="php">
+<?php
+$c = new SoapClient('http://webservice.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl');
+$array = $c->getRegionProvince();
+var_dump($array);
+?>
+</pre>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/03/12/webxml%E5%A4%A9%E6%B0%94%E9%A2%84%E6%8A%A5%E6%9C%8D%E5%8A%A1%E6%AD%A3%E7%A1%AE%E6%B5%8B%E8%AF%95./">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%BD%9C%E4%B8%9A.%E9%93%BE%E8%A1%A8%E5%80%92%E7%BD%AE./">数据结构作业.链表倒置.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-11T02:23:00+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>太窝火了.网速这么慢.连NBA都不能看.把数据结构的作业做了吧.
+ListNode.h</p>
+
+<pre lang="c">
+#ifndef __LISTNODE_H__
+#define __LISTNODE_H__
+typedef struct ListNode {
+    int num;
+    struct ListNode *pNext;
+}Node;
+
+typedef Node* pNode;
+//初始化链表
+pNode init();
+//获得链表尾
+pNode getTail(pNode Head);
+//倒置链表
+void converse_core(pNode p, pNode next);
+int converse(pNode Head);
+//Status:0成功.1失败.
+#endif
+</pre>
+
+
+<p>ListNode.c</p>
+
+<pre lang="c">
+#include "ListNode.h"
+#include "stdlib.h"
+//初始化
+pNode init(){
+    int i;
+    pNode Head = (pNode)malloc(sizeof(Node));
+    Head->pNext = 0;
+
+    pNode pLast,pCur;
+    pLast = Head;
+
+    for(i=0;i<10;i++){
+        pCur = (pNode)malloc(sizeof(Node));
+        pCur->num = i;
+        pLast->pNext = pCur;
+        pLast = pCur;
+    }
+    pCur->pNext = 0;
+    return Head;
+}
+//获得链表尾
+pNode getTail(pNode Head){
+    pNode pCur = Head->pNext;
+    while(pCur && pCur->pNext){
+        pCur = pCur->pNext;
+    }
+    return pCur;
+}
+//转置核心递归
+void converse_core(pNode p, pNode next){
+    if(next){
+        converse_core(next, next->pNext);
+        next->pNext = p;
+        return ;
+    }else{
+        return ;
+    }
+}
+//转置函数
+int converse(pNode Head){
+    pNode pHead = Head->pNext;
+    if(!pHead) return 1;
+    pNode pTail = getTail(Head);
+    converse_core(pHead,pHead->pNext);
+    Head->pNext = pTail;
+    pHead->pNext = 0;
+    return 0;
+}
+</pre>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/03/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%BD%9C%E4%B8%9A.%E9%93%BE%E8%A1%A8%E5%80%92%E7%BD%AE./">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/10/FireFox4+%E9%AB%98%E6%A0%A1%E4%BD%93%E9%AA%8C/">FireFox4 高校体验</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-10T12:10:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>FF RC版发布了.正式版估计也快了.每次去网吧第一件事就是下Firefox.从什么时候开始离不开FF了?就是前阵子的Chrome的flash崩溃无解决方案吧。不管怎样。真心希望能够申请到这个宣传机会。让更多的人了解FF4,HTML5,IPv6.
+<font color="red"><b>Doc</b></font>
+Mozilla Firefox是一个自由的，开放源码的浏览器，适用于Windows，Linux，MacOS X平台。Firefox的定制性很强，可以通过附加组件进行拓展，这是Mozilla的特点,作为开源爱好者的我们大爱这点。
+以前Firefox用户比较在意的两个问题（1.书签同步。2.鼠标动作）都完美的解决掉了。
+下面我就说下我感触比较深的一件事吧。
+浏览器与书签的同步，大多数浏览器早已内嵌实现了。Opera,Chrome或者是傲游之类的，可是Firefox只能通过拓展来实现，常用就是Xmarks。可是那一阵子，XMarks宣布停止服务，让许多人们对浏览器的选择重新重视了起来。不过由于我们对FF的爱，我们坚持下来了。后来Xmarks被其他公司收购，然后宣布不会停止服务。不管怎样，我们没有因为中间的曲折停止FF，我们一直陪伴在Firefox左右，就像Firefox一直陪着我们一样。
+FF的拓展使我非常着迷。我是学习计算机的，就拿几个我常用的来说说吧。因为经常在SAE,GAE上进行一些小项目的开发测试，所以FireBug,FirePHP成了我必不可少的利器。
+关注FF4好长时间了。尽管Beta了好长时间，不过就是因为FF的这份负责，才使的FF在浏览器竞争激烈的今天，依然是最好的，没有之一。RC版本发布了，正式版还会远吗？FF加油！！！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/20/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/18/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

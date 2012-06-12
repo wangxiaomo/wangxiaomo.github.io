@@ -1,0 +1,805 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="上毛邓.没事干.就用凯子的手机把JQuery看了.一直感觉是很庞大很难的东西.原来这么简单这么好用.果真是write less and do more.不过短暂的学习代表不了什么.需要继续努力.
+今天上官网看了看.发现了一堆中文资料.有个论坛的帖子尤其写的好.我就做下笔记吧.
+JQuery &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/23/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/01/JQuery%E6%8A%80%E5%B7%A7/">JQuery技巧</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-01T04:58:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上毛邓.没事干.就用凯子的手机把JQuery看了.一直感觉是很庞大很难的东西.原来这么简单这么好用.果真是write less and do more.不过短暂的学习代表不了什么.需要继续努力.
+今天上官网看了看.发现了一堆中文资料.有个论坛的帖子尤其写的好.我就做下笔记吧.
+<font color="red"><b>JQuery</b></font>
+通过jquery的$()引用的元素返回的对象为jquery对象.而不是普通的dom对象.不能直接调用dom定义的方法.
+只有jquery对象才能使用jquery定义的方法.注意dom对象和jquery对象是有区别的.<font color="blue">调用的时候要注意操作的是dom对象还是jquery对象.</font>
+普通的dom对象可以通过$()转换为jquery对象.例如:</p>
+
+<pre lang="html">
+<script type="text/javascript">
+$(document).ready();
+$(document.getElementById("p"));
+</script>
+</pre>
+
+
+<p>dom对象转换为jquery对象后便可以使用jquery对象的方法了.
+jquery对象本身是一个集合.如果jquery对象要转换为dom对象则必须取出其中一项.一般可以通过索引取出.如:</p>
+
+<pre lang="html">
+<script type="text/javascript">
+$("#msg")[0];
+$("div").get()[1];
+$("td")[5];
+</script>
+</pre>
+
+
+<p>以上均为dom对象.不能使用jquery方法.
+获取元素.可以通过eq.get或者索引的方式.但是eq获取的是jquery对象.</p>
+
+<pre lang="html">
+<script type="text/javascript">
+$("#content").html("<b>Hello</b>");
+$("#content").text("<b>Hello</b>");
+</script>
+</pre>
+
+
+<p>在css中定义类样式.然后可以通过jquery方法addClass来添加样式.</p>
+
+<pre lang="html">
+<style type="text/css">
+.red{
+    color:red;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+       $("#bt").click(function(){
+                $("#content").addClass("red");
+       });
+});
+</script>
+</pre>
+
+
+<p>当表示id=&#8221;page&#8221;下的p元素时.可以使用$(&#8220;#page>p&#8221;).</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/28/Ajax+w3school%E6%95%99%E7%A8%8B/">Ajax W3school教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-28T05:13:00+08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>学习了<font color="red">xajax</font>的使用.进一步学习下ajax吧.毕竟xajax的缺点还是有的.最好多了解点.
+AJAX指异步Javascript及XML.AJAX不是一种语法.而是一种模式.
+通过AJAX,你的javascript可使用javascript的XMLHttpRequest对象来直接与服务器进行通信,通过这个对象,你的javascript可以在不重载页面的情况与Web服务器交换数据.
+AJAX在浏览器与Web服务器之间使用异步数据传输(HTTP请求),这样就可以使网页从服务器请求少量的信息,而不是整个页面.
+在传充的数据传输过程中(GET或者POST),用户需要点击提交表单,然后等待服务器响应,然后一张新的页面会被加载.由于每当用户提交输入后服务器都会返回一张新的页面,所以应用程序变得运行缓慢,且越来越不友好.通过AJAX,你可以直接与服务器进行通信,用户可以停留在一个页面上,他不会注意到脚本在后台的请求过程.
+Google建议使用XMLHttpRequest对象创建一种动态性极强的web界面.就是google的搜索建议.自此.AJAX被广泛使用.
+XMLHttpRequest需要下列浏览器的支持:IE5.0+,Safari 1.2,Mozilla 1.0/Firefox,Opera8+,Netscape 7.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/28/Ajax+w3school%E6%95%99%E7%A8%8B/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/27/XAJAX%E4%B8%83%E6%AD%A5%E6%9B%B2%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">XAJAX七步曲中的一些问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-27T10:25:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天实在不想弄delphi了.就整了一会xajax.以前看过教程.当时觉得很简单.就没代码测试.今天测试了一下还真发现了不少问题.
+xajax以易用性出名.官方文档中的七步曲也写的很不错.唯一失败的就是你按照其步骤做下来也无法得到正确的结果.
+首先.版本问题.我果断下了beta版本.然后在linux/nginx下测试.无论是它压缩包中给的例子还是自己写的东西.都是错误的.查看log.发现没什么特别的提示.网上说打开debug开关.</p>
+
+<pre lang="php">
+<?php
+$xajax->debugOn();
+?>
+</pre>
+
+
+<p>我试了下.不行.在日志中提示无法找到debugOn这个方法.具体怎么解决.等有时间再说.
+然后我查阅了半天资料.也没发现解决方法.甚至看到了不少人在评论中说放弃了xajax.哎.是不是因为我当初这个平台没有搭好啊.所以我果断切到了windows.用wamp测试下.
+这次我学乖了.我下的是stable版本.然后先运行了它的例子.但是还是错误的.Deprecated错误.然后在源码中加入了@抑制符.还是不行.然后上网查了查.发现stable(0.5)不支持PHP5.所以又下了beta(0.6).
+例子倒是没出现什么问题了.然后我就自己写了一个脚本测试.</p>
+
+<pre lang="php">
+<?php
+require_once('./xajax_core/xajax.inc.php');
+
+function test(){
+    $str = 'Hello';
+    $obj = new xajaxResponse();
+    $obj->assign('content', 'innerHTML', $str);
+    return $obj;
+}
+
+$xajax = new xajax();
+$xajax->register(XAJAX_FUNCTION,'test');
+$xajax->processRequest();
+?>
+
+<html>
+<head>
+<title>Hello</title>
+<?php $xajax->printJavascript();?>
+</head>
+<body>
+<p id="content"></p>
+<input type="button" value="Click" onClick="xajax_test();" />
+</body>
+</html>
+</pre>
+
+
+<p>当使用registerFunction时报错.所以采用了旧方法.剩下的完了继续研究. `
+Over.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/25/Smarty%E4%B8%8EPHPLIB%E7%9A%84DB%E7%B1%BB%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8/">Smarty与PHPLIB的DB类配合使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-25T07:17:00+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><font color="red">PHPLib中的db类与Smarty结合.</font>
+首先.先介绍下PHPLIB中的db类.
+DB_Sql的主要成员变量和成员函数:
+一.成员变量.
+1.$Host:主机名
+2.$Database:数据库名称
+3.$User:用户名
+4.$Password:密码
+二.成员函数.
+1.connect($Database=&#8221;&#8220;, $Host=&#8221;&#8220;, $User=&#8221;&#8220;, $Password=&#8221;&#8220;):建立连接.返回连接ID.
+2.query($Query_String):进行查询.返回查询资源.
+3.free():释放当前查询结果资源.
+4.next_record():返回下一条记录集.
+5.num_rows():当前查询中的数据行数.
+6.f($name):当前字段的值.
+其他成员变量及函数就不在此介绍了.具体见PHPLIB文档.
+下面见一个示例:</p>
+
+<pre lang="php">
+<?php
+//包含Smarty类文件
+require_once(SMARTY_DIR . 'Smarty.class.php');
+//包含数据库操作类文件.把此文件放到了SMARTY_DIR下了.
+require_once(SMARTY_DIR . 'db_mysql.inc');
+
+//定义显示条数.
+define('NUM', 5);
+
+//定义Smarty类.
+//...
+
+//定义DB_Sql类.
+$db = new DB_Sql;
+//数据库主机名
+$db->Host = 'localhost';
+//数据库名称
+$db->Database = 'news';
+//用户名和密码
+$db->User = 'root';
+$db->Password = '';
+
+//数据库连接
+$db->connect();
+//定义SQL语句.
+$strQuery = 'SELECT * FROM table ';
+$db->query($strQuery);
+$i = NUM;
+while($db->next_record() && $i>0){
+    $array[] = array('NewsID'=>$db->f('iNewsID'),
+                    'NewsTitle'=>$db->f('vcNewsTitle'));
+    $i--;
+}
+$smarty->assign('NEWS', $array);
+unset($array);
+$db->free();
+?>
+</pre>
+
+
+<p>这样就搞定了.
+有时间一定把PHPLIB也学学.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/25/PHPChina+Smarty%E6%95%99%E7%A8%8B/">PHPChina Smarty教程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-25T06:53:00+08:00" pubdate data-updated="true">Feb 25<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近在看PHP China写的Smarty教程.感觉Smarty是一个很给力的东西.这几天有点浮躁.去网吧去多了.静下心来好好看看书吧.
+<font color="red">Smarty</font>
+Smarty的优点需要记好.便于说服别人.哈哈
+速度-&gt;采用Smarty能得到较大的速度提升.主要是得益于编译和缓存技术.采用Smarty编写的程序在第一次运行时编译成一个非模板技术的PHP文件.这个文件采用PHP和HTML混合的方式,在下一次访问模板时讲直接请求于这个文件.而不再需要从模板重新编译(在源文件没有改动的情况下).而缓存是把相对稳定的内容以静态形式作为缓存输出.相当于调用一个静态的HTML文件.不需要解析时间.
+Smarty的以上特点决定其不能使用在频繁更新的地方.
+一般情况下.用户在每次访问PHP程序时,都会建立新的数据库连接并重新获取一次数据,再经过操作处理形成HTML等响应给用户.这是由于HTTP的无状态性造成的.对于每次页面的请求,都要重复地执行相同的操作,而不论数据是否被更改,但有些信息经常是不变的.如果不想每次都重复地执行某些操作,就可以在第一次访问PHP程序时,把动态获取的HTML输出缓存为静态页面.在以后每次请求该页面时,直接去读取缓存,而不许要不必要的开销.
+Smarty的编译就是一个模板转换的过程.Smarty的编译减少了模板转化的开销.</p>
+
+<br />
+
+
+<p>Smarty的标准模板文件是tpl.不过为了美工方便.也可以写成html.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/25/PHPChina+Smarty%E6%95%99%E7%A8%8B/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/23/php+empty%E5%92%8Cisset%E7%9A%84%E5%8C%BA%E5%88%AB/">Php Empty和isset的区别</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-23T04:23:00+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近老用到自响应页面.总是在empty和isset中间纠结.今天就把它记录下来.免得忘记吧.
+empty($x) 等价于 !isset($x) || $x
+!empty($x) 等级于 isset($x) &amp;&amp; $x</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/21/vim%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/">Vim简单学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-21T02:45:00+08:00" pubdate data-updated="true">Feb 21<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><font color="red">Vim</font>
+不知道咋回事.那笨蛋非要学vim.非要说这个编辑器很帅.那就给她讲了讲.这个是那天的笔记.很基本的操作.复杂的都没讲.不过很实用.</p>
+
+<p>可视模式<---->命令模式<---->编辑模式</p>
+
+<p>光标移动：
+上下左右.hjkl.h左 j下 k上 l右
+^b 向上一屏 ^f向下一屏</p>
+
+<h1>[hjkl] 在光标的基础上.偏移#个单位</h1>
+
+<p>编辑模式:
+i 在光标前插入 I 在行首插入
+a 在光标后插入 A 在行末插入
+o 在光标所在行的下面插入一行 O 在光标所在行的上面插入一行
+s 删掉光标所在字符进入插入模式 S 删掉光标所在行进入插入模式</p>
+
+<p>文本内容的删除：
+x 删除一个字符 #x 删除#个字符
+dw 删除一个词 #dw 删除#个单位的词
+dd 删除一行 #dd 删除#行
+d$ 删除光标到行尾的内容。 d^ 删除光标到行首的内容。</p>
+
+<p>文件操作：
+:w 保存
+:w filename 另存
+:wq! 保存退出
+:wq! filename 另存
+:q 退出</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/21/vim%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/12/Smarty+%E7%A4%BA%E4%BE%8B/">Smarty 示例</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-12T13:48:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天捣鼓了半天nginx和mysql的一些小问题.哪个都没成功.就继续我的smarty吧.毕竟smarty过几天还得给我家大人讲.之前学过点cakephp.发现smarty比cakephp好学多了. 不过好学就意味着更多的功能不集成.所以许多代码得自己写.smarty只是简单的vc分层.不像cakephp的mvc独立.直接建立model.添加control.编辑viewer.
+cakephp可以简单的通过路由来设置访问路径.不过smarty就让我琢磨了半天.今天就把写的这个小测试贴出来吧.不然最近没什么好更新的了
+首先是基本的安装.跳过了.大概说下目录结构.
+&#8212;demo(root)
+&#8212;&#8212;smarty(smarty库)
+&#8212;&#8212;templates
+&#8212;&#8212;templates_c
+&#8212;&#8212;configs
+&#8212;&#8212;cache
+&#8212;&#8212;plugins
+然后.在root下建立init.php</p>
+
+<pre lang="php">
+<?php
+define('SMARTY_DIR', './smarty/');
+require(SMARTY_DIR . 'Smarty.class.php');
+
+$smarty = new Smarty;
+$smarty->compile_dir = './templates_c/';
+$smarty->template_dir = './templates/';
+$smarty->cache_dir = './cache/';
+$smarty->config_dir = './configs/';
+$smarty->plugins_dir = './plugins/';
+
+$smarty->caching = true;
+?>
+</pre>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/12/Smarty+%E7%A4%BA%E4%BE%8B/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/11/%E8%AE%B0%E6%BC%A9%E6%B6%A1%E9%B8%A3%E4%BA%BA/">记漩涡鸣人</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-11T12:44:00+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>——序
+有一种花叫做向日葵，日日向阳，不曾懈怠</p>
+
+<p>【幼童】
+儿时的秋千，承载的悲伤，十年孤寂，谁能尝出你心中之苦
+你总是低着头，任风将你的秋千吹摆，却丝毫不曾动摇
+你顽皮时的样子，笑起来的时候眼睛就眯成一条缝
+嘴巴咧的好大，一副童真的样子</p>
+
+<p>鸣人，你还真是爱搞些小破坏呢
+提几桶油漆在岩像上破坏，用色诱术迫使三代爷爷流鼻血
+每次被发现的时候，你总是顽皮的笑
+即使被说教，也是一脸的傲娇
+可是谁都知道，你所做的一切只是为了让人们注意你
+只是为了，可以有一个朋友，有个人谈天</p>
+
+<p>十六年前，在那个命运之夜
+波风夫妇以生命做代价换取了你的平安
+他们无法再继续照顾你
+可是他们一直给予你无悔而深沉的爱
+他们希望你能够平平安安
+好好长大，将来做一名能够保护村子的真正的忍者</p>
+
+<p>你一直都孤身一人，没有朋友，没有家人
+你多么迫切的希望能够快乐着别人的快乐，悲伤着别人的悲伤
+可是仅是连这点权利你都得不到
+村里人都把对于九尾的怨恨全部强加于你
+强加于这个本该作为英雄的你
+你的泪水如珍珠般落下，染湿了那片天空
+你孤单的背影被零落在空气中显得那样残忍又单薄
+若你能幻化成蝶，定是希望能够飘飞于那花丛中吧
+我们谁都不愿落单，因为寂寞它是一个怪圈
+<img src="http://wpxiaomo.sinaapp.com/wp-content/themes/omegaB/1.jpg" alt="" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/02/11/%E8%AE%B0%E6%BC%A9%E6%B6%A1%E9%B8%A3%E4%BA%BA/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/02/11/Apache+%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E4%B8%BB%E9%A1%B5/">Apache 修改默认主页</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-11T09:30:00+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天wubi重新安装了ub10.10 .wubi安装让我无语了下. 原来的wubi是下载一个大约600多M的程序. 然后可以直接执行安装. 现在的是下载一个几百K的程序. 然后安装过程中再种子下载iso. 真是吭爹&#8230; 幸好我先下好了iso. 很快就安装上了. 10就是比04顺畅啊. 无论是开机速度还是界面响应速度. 都好多了. 而且现在的软件中心也改的不错. 不过把tasksel这个功能给去掉了. 不过能apt-get. 所以问题不大. 输入法倒是比原来好多了. 不过用着很舒服. 唯一奇怪的是输入法是scim的方式. ibus的图标.
+扯了半天无关的东西. 本来是想搭建lnmp环境的. 不过php-fpm那里出了问题. 没什么比较好的解决方法. 所以等研究明白了再说.
+最后还是通过tasksel安装了lamp.
+lamp还是比较简单的. 不过一直纠结那个问题. 就是默认主页的问题. 在网站设置中的option 加入indexes了. 不过在有index式的网页时有问题. 所以纠结了半天.以前解决过好多次.都忘了.这次记在这里.
+可以在站点配置文件中加入DirectoryIndex None来搞定。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/24/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/22/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

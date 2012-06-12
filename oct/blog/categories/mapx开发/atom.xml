@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: MapX开发 | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/mapx开发/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[关于MapX开发中的几个常用类的理解.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/06/21/%E5%85%B3%E4%BA%8EMapX%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%B1%BB%E7%9A%84%E7%90%86%E8%A7%A3./"/>
+    <updated>2011-06-21T07:47:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/06/21/关于MapX开发中的几个常用类的理解.</id>
+    <content type="html"><![CDATA[<p>饿.学长快走了,该接手的项目也不能放着不管,所以,这个星期赶紧全部搞下来..
+MapX的开发其实也没那么难,多读读学长写的代码,然后自己多测试下,就没什么大问题了...
+MapInfo用来制作地图,恩,地图的整体是一个集合,集合中确定了包含哪些图层.这个集合可以在MapX开发中控制,所以地图不是死的,但是基本元素是确定的.
+地图制作方面,还不是很懂,等待学长演示..
+现在说下接触比较多的几个类吧 .CMapX,CMapXLayers,CMapXLayers,CMapXFeatures,CMapXFeature,CMapXPoint.
+首先,CMapX用来定义地图变量.这里需要注意的一点就是需要在DataExchange中通过DDX_Control来绑定变量和资源ID.不然会发生致命错误.然后在init中通过SetGeoSet导入地图集合gst文件.
+CMapXLayers,CMapXLayer就是gst中的层,可以通过GetLayers()来获得所有层,也可以通过Item来指定特定的层.
+CMapXFeatures,CMapXFeature就是层上面的元件,可以通过AllFeatures()和Item来获得...
+CMapXPoint就是MapX中的点,可以通过ConvertCoord将屏幕点转化为地图点.
+恩.简单的说.CMapX是地图变量,是总的线索.Layer对应层,Feature对应元件,Point对应点...</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MapX坐标转换.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/06/21/MapX%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2./"/>
+    <updated>2011-06-21T07:20:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/06/21/MapX坐标转换.</id>
+    <content type="html"><![CDATA[<pre lang="c">
+double x,y;
+m_MapX.ConvertCoord(&X,&Y,&x,&y,miScreenToMap);
+CMapXPoint pt;
+pt.CreateDispatch(pt.GetClsid());
+pt.Set(x,y);
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MapX二次开发.GIS应用.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/06/20/MapX%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91.GIS%E5%BA%94%E7%94%A8./"/>
+    <updated>2011-06-20T20:42:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/06/20/MapX二次开发.GIS应用.</id>
+    <content type="html"><![CDATA[<p>MapX地图制作与载入..
+摄像头的SDK.
+远程电话的SDK...</p>
+
+<p>CMapXFeatures 用来存储MapX的图元集合.
+? DDX/DDV 支持. #动态数据支持.CMapX变量需要通过DDX_Control来绑定资源标号.
+在DoDataExchange里面通过DDX_Control关联控件与变量.
+将地图集合gst文件保存到CString中,通过m_MapX.SetGeoSet(strGeoPath)来设置地图.
+设置地图显示基本属性.
+m_MapX.SetMapUnit(miUnitKilometer);
+m_MapX.SetAreaUnit(miUnitSquareKilometer);
+取消图元信息提示.
+m_MapX.SetInfotipSupport(true);
+设置鼠标滚轮支持.
+m_MapX.SetMousewheelSupport(miFullMousewheelSupport);
+关闭地图标题.
+m_MapX.GetTitle().SetVisible(FALSE)
+显示具体集合中的图层.
+try{</p>
+
+<pre><code>CMapXLayer lyr;
+CMapXLayer lyr1;
+CMapXLayer lyr2;
+CMapXFeature f;
+CMapXFeatures fs;
+CMapXStyle style;
+
+lyr = m_MapX.GetLayers().CreateLayer("temp1", NULL, 1);
+lyr.SetVisible(TRUE);
+m_MapX.GetLayers().SetAnimationLayer(lyr);
+
+lyr1 = m_MapX.GetLayers().Item("监控点");
+m_fs1 = lyr1.AllFeatures()
+
+lyr = m_MapX.GetLayers().Item("符号图例");
+m_f1 = lyr.AllFeatures().Item(1);
+m_f2 = lyr.AllFeatures().Item(2);
+m_f3 = lyr.AllFeatures().Item(3);
+</code></pre>
+
+<p>}catch(...){</p>
+
+<pre><code>;
+</code></pre>
+
+<p>}</p>
+
+<p>设置地图放大缩小.
+m_MapX.SetZoom(m_MapX.GetZoom()/1.2) 放大
+m_MapX.SetZoom(m_MapX.GetZoom()*1.2) 缩小
+设置拖动窗口.
+m_MapX.SetCurrentTool(miPanTool);
+设置选择窗口.
+m_MapX.SetCurrentTool(miSelectTool);</p>
+
+<h1>其他的先不写了. 等待今天问学长如何作图,如何绑定数据,如何确定坐标. OVER.</h1>
+]]></content>
+  </entry>
+  
+</feed>

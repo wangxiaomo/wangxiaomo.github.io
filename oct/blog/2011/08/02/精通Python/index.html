@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>精通Python - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="好久没有更新博客了, 饿, 没有时间更新啊, 虽然最近学到的东西很多, 代码产量也不少, 但是竟然没有腾出时间来更新博客&#8230; 这周六就要过七夕了, 我也是偶然情况下才发现的.. 现在这个生活过的, 什么日子都不知道了.
+不废话了, 今天在知乎上看到一个比较感兴趣的问题.就是 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/08/02/%E7%B2%BE%E9%80%9APython/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">精通Python</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-02T07:36:00+08:00" pubdate data-updated="true">Aug 2<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>好久没有更新博客了, 饿, 没有时间更新啊, 虽然最近学到的东西很多, 代码产量也不少, 但是竟然没有腾出时间来更新博客&#8230; 这周六就要过七夕了, 我也是偶然情况下才发现的.. 现在这个生活过的, 什么日子都不知道了.
+不废话了, 今天在知乎上看到一个比较感兴趣的问题.就是</p>
+
+<pre lang="bash">
+怎么样才算精通Python
+</pre>
+
+
+<p>曾经因为别人回答的精通Perl的答案约束自己发展,所以今天这个问题的答案我也好好的研究了下..
+首先是第一个答案, 我比较感兴趣,知乎上评论也比较高..</p>
+
+<pre lang="bash">
+引用自StackOverflow上的一个答案：
+掌握 list comprehensions
+掌握 generators
+代码中经常使用 map, reduce, filter, iter, range, xrange
+掌握 Decorators
+大量使用递归函数
+掌握 itertools 和 functools
+读书 —— Real World Haskell（评论中作者说不一定要局限于这本书，可以阅读任何关于函数式编程的书籍，比如SICP等）
+重写自己的老派Python代码，使用高阶函数，递归等
+当你同事给你看任何用Python做的类实现时，烦死他。告诉他更好的办法时通过dictionary加上函数，拥抱函数编程。
+重新掌握 Strategy 及其他模式
+找到平衡
+</pre>
+
+
+<p>然后还有一个答案讲解的也比较精细..</p>
+
+<pre lang="bash">
+「精通」要满足如下条件：
+熟知主流硬件体系（x86, x64）
+熟知 CPython 的具体实现，如若可能至少通读源码三遍以上
+熟知每条 Python bytecode 如何被解释执行
+熟知每条 Python 语句如何 compile 成 bytecode
+熟知 Python 主要数据结构所采用的优化手段
+熟知 JIT 以及哪些场合下 PyPy 会比 CPython 有较大性能提高、以及有什么代价
+
+所以我一直只敢称自己为 「中级 Pythonista」
+
+@米嘉 引用的 StackOverflow 上列的那几项条件是作为将 Python 用于主要工作语言所需要的基本条件，敢于因此而称自己「精通 Python」
+要让不少人笑掉大牙。况且那几项还有几个严重问题：
+第3点：如若可能，尽量避免 map/reduce/fitler，而用 list/generator/set comprehension，代码要清晰得多，GvR 如此说。xrange 和 range 的区别在 Python 3 中马上就要滚蛋了，所以如非必要，不要大量使用 xrange。
+第5点：敢于在 CPython 中大量使用递归函数是对 CPython 实现的公然侮辱。Python 的多个稳定实现都没有 TCO，递归会让性能迅速
+下降。记住一点：Python 中函数调用非常昂贵，可读性、可维护性影响不大的情况下，能展开函数调用的时候尽量展开。递归也并不是人类
+自然的思考方式。
+第7点：看书是对的，但不要把 Python 当作一门经典函数式语言对待，因为它不是。你当它是，它会很痛苦（“为毛要这样滥用我！？”），
+你也会很痛苦（“为毛你不这样实现 blah blah！？”）。SICP 是本好书，但不要因此而教条。要清楚的知道什么时候用函数式，什么时候用面
+向对象，什么时候用面向过程，什么时候用面向任务，什么时候用面向结果。在一棵树上吊死是大多数非理性死忠的表现。
+</pre>
+
+
+<p>通过以上的回答,首先激起了我对函数式编程的兴趣, 不过haskell又是一门新的语言, 虽然哲学思想值得学习, 不过时间有限, 暂时不准备学习, 大概了解下就行了.
+然后就是回答1中的出现的各种python英文名次, 虽然隐约知道是些什么含义, 不过还是有些不确定..
+1.list comprehensions
+这个就是python的列表推倒.曾经初学的时候感觉像是Perl的map和grep的结合体.有人认为这个可读性高,有人也不这样认为, 具体的利弊还是需要自己衡量, 不过list comprehensions 貌似比for的效率高.这倒是一个可取的地方..</p>
+
+<pre lang="python">
+print [line.rstrip() for line in open('test.txt') if line[0]=='\n']
+</pre>
+
+
+<p>上面就是一个简单的示例.不过我还是不能运用自如,主要是有两个问题.</p>
+
+<pre lang="bash">
+1.逻辑关机复杂的时候不想写成这样的形式.
+2.多层循环.
+3.todo code太多的时候也不想写成这样的形式.
+</pre>
+
+
+<p>其实上面两点可以封装成一个小函数进行处理, 这样是不是符合函数式编程的概念呢?
+2.generators.之前在许多语言中见过yield,基本上与lambda同样作为高级应用.所以对yield只知道些基本的东西.具体的应用也不是很熟悉.今天稍微研究了下,毕竟我不是什么语言控,本质控什么的.所以还是以应用为主学习了下.
+yield与普通的循环有什么不同呢? 我们可以类比到python2中的range和xrange的不同.generator比普通的循环在性能上有比较好的优点.</p>
+
+<pre lang="python">
+def fibo():
+    a,b = 0,1
+    while True:
+        yield b
+        a,b = b,a+b
+
+</pre>
+
+
+<p>更深层的应用就不说了,什么send,throw方法,用到了再说..
+3.map,python的map和perl类似,而且应用和1中的list comprehensions类似, 就不多说了.
+4.iter用法.这个之前真的没见过.或者见过了.给忘掉了..</p>
+
+<pre lang="python">
+num = [1,2,3,4]
+i = iter(num)
+print i.next()
+print i.next()
+#
+#for x in i:
+#    print x
+#
+</pre>
+
+
+<p>有点累了. 先写到这里`</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-02T07:36:00+08:00" pubdate data-updated="true">Aug 2<span>nd</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/python/'>Python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/08/02/%E7%B2%BE%E9%80%9APython/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/08/02/%E7%B2%BE%E9%80%9APython/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/07/24/libsvm%E5%AE%89%E8%A3%85./" title="Previous Post: libsvm安装.">&laquo; libsvm安装.</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/08/03/sql%E8%AF%AD%E5%8F%A5./" title="Next Post: sql语句.">sql语句. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

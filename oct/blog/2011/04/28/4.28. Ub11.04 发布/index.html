@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>4.28. Ub11.04 发布 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="昨晚看小说看的太HIGH了. 早上起来就7:50了. 赶紧洗涮了就飞奔. 到了教室才发现忘了带眼镜了. 所以后半节课就果断翘课了.
+昨晚清哥写代码写到很晚. 抽住了. 有女生求他写代码 . 他就写的更入迷了似的. 上学期课设的时候我做过这个. 不过代码丢了. 大概印象还是有的. 现在就把代码确认下 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/04/28/4.28.+Ub11.04+%E5%8F%91%E5%B8%83/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">4.28. Ub11.04 发布</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-28T01:39:00+08:00" pubdate data-updated="true">Apr 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>昨晚看小说看的太HIGH了. 早上起来就7:50了. 赶紧洗涮了就飞奔. 到了教室才发现忘了带眼镜了. 所以后半节课就果断翘课了.
+昨晚清哥写代码写到很晚. 抽住了. 有女生求他写代码 . 他就写的更入迷了似的. 上学期课设的时候我做过这个. 不过代码丢了. 大概印象还是有的. 现在就把代码确认下.
+大概思路先说下:</p>
+
+<pre lang="bash">
+首先connect默认是阻塞连接.阻塞连接时会持续请求连接.
+大概30秒或者更长的时间才会返回.
+当我们做端口扫描的时候完全不可能等待那么长时间.
+所以我们需要先把socket设置成非阻塞的.
+那么connect就会瞬间返回.[我们可以设置connect时间.].
+然后我们通过select来判断套接字是否可读写.
+这样就可以了.
+</pre>
+
+
+<p>下面看代码.</p>
+
+<pre lang="cpp">
+#include "stdio.h"                                                  
+#include "winsock2.h"                                                
+#pragma comment(lib, "ws2_32.lib")             
+                                                                                                                             
+#define IP_ADDRESS "127.0.0.1"       
+#define PORT 8080          
+                                                                                                                             
+int main(void){     
+        WSADATA wsaData;  
+        WSAStartup(MAKEWORD(2,0), &wsaData); 
+        SOCKET client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); 
+        //int timeOut = 2000; // 2 seconds    
+        //setsockopt(client, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeOut, sizeof(timeOut));    
+        //setsockopt(client, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeOut, sizeof(timeOut));
+        unsigned long ul = 1;   
+        ioctlsocket(client, FIONBIO, (unsigned long *)&ul);   
+        SOCKADDR_IN saddr;         
+        saddr.sin_family = AF_INET; 
+        saddr.sin_addr.s_addr = inet_addr(IP_ADDRESS);  
+        saddr.sin_port = htons(PORT);    
+        connect(client, (SOCKADDR *)&saddr, sizeof(SOCKADDR)); 
+        struct timeval timeout;
+        fd_set r;        
+        FD_ZERO(&r);      
+        FD_SET(client, &r);   
+        timeout.tv_sec = 2;  
+        timeout.tv_usec = 0;    
+        int ret = select(0, 0, &r, 0, &timeout); 
+        // TODO with ret  
+        if(ret > 0){     
+                // Socket Open    
+        }else{                   
+                // Socket Close
+        }
+        closesocket(client);
+        WSACleanup();
+        return 0;
+}
+</pre>
+
+
+<p>That&#8217;s All.`</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-28T01:39:00+08:00" pubdate data-updated="true">Apr 28<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/乱七八糟/'>乱七八糟</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/04/28/4.28.+Ub11.04+%E5%8F%91%E5%B8%83/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/04/28/4.28.+Ub11.04+%E5%8F%91%E5%B8%83/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/04/18/%E5%8D%87%E7%BA%A7%E4%BD%A0%E7%9A%84%E5%8F%91%E8%A1%8C%E7%89%88/" title="Previous Post: 升级你的发行版">&laquo; 升级你的发行版</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/05/06/%E5%85%B3%E4%BA%8E%E8%BF%99%E5%87%A0%E5%A4%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/" title="Next Post: 关于这几天的一些想法">关于这几天的一些想法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

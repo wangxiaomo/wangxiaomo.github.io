@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>cgi.Fastcgi.PHP-fpm 介绍与比较 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="一.cgi是伴随着并发请求不断fork的.所以在访问量小的时候问题不会体现出来.但是效率低.并发处理差.
+二.fastcgi是常驻内存的.还支持分布式的运算,即 FastCGI 程序可以在网站服务器以外的主机上执行并且接受来自其它网站服务器来的请求. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/02/07/cgi.Fastcgi.PHP-fpm+%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%AF%94%E8%BE%83/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">cgi.Fastcgi.PHP-fpm 介绍与比较</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-07T06:29:00+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>一.cgi是伴随着并发请求不断fork的.所以在访问量小的时候问题不会体现出来.但是效率低.并发处理差.
+二.fastcgi是常驻内存的.还支持分布式的运算,即 FastCGI 程序可以在网站服务器以外的主机上执行并且接受来自其它网站服务器来的请求.但是由于fastcgi同时开多个cgi进程常驻于内存.效率并不高.资源利用不合理.虽然略去了反复fork cgi的费时步骤.但还是不给力.
+FastCGI的工作原理
+1、Web Server启动时载入FastCGI进程管理器（IIS ISAPI或Apache Module)
+2、FastCGI进程管理器自身初始化，启动多个CGI解释器进程(可见多个php-cgi)并等待来自Web Server的连接。
+3、当客户端请求到达Web Server时，FastCGI进程管理器选择并连接到一个CGI解释器。Web server将CGI环境变量和标准输入发送到FastCGI子进程php-cgi
+4、FastCGI子进程完成处理后将标准输出和错误信息从同一连接返回Web Server。当FastCGI子进程关闭连接时，请求便告处理完成。FastCGI子进程接着等待并处理来自FastCGI进程管理器(运行在Web Server中)的下一个连接。 在CGI模式中，php-cgi在此便退出了。</p>
+
+<!--more-->
+
+
+<p>FastCGI的不足
+因为是多进程，所以比CGI多线程消耗更多的服务器内存，PHP-CGI解释器每进程消耗7至25兆内存，将这个数字乘以50或100就是很大的内存数。
+Nginx 0.8.46+PHP 5.2.14(FastCGI)服务器在3万并发连接下，开启的10个Nginx进程消耗150M内存（15M<em>10=150M），开启的64个php-cgi进程消耗1280M内存（20M</em>64=1280M），加上系统自身消耗的内存，总共消耗不到2GB内存。如果服务器内存较小，完全可以只开启25个php-cgi进程，这样php-cgi消耗的总内存数才500M。
+php-cgi是php自带的fastcgi管理器.</p>
+
+<pre lang="bash">php-cgi -b 127.0.0.1:9000</pre>
+
+
+<p>可以启动php-cgi程序.
+PHP-CGI的不足
+1、php-cgi变更php.ini配置后需重启php-cgi才能让新的php-ini生效，不可以平滑重启
+2、直接杀死php-cgi进程,php就不能运行了。(PHP-FPM和Spawn-FCGI就没有这个问题,守护进程会平滑从新生成新的子进程。）
+三.php-fpm一个PHP FastCGI管理器.</p>
+
+<pre lang="bash">/usr/local/php/sbin/php-fpm{start|stop|quit|restart|reload|logrotate}
+
+--start 启动php的fastcgi进程
+--stop 强制终止php的fastcgi进程
+--quit 平滑终止php的fastcgi进程
+--restart 重启php的fastcgi进程
+--reload 重新平滑加载php的php.ini
+--logrotate 重新启用log文件</pre>
+
+
+<p>一般选择这种作为正式应用方案(修改nginx站点配置文件和php-fpm.conf)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-07T06:29:00+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/nginx/'>Nginx</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/02/07/cgi.Fastcgi.PHP-fpm+%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%AF%94%E8%BE%83/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/02/07/cgi.Fastcgi.PHP-fpm+%E4%BB%8B%E7%BB%8D%E4%B8%8E%E6%AF%94%E8%BE%83/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/02/07/Nginx%E7%9B%AE%E5%BD%95%E6%98%BE%E7%A4%BA%E4%BB%A5%E5%8F%8A%E4%B8%8EPHP%E7%9A%84%E4%BA%A4%E4%BA%92/" title="Previous Post: Nginx目录显示以及与PHP的交互">&laquo; Nginx目录显示以及与PHP的交互</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/02/08/PerlDoc%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%28%E4%BA%8C%29/" title="Next Post: PerlDoc学习笔记(二)">PerlDoc学习笔记(二) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

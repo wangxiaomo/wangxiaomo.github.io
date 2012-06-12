@@ -1,0 +1,1315 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="最近一直在改学校的网站,因为涉及到把多个网站合并等蛋疼的问题,所以前台后台,写了很多sql语句,有一些语句并不是很熟悉&#8230;所以在这里总结下吧.
+首先,sql语句对大小写不敏感,书写的时候最好注意规范. 引入常量字符串的时候可以用反引号包括,不过在含有ALIAS的语句中, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/8/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/08/03/sql%E8%AF%AD%E5%8F%A5./">Sql语句.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-03T07:40:00+08:00" pubdate data-updated="true">Aug 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近一直在改学校的网站,因为涉及到把多个网站合并等蛋疼的问题,所以前台后台,写了很多sql语句,有一些语句并不是很熟悉&#8230;所以在这里总结下吧.
+首先,sql语句对大小写不敏感,书写的时候最好注意规范. 引入常量字符串的时候可以用反引号包括,不过在含有ALIAS的语句中,最好不要随便使用反引号,容易悲剧.
+distinct可以去除重复记录</p>
+
+<pre lang="sql">
+SELECT DISTINCT id,username FROM user_table
+</pre>
+
+
+<p>如上使用时,任意两行id,username均不相同.
+inner join 和 outer join就是理解的问题, 理解了之后问题不大.
+接下来就是UNION语句.就是求多个SELECT的并集.</p>
+
+<pre lang="sql">
+SELECT id,username FROM table1
+UNION
+SELECT id,username FROM table2
+</pre>
+
+
+<p>唯一需要注意的是,他们的列必须完全相同,不同时需要ALIAS
+导出部分数据到某一个表时.我们可以用SELECT INTO</p>
+
+<pre lang="sql">
+SELCT id,username INTO new_table [IN new_database]  FROM user_table WHER
+id<500
+</pre>
+
+
+<p>UNIQUE约束可以使列的值唯一.一个表中最好不要出现多个主键.mysql不能出现多个主键.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/08/02/%E7%B2%BE%E9%80%9APython/">精通Python</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-02T07:36:00+08:00" pubdate data-updated="true">Aug 2<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>好久没有更新博客了, 饿, 没有时间更新啊, 虽然最近学到的东西很多, 代码产量也不少, 但是竟然没有腾出时间来更新博客&#8230; 这周六就要过七夕了, 我也是偶然情况下才发现的.. 现在这个生活过的, 什么日子都不知道了.
+不废话了, 今天在知乎上看到一个比较感兴趣的问题.就是</p>
+
+<pre lang="bash">
+怎么样才算精通Python
+</pre>
+
+
+<p>曾经因为别人回答的精通Perl的答案约束自己发展,所以今天这个问题的答案我也好好的研究了下..
+首先是第一个答案, 我比较感兴趣,知乎上评论也比较高..</p>
+
+<pre lang="bash">
+引用自StackOverflow上的一个答案：
+掌握 list comprehensions
+掌握 generators
+代码中经常使用 map, reduce, filter, iter, range, xrange
+掌握 Decorators
+大量使用递归函数
+掌握 itertools 和 functools
+读书 —— Real World Haskell（评论中作者说不一定要局限于这本书，可以阅读任何关于函数式编程的书籍，比如SICP等）
+重写自己的老派Python代码，使用高阶函数，递归等
+当你同事给你看任何用Python做的类实现时，烦死他。告诉他更好的办法时通过dictionary加上函数，拥抱函数编程。
+重新掌握 Strategy 及其他模式
+找到平衡
+</pre>
+
+
+<p>然后还有一个答案讲解的也比较精细..</p>
+
+<pre lang="bash">
+「精通」要满足如下条件：
+熟知主流硬件体系（x86, x64）
+熟知 CPython 的具体实现，如若可能至少通读源码三遍以上
+熟知每条 Python bytecode 如何被解释执行
+熟知每条 Python 语句如何 compile 成 bytecode
+熟知 Python 主要数据结构所采用的优化手段
+熟知 JIT 以及哪些场合下 PyPy 会比 CPython 有较大性能提高、以及有什么代价
+
+所以我一直只敢称自己为 「中级 Pythonista」
+
+@米嘉 引用的 StackOverflow 上列的那几项条件是作为将 Python 用于主要工作语言所需要的基本条件，敢于因此而称自己「精通 Python」
+要让不少人笑掉大牙。况且那几项还有几个严重问题：
+第3点：如若可能，尽量避免 map/reduce/fitler，而用 list/generator/set comprehension，代码要清晰得多，GvR 如此说。xrange 和 range 的区别在 Python 3 中马上就要滚蛋了，所以如非必要，不要大量使用 xrange。
+第5点：敢于在 CPython 中大量使用递归函数是对 CPython 实现的公然侮辱。Python 的多个稳定实现都没有 TCO，递归会让性能迅速
+下降。记住一点：Python 中函数调用非常昂贵，可读性、可维护性影响不大的情况下，能展开函数调用的时候尽量展开。递归也并不是人类
+自然的思考方式。
+第7点：看书是对的，但不要把 Python 当作一门经典函数式语言对待，因为它不是。你当它是，它会很痛苦（“为毛要这样滥用我！？”），
+你也会很痛苦（“为毛你不这样实现 blah blah！？”）。SICP 是本好书，但不要因此而教条。要清楚的知道什么时候用函数式，什么时候用面
+向对象，什么时候用面向过程，什么时候用面向任务，什么时候用面向结果。在一棵树上吊死是大多数非理性死忠的表现。
+</pre>
+
+
+<p>通过以上的回答,首先激起了我对函数式编程的兴趣, 不过haskell又是一门新的语言, 虽然哲学思想值得学习, 不过时间有限, 暂时不准备学习, 大概了解下就行了.
+然后就是回答1中的出现的各种python英文名次, 虽然隐约知道是些什么含义, 不过还是有些不确定..
+1.list comprehensions
+这个就是python的列表推倒.曾经初学的时候感觉像是Perl的map和grep的结合体.有人认为这个可读性高,有人也不这样认为, 具体的利弊还是需要自己衡量, 不过list comprehensions 貌似比for的效率高.这倒是一个可取的地方..</p>
+
+<pre lang="python">
+print [line.rstrip() for line in open('test.txt') if line[0]=='\n']
+</pre>
+
+
+<p>上面就是一个简单的示例.不过我还是不能运用自如,主要是有两个问题.</p>
+
+<pre lang="bash">
+1.逻辑关机复杂的时候不想写成这样的形式.
+2.多层循环.
+3.todo code太多的时候也不想写成这样的形式.
+</pre>
+
+
+<p>其实上面两点可以封装成一个小函数进行处理, 这样是不是符合函数式编程的概念呢?
+2.generators.之前在许多语言中见过yield,基本上与lambda同样作为高级应用.所以对yield只知道些基本的东西.具体的应用也不是很熟悉.今天稍微研究了下,毕竟我不是什么语言控,本质控什么的.所以还是以应用为主学习了下.
+yield与普通的循环有什么不同呢? 我们可以类比到python2中的range和xrange的不同.generator比普通的循环在性能上有比较好的优点.</p>
+
+<pre lang="python">
+def fibo():
+    a,b = 0,1
+    while True:
+        yield b
+        a,b = b,a+b
+
+</pre>
+
+
+<p>更深层的应用就不说了,什么send,throw方法,用到了再说..
+3.map,python的map和perl类似,而且应用和1中的list comprehensions类似, 就不多说了.
+4.iter用法.这个之前真的没见过.或者见过了.给忘掉了..</p>
+
+<pre lang="python">
+num = [1,2,3,4]
+i = iter(num)
+print i.next()
+print i.next()
+#
+#for x in i:
+#    print x
+#
+</pre>
+
+
+<p>有点累了. 先写到这里`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/07/24/libsvm%E5%AE%89%E8%A3%85./">Libsvm安装.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-24T05:01:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>正式开始做项目了, 计划有变, 由话题跟踪变为分类聚类. 不过没什么太大关系&#8230; 接下来的三天内要用svm和knn的方法实现分类聚类.
+据我短时间的观察,ub源里面有一个python-libsvm,但是和著名的那个台湾人写的libsvm有点出入,所以我们最好去下载台湾的那个去.然后安装过程中有一些问题.估计不是我一个人的个例,反正我解决了好长时间..
+下载好libsvm-3.1,我们需要在当前目录下make一下,然后就编译生成了svm_scale,svm_train,svm_predict等可执行文件.并在/usr/lib下生成了so文件.这时候在python子目录下进入python</p>
+
+<pre lang="python">
+from svm import *
+</pre>
+
+
+<p>错误,提示AttributeError: /usr/lib/libsvm.so.2: undefined symbol: svm_free_model_content
+google了半天也没有找到解决方法,后来灵光一闪,想起了nm命令,所以</p>
+
+<pre lang="python">
+nm /usr/lib/libsvm.so.2
+</pre>
+
+
+<p>输出没有可用的接口..所以我们基本可以确定是so文件出了问题.
+然后我们在python目录下make一下.这时候在..目录下生成了so文件.我们需要重新做一下软连接.</p>
+
+<pre lang="bash">
+ln -s /home/wxm/libsvm-3.1/libsvm.so.2 /usr/lib/libsvm.so.2
+</pre>
+
+
+<p>然后重启python,重新import下.成功&#8230;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/07/15/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D.mmseg%E8%BF%90%E7%94%A8.%60/">中文分词.mmseg运用.`</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-15T08:27:00+08:00" pubdate data-updated="true">Jul 15<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre lang="python">
+
+#!/usr/bin/python 
+#-*- coding: utf-8 -*-
+
+from mmseg import seg_txt
+def getWordCounts(filename='news.txt'):
+    """ 
+    通过中文分词, 确定文章中的词频.
+    """
+
+    word_counts = {}
+
+    for line in file(filename):
+        wordlist = seg_txt(line)
+        for word in wordlist:
+            word_counts.setdefault(word, 0)
+            if word in word_counts.keys():
+                word_counts[word] += 1
+
+    return word_counts
+
+if __name__ == '__main__':
+    word_counts = getWordCounts()
+    for word, count in word_counts.items():
+        print word, count
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/07/13/%E6%95%B0%E6%8D%AE%E8%81%9A%E7%B1%BB/">数据聚类</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-13T03:08:00+08:00" pubdate data-updated="true">Jul 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>数据聚类就是从各种不同的来源中构造算法所需的数据.聚类时常被用在数据量很大的应用中.
+这里面首先有两个概念:监督学习和无监督学习.
+利用样本输入和期望输出来学习如何预测的技术被称为监督学习.比如:神经网络,决策树,向量支持机,以及贝叶斯过滤.采用这些方法的应用程序,会通过检查一组输入和期望的输出来进行&#8221;学习&#8221;.当我们想要利用这些方法中的任何一种来提取信息时,我们可以传入一组输入,然后期望应用程序能够根据其此前学到的知识来产生一个输出.
+聚类是无监督学习.与神经网络或决策树不同,无监督学习算法不是利用带有正确答案的样本数据进行&#8221;训练&#8221;,他们的目的是要在一组数据中找寻某种结构,而这些数据本身并不是我们想要的答案.聚类算法的目标是采集数据,然后从中找出不同的群组.比如:非负矩阵因式分解和自组织映射.
+为聚类算法准备数据的常见做法是定义一组公共的数值型属性.我们可以利用这些属性对数据项进行比较.
+以博客用户为例.我们可以先定义一组指定的词汇,然后在博客中寻找出现的次数,通过单词出现的频度来对博客进行聚类..</p>
+
+<pre lang="bash">
+                  "china"         "kids"        "music"
+Blog1             0                  3              3
+Blog2             4                  0              3
+</pre>
+
+
+<p>数据可以到<a href="http://kiwitobes.com/clusters/blogdata.txt">这里</a>下载.
+假设我们要自己搞定数据,我们需要对订阅源中的单词进行计数.
+对rss源进行分析, 我们需要先下载feedparser模块.</p>
+
+<pre lang="bash">
+aptitude install python-feedparser
+</pre>
+
+
+<pre lang="python">
+import feedparser
+import re
+
+"""
+返回一个rss订阅源的标题和包含单词技术情况的字典.
+"""
+def getwordcount(url):
+    #解析订阅源
+    d = feedparser.parse(url)
+    wc = {}
+
+    for e in d.entries:
+        if 'summary' in e:
+            summary = e.summary
+        else:
+            summary = e.description
+
+        #提取单词列表
+        words = getwords(e.title+' '+summary)
+        for word in words:
+            wc.setdefault(word, 0)
+            wc[word] += 1
+    return d.feed.title,wc
+
+"""
+getwords把所有的html标记去掉,并以非字幕字符作为分隔符拆分出单词.
+再将结果以列表形式加以返回.
+"""
+def getwords(html):
+    txt = re.compile(r'<[^>]+>').sub('', html)
+    words = re.compile(r'[^A-Za-z]+').split(txt)
+    return [word.lower() for word in words if word!=' ']
+</pre>
+
+
+<p>接下来就是整体的调用过程.</p>
+
+<pre lang="python">
+apcount = {}
+wordcounts = {}
+feedlist = [line for line in file('feedlist.txt')]
+
+for feedurl in feedlist:
+    title,wc = getwordcounts(feedurl)
+    wordcounts[title] = wc
+    for word,count in wc.items():
+        apcount.setdefault(word, 0)
+        if count>1:
+            apcount[word] += 1
+
+wordlist = []
+for w,bc in apcount.items():
+    frac = float(bc)/len(feedlist)
+    if frac>0.1 and frac<0.5:
+        wordlist.append(w)
+
+out = file('blogdata.txt', 'w')
+out.write('Blog')
+for word in wordlist:
+    out.write('\t%s' % word)
+out.write('\n')
+for blog,wc in wordcounts.items():
+    out.write(blog)
+    for word in wordlist:
+         if word in wc:
+              out.write('\t%d' % wc[word])
+         else:
+              out.write('\t0')
+    out.write('\n')
+</pre>
+
+
+<p>搞定数据后,我们开始分级聚类.
+分级聚类就是通过连续不断的将最为相似的群组两两合并,来构造出一个群组的层级结构.其中每个群组都是从单一元素开始的.在每次迭带过程中,分级聚类算法会计算每两个群组间的距离,并将距离最近的两个群组合并成一个新的群组.这一过程会一直重复下去,直到只剩下一个群组为止.元素的相似程度是通过他们的相对位置来体现的,两个元素距离越近,他们就越相似.
+以上面的数据为操作对象.</p>
+
+<pre lang="python">
+"""
+首先,构造方法用来加载数据文件.
+"""
+def readfile(filename):
+    lines = [line for line in file(filename)]
+
+    #第一列是列标题.
+    colnames = lines[0].strip().split('\t')[1:]
+    rownames = []
+    data = []
+    for line in lines[1:]:
+        p = line.strip().split('\t')
+        #每行的第一列是列名
+        rownames.append(p[0])
+        data.append([float(x) for x in p[1:]])
+    return rownames,colnames,data
+</pre>
+
+
+<p>下一步,我们来定义紧密度.我们根据拟合度来判断紧密度.</p>
+
+<pre lang="python">
+from math import sqrt
+def pearson(v1, v2):
+    sum1 = sum(v1)
+    sum2 = sum(v2)
+    sum1Sq = sum([pow(v,2) for v in v1])
+    sum2Sq = sum([pow(v,2) for v in v2])
+    pSum = sum([v1[i]*v2[i] for i in range(len(v1))])
+    
+    num = pSum-(sum1*sum2/len(v1))
+    den = sqrt((sum1Sq-pow(sum1,2)/len(v1))*(sum2Sq-pow(sum2,2)/len(v1)))
+    if den == 0: return 0
+    return 1.0-num/den
+</pre>
+
+
+<p>上述1.0-num/den是为了让越相似的数据距离越小..
+接下来,我们新建一个类,作为聚类.</p>
+
+<pre lang="python">
+class bicluster:
+    def __init__(self, vec, left=None, right=None, distance=0.0, id=None):
+         self.left = left
+         self.right = right
+         self.vec = vec
+         self.id = id
+         self.distance = distance
+</pre>
+
+
+<p>然后就是计算聚类的方法.</p>
+
+<pre lang="python">
+def hcluster(rows, distance=pearson):
+    distances = {}
+    currentclustid = -1
+
+    #最开始的聚类就是数据集中的行.
+    clust = [bicluster(row[i],id=i) for i in range(len(rows))]
+
+    while len(clust)>1:
+        lowestpair = (0,1)
+        closet = distance(clust[0].vec, clust[1].vec)
+
+        #便利每一个配对.寻找最小距离.
+        for i in range(len(clust)):
+            for j in range(i+1, len(clust)):
+                #用distances来缓存距离的计算值
+                if (clust[i].id, clust[j].id) not in distances:
+                     distances[(clust[i].id, clust[j].id)] = distance(clust[i].vec, clust[j].vec)
+                d = distances[(clust[i].id,clust[j].id)]
+                if d<closet:
+                     closet = d
+                     lowestpair = (i,j)
+       #计算两个聚类的平均值.
+       mergevec = [
+           (clust[lowestpair[0]].vec[i],clust[lowestpair[1]].vec[i])/2.0
+           for i in range(len(clust[0].vec))]
+       #建立新的聚类.
+       newcluster = bicluster(mergevec, left=clust[lowestpair[0]],
+                           right=clust[lowestpair[1]], distance=closet,
+                           id=currentclustid)
+       #不在原始集合中的聚类,其id为负数
+       currentclustid -= 1
+       del clust[lowestpair[0]]
+       del clust[lowestpair[1]]
+       clust.append(newcluster)
+    return clust[0]
+</pre>
+
+
+<p>k-均值聚类.
+分级聚类的结果为我们返回一棵形象直观的树,但这个方法有两个缺点:在没有额外的投入的情况下,树形视图是不会真正的将数据拆分成不同组的,而且该算法的计算量非常惊人,所以在大规模的数据处理的时候,该算法的运行速度会非常的慢.除了分级聚类外,另一种可供选择的聚类方法称为k-均值聚类.这种算法完全不同于分级聚类,因为我们会预先告诉算法希望生成的聚类数量,然后算法会根据数据的结构状况确定聚类的大小.
+k-均值聚类算法首先会随机确定k个中心位置,然后各个数据项分配给最临近的中心点,待分配完成后,聚类中心就会移到分配给该聚类的所有节点的平均位置处,然后整个分配过程会重新开始.这一过程会一直重复下去,直到分配过程不再产生变化为止.</p>
+
+<pre lang="python">
+import random
+
+def kcluster(rows, distance=pearson, k=4):
+    #确定每个点的最小值和最大值.
+    ranges = [(min([row[i] for row in rows]), max([row[i] for row in rows]))
+                     for i in range(len(rows[0]))]
+
+    #随机创建k个中心点.
+    clusters = [[random.random()*(ranges[i][1]-ranges[i][0])+ranges[i][0]
+                       for i in range(len(rows[0]))] for j in range(k)]
+
+    lastmatches = None
+    for t in range(100):
+        print 'Iteration %d' % t
+        bestmatches = [[] for i in range(k)]
+
+        #在每一行中寻找距离最近的中心点.
+        for j in range(len(rows)):
+             row = rows[j]
+             bestmatch = 0
+             for i in range(k):
+                 d = distance(cluster[i], row)
+                 if d<distance(clusters[bestmatch], row):
+                     bestmatch = i
+             #如果结果与上一次相同, 则整个过程结束.
+             if bestmatches == lastmatches:
+                 break
+             lastmatches = bestmatches
+             #把中心点移到其所有成员的平均位置处.
+             for i in range(k):
+                 avgs = [0.0]*len(rows[0])
+                 if len(bestmatches[i])>0:
+                     for rowid in bestmatches[i]:
+                         for m in range(len(rows[rowid]):
+                             avgs[m] += rows[rowid][m]
+                         for j in range(len(avgs)):
+                             avgs[j] /= len(bestmatches[i])
+                         clusters[i] = avgs
+      return bestmatches
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/07/13/Tanimoto%E5%88%86%E5%80%BC%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97/">Tanimoto分值相似度计算</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-13T01:25:00+08:00" pubdate data-updated="true">Jul 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>集体智慧编程中的课后题中提到了Tanimoto分值算法.google了下,发现了这个算法在特定的应用环境下还是比较简单高效的.
+比如,从某书签网站抓到了许多用户保存的链接.</p>
+
+<pre lang="bash">
+user link
+</pre>
+
+
+<p>比如说用户A保存了100个书签,用户B保存了150个标签,用户A和用户B共同的标签是30个.那么Tanimoto分值就是30/(100+150-30)
+这个算法对二元性数据很有用..</p>
+
+<pre lang="python">
+def sim_distance_tanimoto(p1, p2):
+    c = set(p1.keys())&set(p2.keys())
+    if not c:
+        return 0
+    p = len(c)/(len(p1.keys())+len(p2.keys())-len(c))
+    return p
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/07/12/%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97/">相似度计算</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-12T06:24:00+08:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre lang="python">
+from math import sqrt
+"""
+欧几里德距离
+"""
+def sim_distance(p1, p2):
+    c = set(p1.keys())&set(p2.keys())
+    if not c:
+        return 0
+    sum_of_squares = sum([pow(p1.get(sk)-p2.get(sk),2) for sk in c])
+    p = 1/(1+sqrt(sum_of_squares))
+    return p
+
+"""
+皮尔逊相关度
+"""
+def sim_distance_pearson(p1,p2):
+    c = set(p1.keys())&set(p2.keys())
+    if not c:
+        return 0
+    s1 = sum([p1.get(sk) for sk in c])
+    s2 = sum([p2.get(sk) for sk in c])
+    sq1 = sum([pow(p1.get(sk),2) for sk in c])
+    sq2 = sum([pow(p2.get(sk),2) for sk in c])
+    ss = sum([p1.get(sk)*p2.get(sk) for sk in c])
+    n = len(c)
+    num = ss-s1*s2/n
+    den = sqrt((sq1-pow(s1,2)/n)*(sq2-pow(s2-2)/n))
+    if den == 0:
+        return 0
+    p = num/den 
+    return p
+
+"""
+Jaccard系数.
+"""
+def sim_distance_jaccard(p1,p2):
+    c = set(p1.keys())&set(p2.keys())
+    if not c:
+        return 0
+    ss = sum([p1.get(sk)*p2.get(sk) for sk in c])
+    sq1 = sum([pow(sk,2) for sk in p1.values()])
+    sq2 = sum([pow(sk,2) for sk in p2.values()])
+    p = float(ss)/(sq1+sq2-ss)
+    return p
+
+"""
+余弦相似度
+"""
+def sim_distance_cos(p1,p2):
+    c = set(p1.keys())&set(p2.keys())
+    if not c:
+        return 0
+    ss = sum([p1.get(sk)*p2.get(sk) for sk in c])
+    sq1 = sqrt(sum([pow(p1.get(sk),2) for sk in p1.values()]))
+    sq2 = sqrt(sum([pow(p2.get(sk),2) for sk in p2.values()]))
+    p = float(ss)/(sq1*sq2)
+    return p
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/07/12/%E6%8E%A8%E8%8D%90.../">推荐&#8230;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-12T05:44:00+08:00" pubdate data-updated="true">Jul 12<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>根据许多不同的方式来搜集兴趣偏好,这些数据可能来自各个方面.然后再根据群体偏好来为用户进行推荐.
+<font color="red">协作型过滤</font>
+一个协作型过滤算法通常的做法是对一大群人进行搜索,并从中找出与我们品味相近的一小群人.算法会对这些人所偏爱的其他内容进行考查,并将他们组合起来构造出一个经过排名的推荐列表.
+首先,我们需要<b>搜集偏好</b>.我们要寻找一种表达不同人及其偏好的方法.例如.</p>
+
+<pre lang="python">
+#recommendations.py
+#一个涉及影评者及其对其他几部电影评分情况的字典.
+critics = {
+    'Lisa':{
+        'Lady in the water':2.5,
+        'Snake on a plane' :3.5
+    },
+    'Tom':{
+        'Lady in the water':3.0,
+        'Snake on a plane' :4.0
+    },
+    'Jerry':{
+        'Lady in the water':2.0,
+        'Snake on a plane' :3.0
+    },
+    'WXM':{
+        'Lady in the water':3.3,
+        'Snake on a plane' :4.2
+    },
+    'jhz':{
+        'Lady in the water':3.9,
+        'Snake on a plane' :4.5
+    }
+}
+</pre>
+
+
+<p>上述字典包含了包括本人在内的每位影评者对某一给定的影片的喜爱程度,不管偏好是怎么表达的,我们都需要通过一种方法把它对应到数字.
+尽管我们可以将相当数量的人员偏好放在一个字典里,但是对规模巨大的数据集而言,我们还是希望把他存到数据库中.
+然后我们要寻找相近的用户.搜集完人们的偏好数据后,我们需要有一种方法来确定人们在品味方面的相似程度.为此,我们可以将每个人与所有其他人进行对比,并计算他们的相似度评价值.有如下几种方法:欧几里德距离,皮尔逊相关度.
+欧几里德距离以经过人们一致评价的物品为坐标轴,然后将参与评价的人绘制到图上,并考察他们彼此间的距离远近.为了计算两点之间的距离,我们可以通过计算出每一轴向上的差值,求平方后再相加,最后对总和取平方根.</p>
+
+<pre lang="python">
+from math import sqrt
+distance = sqrt(pow(4.5-4,2)+pow(3.5-4.0))
+</pre>
+
+
+<p>上述算式可以计算出距离值,偏好越相似的人,其距离就越短.不过,我们还需要一个函数,来对偏好越相近的情况给出越大的值.为此,我们可以将函数值加1,并取其倒数.</p>
+
+<pre lang="python">
+from math import sqrt
+#返回一个有关person1和person2的基于距离的相似度评价.
+def sim_distance(prefs, person1, person2):
+    #定义shared_item
+    si = {}
+    for item in prefs[person1]:
+        if item in prefs[person2]:
+            si[item] = 1
+    #没有共同之处.
+    if len(si) == 0:
+        return 0
+    #计算所有差值的平方和.
+    sum_of_squares = sum([pow(prefs[person1][item]-prefs[person2][item] \
+                         for item in prefs[person1] if item in prefs[person2]])
+    return 1/(1+sqrt(sum_of_squares))
+</pre>
+
+
+<p>皮尔逊相关度评价.相较于欧几里德距离,这个更为复杂一些.该相关系数是判断两组数据与某一直线拟合程度的一种度量.对应的公式比欧几里德距离评价的计算公式要复杂,但是它在数据不是很规范的时候,会出现更好的推荐结果.皮尔逊相关度评价相较于欧几里德距离评价,修正了夸大分值,比如不同人对相同的一系列影评有不通的评分但是有相同的趋势.皮尔逊相关度评价算法会首先找出两位评论者都曾评价过的物品,然后计算两者的评分总和与平方和,并求的评分的乘积之和,最后,算法利用这些计算结果计算出皮尔逊相关系数.</p>
+
+<pre lang="python">
+#返回p1,p2的皮尔逊相关度评价.
+def sim_pearson(prefs, p1, p2):
+    si = {}
+    for item in prefs[p1]:
+        if item in prefs[p2]:
+            si[item] = 1
+    n = len(si)
+    if n == 0:
+        return 0
+    #求所有偏好和
+    sum1 = sum([prefs[p1][item] for item in si])
+    sum2 = sum([prefs[p2][item] for item in si]])
+    #求平方和.
+    sum1Sq = sum([pow(prefs[p1][item],2) for item in si])
+    sum2Sq = sum([pow(prefs[p2][item],2) for item in si])
+    #求乘积之和
+    pSum = sum([prefs[p1][item]*prefs[p2][item] for item in si])
+    
+    #计算皮尔逊相关度评价.
+    num = pSum-(sum1*sum2/n)
+    den = sqrt((sum1Sq-pow(sum1,2)/n)*(sum2Sq-pow(sum2,2)/n))
+    if den==0:
+        return 0
+    r = num/den 
+    return r
+</pre>
+
+
+<p>如何选择?这里介绍了两种,欧几里德距离和皮尔逊评价,实际上还有许多其他的算法,使用哪一种完全取决于应用.ps:Jaccard系数或曼哈顿距离算法.
+接下来,我们可以根据相似度来通过指定人员对每个人进行打分.并找出最接近的匹配结果.</p>
+
+<pre lang="python">
+#从反映偏好的字典中返回最为匹配者
+#返回结果的个数和相似度函数为可选参数.
+def topMatches(prefs, person, n=5, similarity=sim_pearson):
+    scores = [(similarity(prefs, person, other), other) \
+              for other in prefs if other!=person]
+    #对列表进行排序
+    scores.sort()
+    scores.reverse()
+    return scores[0:n]
+</pre>
+
+
+<p>接下来我们就可以推荐物品了.
+我们找到与客户品味最为相近的人,不过我们不能直接从他喜欢的东西中拿出作为推荐,这样太随意了.如果这个人在某方面比较重口味,那就完蛋了.为了解决上述的问题,我们需要通过一个加权的评价值来为影片打分.评价者的评分结果因此而形成了先后的排名.为此,我们需要取得所有其他评论者的评价结果,借此得到相似度后,再乘以他们为每部影片所给的评价值.</p>
+
+<pre lang="python">
+#利用所有他人评价值加权平均,为某人提供建议.
+def getRecommendations(prefs, person, similarity=sim_pearson):
+    totals = {}
+    simSums = {}
+    
+    for other in prefs:
+        if other == person: continue
+        sim = similarity(prefs,person,other)
+        #忽略评价值为0或小于0的情况.
+        if sim<=0: continue
+        for item in prefs[other]:
+            #只对自己还未曾看过的影片进行评价.
+            if item not in prefs[person] or \
+               prefs[person][item] == 0
+               totals.setdefault(item, 0)
+               totals[item] += sim*prefs[other][item] 
+               #相似度之和
+               simSums.setdefault(item, 0)
+               simSums[item] += sim 
+        #建立一个归一化的列表.
+        rankings = [(total/simSums[item],item) \
+                    for item,total in totals.items()]
+        rankings.sort()
+        rankings.reverse()
+        return rankings
+</pre>
+
+
+<p>还有一种常用的情景,就是匹配物品.比如说我搜索python,就会推荐python的一些其他书籍.这个和推荐人是类似的.只不过结构由</p>
+
+<pre lang="python">
+{'Lisa':{'python':3,'programming in python':5}}
+</pre>
+
+
+<p>变成了.</p>
+
+<pre lang="python">
+{'python':{'Lisa':3,'Tom':3.5},
+ 'programming in python':{'Lisa':5,'Tom':3}
+}
+</pre>
+
+
+<p>之后依然是推荐.
+这里我们可以通过以下函数进行转换.</p>
+
+<pre lang="python">
+def transformPrefs(prefs):
+    result = {}
+    for person in prefs:
+        for item in prefs[person]:
+            result.setdefault(item, {})
+            result[item][person]=prefs[person][item]
+    return result
+</pre>
+
+
+<p>基本的推荐思路就是如此.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/07/05/%E6%96%B0%E6%B5%AAAPI%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98./">新浪API调用过程中遇到的问题.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-05T05:21:00+08:00" pubdate data-updated="true">Jul 5<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本想是一件很简单的事情,拿的access_token,其他什么的都无所谓了..没想到调用过程中还是遇到挺多问题的..
+<font color="red">不同的 sns有不同的调用规范,详情请参看 sdk以及官方文档.</font>
+按调用方式来说.
+一.GET调用.</p>
+
+<pre lang="php">
+<?php
+$api_url = "";
+//GET参数.
+$param = array(
+      'x' => 'x',
+      'y' => 'y'
+);
+$api_url = $api_url . implode('&', $param);
+
+$req = OAuthRequest::from_consumer_and_token(
+                     $app_consumer,
+                     $access_consumer,
+                     "GET",
+                     $api_url
+);
+$req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(),
+                     $app_consumer,
+                     $access_consumer
+);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $req->to_url());
+curl_setopt($ch, CURLOPT_RETURNTANSFER, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+?>
+</pre>
+
+
+<p>二.POST参数.</p>
+
+<pre lang="php">
+<?php
+$api_url = "";
+//GET参数.
+$param = array(
+      'x' => 'x',
+      'y' => 'y'
+);
+
+$req = OAuthRequest::from_consumer_and_token(
+                    $app_consumer,
+                    $access_consumer,
+                    "POST",
+                    $api_url,
+                    $param
+);
+$req->sign_request(
+                    new OAuthSignatureMethod_HMAC_SHA1(),
+                    $app_consumer,
+                    $access_consumer
+);
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $api_url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $req->to_postdata());
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($ch);
+curl_close($ch);
+?>
+</pre>
+
+
+<p>OVER.新浪的就差不多是这个样子的..
+总结下:
+1.GET和POST的方式,认证包含在GET参数或者POST参数里.不像OAuth推荐的那样包含在header中.
+2.对POST参数也要签名,所以要把$param一样包含在Request对象中.然后签名,最后通过to_postdata转换成postfields参数.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/07/04/PHP+%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96OAuth+PIN%E7%A0%81/">PHP 自动获取OAuth PIN码</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-04T06:27:00+08:00" pubdate data-updated="true">Jul 4<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre lang="php">
+<?php
+/*
+ * Curl实现GetPIN, 因为form参数的限制.
+ * 所以要curl auth_url两次, 一次用来获得url参数.
+ * 第二次就可以获得verifier.
+ */
+
+$auth_url = "http://api.t.sina.com.cn/oauth/authorize?oauth_token=a98a1820aee46aac10799ecda8d2eb1d";
+$username = "xxx";
+$password = "xxx";
+echo getPIN($auth_url, $username, $password),"\n";
+
+function getPIN($auth_url, $username, $password){
+    //第一次curl.
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $auth_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    
+    //跳过正则匹配,页面html位置一般固定.
+    //提取元素在html的91行起.
+    $lines = explode("\n", $result);
+    $flag = count($lines)>37?1:0;
+    if($flag){
+        $param_line1 = $lines[90];
+        $param_line2 = $lines[91];
+        //提取参数内容.
+        $pattern = '/(?:.*?)value="(.*?)"\/>/';
+        preg_match($pattern, $param_line1, $match);
+        $regCallback = $match[1];
+        preg_match($pattern, $param_line2, $match);
+        $oauth_token = $match[1];
+
+        //构造post参数.
+        $post_data = "action=submit&regCallback=".$regCallback."&oauth_token=".$oauth_token."
+&oauth_callback=none&from=&forcelogin=&userId=".urlencode($username)."&passwd=".urlencode($password);
+        //echo $post_data,"\n";
+        //第二次cul
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $auth_url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $lines = explode("\n", $result);
+    }
+    //用户帐号检测
+    if(count($lines)>37){
+        //帐号或密码错误.
+        return -1;
+    }
+    $param_line = $lines[25];
+    $pattern = '/\<span class="fb"\>(.*?)\<\/span\>/';
+    preg_match($pattern, $param_line, $match);
+    $verifier = $match[1];
+    return $verifier;
+}
+
+?>
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/9/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/7/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

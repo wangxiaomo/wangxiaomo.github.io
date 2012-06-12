@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PerlDoc | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/perldoc/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PerlDoc学习笔记(一)]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/02/04/PerlDoc%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%28%E4%B8%80%29/"/>
+    <updated>2011-02-04T03:24:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/02/04/PerlDoc学习笔记(一)</id>
+    <content type="html"><![CDATA[<p>Perl is a free-form language, you can format and indent it however you like. Whitespace mostly serves to separate tokens, unlike languages like Python where it is an important part of the syntax.
+<font color="blue">本人一直觉得Python的代码风格不是我的最爱.不过写出来确实清晰.Python自带的库很全面.不过Perl也不差.CPAN也很给力.</font>
+A variable holds the undefined value (undef) until it has been assigned a defined value, which is anything other than undef. When used as a number, undef is treated as 0 ; when used as a string, it is treated as the empty string, "" ; and when used as a reference that isn't being assigned to, it is treated as an error. If you enable warnings, you'll be notified of an uninitialized value whenever you treat undef as a string or a number. Well, usually. Boolean contexts, such as:</p>
+
+<pre lang="perl">
+my $a;    
+if ($a) {}
+</pre>
+
+
+<p>are exempt from warnings (because they care about truth rather than definedness). Operators such as ++ , -- , += , -= , and .= , that operate on undefined left values such as:</p>
+
+<pre lang="perl">
+my $a;
+$a++;
+</pre>
+
+
+<p>are also always exempt from such warnings.
+<font color="blue">这个没什么好说的.</font></p>
+
+<!--more-->
+
+
+<p>The number 0, the strings '0' and '' , the empty list () , and undef are all false in a boolean context. All other values are true. Negation of a true value by ! or not returns a special false value.
+<font color="blue">这个依然没什么好说的.</font>
+String literals are usually delimited by either single or double quotes. They work much like quotes in the standard Unix shells: double-quoted string literals are subject to backslash and variable substitution; single-quoted strings are not (except for \' and \ ). The usual C-style backslash rules apply for making characters such as newline, tab, etc., as well as some more exotic forms.
+<font color="blue">曾经一直有个错误的概念.就是双引号的内容可以引用变量.为了加快脚本解析速度.在纯字串(包含大量转义)时使用单引号.
+看了这个知道了.单引号内只能转义\和'.后来测试了一堆.发现php.ruby等都不可以.python的单引号不是一般用法.除去!</font>
+State.Just because a lexical variable is lexically (also called statically) scoped to its enclosing block, eval, or do FILE, this doesn't mean that within a function it works like a C static. It normally works more like a C auto, but with implicit garbage collection.
+<font color="blue">在Perl 5.10中引入了state.就是c语言中的static.使用state 定义变量前.需要use feature ":5.10"; 然后就可以用类似C语言的方法处理变量了. 这个静态变量只是通过代码手段模拟的.并不是像C语言一样存在于静态区.</font>
+Binary "!~" is just like "=~" except the return value is negated in the logical sense.
+<font color="blue">锚定.之前倒是一直在用=~.!~这个东西还真给忘了.记得曾经看过.mark下</font>
+Binary "%" is the modulo operator, which computes the division remainder of its first argument with respect to its second argument. Given integer operands $a and $b : If $b is positive, then $a % $b is $a minus the largest multiple of $b less than or equal to $a . If $b is negative, then $a % $b is $a minus the smallest multiple of $b that is not less than $a (i.e. the result will be less than or equal to zero). If the operands $a and $b are floating point values and the absolute value of $b (that is abs($b)) is less than (UV_MAX + 1) , only the integer portion of $a and $b will be used in the operation (Note: here UV_MAX means the maximum of the unsigned integer type). If the absolute value of the right operand (abs($b)) is greater than or equal to (UV_MAX + 1) , "%" computes the floating-point remainder $r in the equation ($r = $a - $i*$b) where $i is a certain integer that makes $r have the same sign as the right operand $b (not as the left operand $a like C function fmod() ) and the absolute value less than that of $b . Note that when use integer is in scope, "%" gives you direct access to the modulo operator as implemented by your C compiler. This operator is not as well defined for negative operands, but it will execute faster.
+<font color="blue">这个是取余的各种情况的运算原理.太复杂了.charley.交给你了.看懂了给我讲哇.我懒得看了.</font>
+Although it has no direct equivalent in C, Perl's // operator is related to its C-style or. In fact, it's exactly the same as ||, except that it tests the left hand side's definedness instead of its truth. Thus, $a // $b is similar to defined($a) || $b (except that it returns the value of $a rather than the value of defined($a)) and is exactly equivalent to defined($a) ? $a : $b . This is very useful for providing default values for variables. If you actually want to test if at least one of $a and $b is defined, use defined($a // $b) .
+<font color="blue">虽然// || or这三个意义广义上理解差不多.但是还是有许多细节上的差别的.||和or就不说了.这个很基本.//的含义如上.//有个检查的过程.$a//$b &lt;==>defined($a)||$b ps: &lt;==>运算符.也挺牛X的.</font>
+The ||, // and &amp;&amp; operators return the last value evaluated (unlike C's || and &amp;&amp;, which return 0 or 1).</p>
+
+<pre lang="perl">
+$home = $ENV{'HOME'} // $ENV{'LOGDIR'} //(getpwuid($<))[7] 
+        // die "You're homeless!\n";
+</pre>
+
+
+<p><font color="red">这个没体会出什么明显的细节.标记下</font>
+@a = @b||@c; same as @a = scalar(@b)||@c; in fact . u should @a = @b?@b:@c;
+<font color="red">这个用法确实要注意`.</font>
+As more readable alternatives to &amp;&amp; and || when used for control flow, Perl provides the and and or operators (see below). The short-circuit behavior is identical. The precedence of "and" and "or" is much lower, however, so that you can safely use them after a list operator without the need for parentheses
+<font color="blue">这个是|| or的差别. 优先级的问题.or的优先级很低.比赋值都低.我就不淡定了.</font>
+''  q{}
+""  qq{}
+``  qx{}</p>
+
+<pre><code>qw{}    world List
+</code></pre>
+
+<p>//  m{}
+<font color="blue">这个也很常用.省去了转义的麻烦(qq.q)</font>
+?PATTERN? This is just like the /pattern/ search, except that it matches only once between calls to the reset() operator. This is a useful optimization when you want to see only the first occurrence of something in each file of a set of files, for instance. Only ?? patterns local to the current package are reset
+<font color="blue">这个比较关键.? ?可以记忆正则的位置...可以省去使用$`$&amp;$'的方法. 毕竟太影响效率</font>
+In scalar context, evaluating a filehandle in angle brackets yields the next line from that file (the newline, if any, included), or undef at end-of-file or on error. When $/ is set to undef (sometimes known as file-slurp mode) and the file is empty, it returns '' the first time, followed by undef subsequently
+<font color="blue">这个是在读文件时对$\的设置.</font>
+1.    -r  File is readable by effective uid/gid.
+2.    -w  File is writable by effective uid/gid.
+3.    -x  File is executable by effective uid/gid.
+4.    -o  File is owned by effective uid.
+5.
+6.    -R  File is readable by real uid/gid.
+7.    -W  File is writable by real uid/gid.
+8.    -X  File is executable by real uid/gid.
+9.    -O  File is owned by real uid.
+10.
+11.    -e  File exists.
+12.    -z  File has zero size (is empty).
+13.    -s  File has nonzero size (returns size in bytes).
+14.
+15.    -f  File is a plain file.
+16.    -d  File is a directory.
+17.    -l  File is a symbolic link.
+18.    -p  File is a named pipe (FIFO), or Filehandle is a pipe.
+19.    -S  File is a socket.
+20.    -b  File is a block special file.
+21.    -c  File is a character special file.
+22.    -t  Filehandle is opened to a tty.
+23.
+24.    -u  File has setuid bit set.
+25.    -g  File has setgid bit set.
+26.    -k  File has sticky bit set.
+27.
+28.    -T  File is an ASCII text file (heuristic guess).
+29.    -B  File is a "binary" file (opposite of -T).
+30.
+31.    -M  Script start time minus file modification time, in days.
+32.    -A  Same for access time.
+33.    -C  Same for inode change time (Unix, may differ for other platforms)
+<font color="blue">这个是文件测试符.挺有用的.只要涉及到linux编程的东西.这个基本都可以用.</font>
+chomp. When in paragraph mode ($/ = "" ), it removes all trailing newlines from the string. When in slurp mode ($/ = undef ) or fixed-length record mode ($/ is a reference to an integer or the like, see perlvar) chomp() won't remove anything.
+<font color="blue">这个是在chomp的时候对$/的设置</font>
+If do cannot read the file, it returns undef and sets $! to the error. If do can read the file but cannot compile it, it returns undef and sets an error message in $@ . If the file is successfully compiled, do returns the value of the last expression evaluated.Inclusion of library modules is better done with the use and require operators, which also do automatic error checking and raise an exception if there's a problem.
+<font color="blue">这个是do的操作返回.一般涉及到多文件操作.除了使用use/require包含pm文件时.就是用do "perl.pl"包含.</font>
+Don't use exit to abort a subroutine if there's any chance that someone might want to trap whatever error happened. Use die instead, which can be trapped by an eval.
+<font color="blue">这个也是一个编程技巧的体现.在有异常机制的语言中.我们也应该在子程序中以异常形式结束.perl也是有异常处理的.不过那个模块太蛋疼.</font>
+If you fork without ever waiting on your children, you will accumulate zombies. On some systems, you can avoid this by setting $SIG{CHLD} to "IGNORE" .Note that if your forked child inherits system file descriptors like STDIN and STDOUT that are actually connected by a pipe or socket, even if you exit, then the remote server (such as, say, a CGI script or a backgrounded job launched from a remote shell) won't think you're done. You should reopen those to /dev/null if it's any issue.
+<font color="blue">这个是Perl对进程的操作.fork之后子进程结束.如果不进行waitpid等操作的回收的话.会在一段时间内保持进程表资源.这是一种极大的浪费.我们可以通过waitpid结束.或者在END{}块里加上对所有进程的waitpid的操作.或者直接忽略SIGCHLD信号.在新建进程中会公用STDIN.STDOUT.STDERR等句柄.这会有一定的风险.所以果断close之后再重新open打开到/dev/null.</font>
+Do not consider getlogin for authentication: it is not as secure as getpwuid/getlogin This implements the C library function of the same name, which on most systems returns the current login from /etc/utmp, if any. If it returns the empty string, use getpwuid.
+<font color="blue">这个编程的时候注意一下子就好了.</font>
+getpgrp PID Returns the current process group for the specified PID. Use a PID of 0 to get the current process group for the current process. Will raise an exception if used on a machine that doesn't implement getpgrp(2). If PID is omitted, returns process group of current process. Note that the POSIX version of getpgrp does not accept a PID argument, so only PID==0 is truly portable.
+<font color="blue">这个不解释</font>
+kill SIGNAL PROCESS_LIST.If SIGNAL is zero, no signal is sent to the process, but kill checks whether it's possible to send a signal to it (that means, to be brief, that the process is owned by the same user, or we are the super-user). This is useful to check that a child process is still alive (even if only as a zombie) and hasn't changed its UID.Unlike in the shell, if SIGNAL is negative, it kills process groups instead of processes. That means you usually want to use positive not negative signals. You may also use a signal name in quotes.The behavior of kill when a PROCESS number is zero or negative depends on the operating system. For example, on POSIX-conforming systems, zero will signal the current process group and -1 will signal all processes.
+<font color="blue">这个讲解了kill的用法.</font>
+Like all Perl character operations, length() normally deals in logical characters, not physical bytes. For how many bytes a string encoded as UTF-8 would take up, use length(Encode::encode_utf8(EXPR)) (you'll have to use Encode first).
+<font color="blue">这个也算是编程技巧.utf8.只是逻辑读取的规则.编码什么的.最讨厌了.</font>
+open.You can put a '+' in front of the '>' or '&lt;' to indicate that you want both read and write access to the file; thus '+&lt;' is almost always preferred for read/write updates--the '+>' mode would clobber the file first. You can't usually use either read-write mode for updating textfiles, since they have variable length records. See the -i switch in perlrun for a better approach.In the two-argument (and one-argument) form, opening '&lt;-' or '-' opens STDIN and opening '>-' opens STDOUT.As a special case the 3-arg form with a read/write mode and the third argument being undef:open(my $tmp, "+>", undef) or die ...opens a filehandle to an anonymous temporary file. Also using "+&lt;" works for symmetry, but you really should consider writing something to the temporary file first. You will need to seek() to do the reading.
+<font color="blue">这个比较重要+&lt;或者+>都可以使文件读写打开.可是在操作的时候一定要搞清楚文件指针所在的位置.重点是对临时文件的操作.太经典了.</font>
+目前进行到这里.PerlFunc的内容太多了. 因为懒惰. 搁置了好长时间了. 今天继续....</p>
+]]></content>
+  </entry>
+  
+</feed>

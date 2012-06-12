@@ -1,0 +1,749 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="<?php
+require_once('Zend/Mail.php');
+require_once('Zend/Mail/Transport/Smtp.php'); $config = array('auth'=>'login', 'username'=>'xxxxx', 'password &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/page/21/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/07/Zend_Mail+%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">Zend_Mail 发送邮件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-07T03:41:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre lang="php">
+<?php
+require_once('Zend/Mail.php');
+require_once('Zend/Mail/Transport/Smtp.php');
+
+$config = array('auth'=>'login',
+                'username'=>'xxxxx',
+                'password'=>'xxxxx');
+$tr = new Zend_Mail_Transport_Smtp('smtp.qq.com',$config);
+$mail = new Zend_Mail();
+$mail->setFrom('xxxxx','xxxx');
+$mail->addTo('xxxxx','xxxx');
+$mail->setSubject('xxx');
+$mail->setBodyHtml('xxx');
+$mail->send($tr);
+?>
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/07/Zend_Json+%E5%AD%A6%E4%B9%A0/">Zend_Json 学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-07T03:02:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Json是基于JavaScript一个子集的一种轻量级的数据交换形式.这种格式既容易阅读和编写,同时也易于计算机解析和生成.JSON采用完全独立于语言的文本格式,但是也使用了类似于C语言的语法.
+JSON语法:
+<em>.名称/值
+</em>.{} 用于实现对象的包含
+<em>., 用于分隔对象的不同属性,或者数组的元素.
+</em>.[] 用于存放数组.
+*.: 用于表示键值的分隔符.
+下面是一个简单的JSON对象实例:</p>
+
+<pre lang="javascript">
+{
+    "addressbook":{
+        "name":"Mary",
+        "address":{
+            "city":"New York",
+            "zip":91919
+        },
+        "PhoneNumber":[
+            1999,
+            2000
+        ]
+    }
+}
+</pre>
+
+
+<p>与同信息量的XML比起来.提高了解析效率.减轻了网络压力.
+在Zend_Json组件中,可以通过Zend_Json::encode()方法将普通的PHP内容,如数组\对象或者其他类型的数据转化为JSON格式.</p>
+
+<pre lang="php">
+<?php
+$json = Zend_Json::encode($phpNative);
+?>
+</pre>
+
+
+<p>PHP中也有json操作的函数.其实Zend_Json可调用了它.
+区别就是.
+Zend_Json可判断系统是否支持json系函数.存在则调用库函数.不存在.则调用Zend函数.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/07/ZFW+MVC%E5%85%A5%E9%97%A8%E4%BE%8B%E5%AD%90/">ZFW MVC入门例子</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-07T02:05:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Zend_Controller是Zend Framework的MVC体系的核心部分.MVC是一个用于分离应用逻辑和表现逻辑的设计模式.在该种模式下.所有的请求都通过前端控制器并分发到不同的控制器来处理.分发的过程基于请求的URL.
+Zend_Controller体系具有可扩展性.可以通过继承已有的类或者自定义新的类来实现各种接口和抽象类.也可以编写插件或者助手类来增强系统的功能.
+使用Zend_Controller进行MVC编程.需要使用特定的目录结构.典型的目录结构如下:</p>
+
+<pre lang="php">
+---application
+       controllers
+             IndexController.php
+       scripts
+       helpers
+       filters
+       models
+       views
+             scripts
+                 index
+                     index.phtml
+---html
+       index.php
+       .htaccess
+</pre>
+
+
+<p>其中.htaccess文件用来实现URL的重置.即当用户访问某资源时.会将其重新定位到指定的文件..htaccess的文件的代码如下:</p>
+
+<pre lang="php">
+RewriteEngine on
+RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
+</pre>
+
+
+<p>其中.行1表示重置引擎打开.行2表示除了访问js.ico.gif.ipg.png.css以外的文件时,都会被重置到index.php文件.
+注意.htaccess用于Apache服务器.而且mod_rewrite需要打开.用于nginx服务器.需要在站点配置文件中include htaccess文件.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/oct/blog/2011/03/07/ZFW+MVC%E5%85%A5%E9%97%A8%E4%BE%8B%E5%AD%90/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/07/ZFW%E7%9A%84%E5%AE%89%E8%A3%85/">ZFW的安装</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-07T01:18:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ZFW的安装:
+整了这么多了.安装方式就两种.一种是直接加到php.ini的include_path中.另外一种就是在程序中直接包含.ZFW这么大.如果你只是引用部分组件的话.包含的方式就很不错.不过作为一个大型应用来说.60M也算不了什么.
+包含方式就不说了.引用什么组件.就包含什么就行了.
+重点说下include_path的安装.
+首先.apache和nginx的php.ini策略就不通.更不用说别的服务器了.所以我们先在服务器document_root下新建phpinfo.php</p>
+
+<pre lang="php">
+<?php
+    phpinfo();
+?>
+</pre>
+
+
+<p>然后在浏览器中查看服务器引用的php.ini的路径.然后找到php.ini.修改include_path就可以了.
+ZFW这样就安装完毕了.接下来.我们测试一下ZFW.
+在document_root下建立testZF.php</p>
+
+<pre lang="php">
+<?php
+require_once('Zend/Date.php');
+$date = new Zend_Date();
+echo $date;
+?>
+</pre>
+
+
+<p>正确显示日期.则安装成功.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/07/ZFW%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9D%97%E6%B5%8F%E8%A7%88/">ZFW基础模块浏览</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-07T00:59:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>框架是一种相对固定的设计模式.一个好的框架可以让开发者专注于商务逻辑的实现,并且把整个系统分成若干相互独立的层次,减少构件的耦合性.所以在实际开发中,能极大地提升开发效率.
+ZFW由若干部分组成.每个部分称为一个组件,一个组件实现特定的功能.
+<em>.MVC组件
+</em>.核心组件
+<em>.数据库操作组件 数据操作.全文搜索引擎.PDF操作
+</em>.服务类组件 实现各类服务.RSS.XML-RPC.REST等
+<em>.国际化组件
+具体情况如下:
+</em>.Zend_Controller MVC的控制器.
+<em>.Zend_View MVC的视图部分
+</em>.Zend_Json 此模块用于把PHP对象转换成Javascript对象符号.或者进行反向转换.
+<em>.Zend_Loader 此模块用于实现对类的加载.使用此模块可以轻松的对ZFW其他组件进行加载.
+</em>.Zend_Registry 此模块可以作为值与对象的存储容器.
+<em>.Zend_Config 此模块可以从ini或者xml配置文件中读取数据.
+</em>.Zend_Console_Getopt 此模块可以与命令和配置参数协同工作.
+<em>.Zend_Filter 此模块提供对字符串进行过滤的方法.如isEmail方法和getAlpha方法等.
+</em>.Zend_Validate 此模块实现校验器的功能.
+<em>.Zend_Debug 此模块实现代码的调用处理.
+</em>.Zend_Exception 此模块用于实现代码的异常处理.
+<em>.Zend_Uri 此模块用于对URI进行操作.
+</em>.Zend_Catch 此模块用于实现缓存的功能.
+<em>.Zend_Session 此模块用于操作Session的数据.
+</em>.Zend_Acl 此模块用于实现访问控制功能.
+<em>.Zend_Auth 此模块用于实现认证适配器功能.
+</em>.Zend_Memory 此功能用于实现在限制内存环境下的功能.
+<em>.Zend_Mail 此模块使开发者能发送文本文件和多部分MIME格式电子邮件.
+</em>.Zend_Mime 此模块用于为Zend_Mail组件解码MIME消息.
+<em>.Zend_Log 此模块用于提供通用日志功能.
+</em>.Zend_Version 此模块用于获取ZFW的版本.并进行版本比较.
+<em>.Zend_Search_Lucene 此模块用于构建基于全文的搜索引擎.
+</em>.Zend_Db 此模块用于访问数据库.
+<em>.Zend_Pdf 此模块用于创建新的PDF.以及加载和编辑现有文档.
+</em>.Zend_Feed 此模块用于RSS和Atom服务.
+<em>.Zend_Server 此模块是其他服务类的基类.为其他Server类提供底层支持.
+</em>.Zend_Http 此模块能使开发者便捷执行HTTP请求.
+<em>.Zend_XmlRpc 此模块用于实现XmlRpc功能.
+</em>.Zend_Rest 此模块用于实现REST服务.
+<em>.Zend_Service 此模块可以使用网络上知名服务提供商的API.
+</em>.Zend_Gdata 此模块可以使用Google提供的各类服务的API.
+<em>.Zend_Locale 此模块为其他国际类的基类,为其他国际化类提供支持.
+</em>.Zend_Translate 此模块为翻译组件.可以通过适配器实现不通语言的互译.
+<em>.Zend_Date 此模块用于实现不同地域的日期时间功能.
+</em>.Zend_Measure 此模块用于实现不通地域关于计量单位的转换.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/06/PHP%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4/">PHP敏感词过滤</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T23:29:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然这个过程不是很复杂. 不过还是比较常用的. 那就大概记录下.</p>
+
+<pre lang="php">
+<?php
+/* filterwords.txt 放置过滤词.一行一个 */
+if(is_file("./filterwords.txt")){
+     $filter_words = file("./filterwords.txt");
+     $str = $_POST['content'];
+     for($i=0; $i<count($filter_words); $i++){
+         if(preg_match("/".trim($filter_words[$i])."/i", $str)){
+              echo "<script>alert('包含敏感词');</script>&#8221;;
+              exit;
+         }
+     }
+}
+?>
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/06/f.lux%E6%8A%A4%E7%9C%BC%E7%A8%8B%E5%BA%8F./">f.lux护眼程序.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T08:29:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天上网的时候偶然发现了这个工具.f.lux.一个保护眼睛的程序.
+f.lux根据时间,自动调节电脑屏幕的色值来让你的眼睛感到舒服.推荐给那些经常熬夜的同学.该应用支持windows,Mac和Linux平台.所以还是比较给力的.
+虽然我不是很相信.不过还是建议你试试吧.不然也不会有那么多手机的屏幕亮度采用类似的原理.
+ub用户很容易就可以安装了:</p>
+
+<pre lang="bash">
+add-apt-repository ppa:kilian/f.lux
+apt-get update
+apt-get install fluxgui
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/06/%E5%85%B3%E4%BA%8EJQuery%E7%9A%84%24%28document%29.ready/">关于JQuery的$(document).ready</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T08:04:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天写JQuery的时候发现代码不能正常使用.排查了半天原因.最终发现问题出在$(document).ready上.加上就可以使用了.
+上网查了下.要想使用JQuery.就必须在文本加载完毕.onload之前操作.所以JQuery语句必须包含在$(document).ready内.
+JQuery为了让我们快速编码.所以$(document).ready也有简写.</p>
+
+<pre lang="html">
+<script type="text/javascript">
+$(document).ready(function(){
+     //code here
+});
+//same as
+$(function(){
+     //code here
+});
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/05/JpGraph%E7%BB%9F%E8%AE%A1%E5%9B%BE%E5%BD%A2./">JpGraph统计图形.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-05T07:51:00+08:00" pubdate data-updated="true">Mar 5<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前一直想找一个能够做图.用来统计信息的类库.今天找到了.JgGraph是一个很强大的类库.需要GD库的支持.
+里面有很多例子.具体代码可以参照的书写.
+这里只写一个最普通的例子.</p>
+
+<pre lang="php">
+<?php // content="text/plain; charset=utf-8"
+
+require_once ('jpgraph/jpgraph.php');
+require_once ('jpgraph/jpgraph_bar.php');
+
+// We need some data
+$datay=array(4,8,6);
+
+// Setup the graph. 
+$graph = new Graph(200,150);    
+$graph->SetScale('textlin');
+$graph->img->SetMargin(25,15,25,25);
+
+$graph->title->Set('"GRAD_HOR"');
+$graph->title->SetColor('darkred');
+
+// Setup font for axis
+//$graph->xaxis->SetFont(FF_FONT1);
+//$graph->yaxis->SetFont(FF_FONT1);
+
+// Create the bar pot
+$bplot = new BarPlot($datay);
+$bplot->SetWidth(0.6);
+
+// Setup color for gradient fill style 
+$bplot->SetFillGradient("navy","lightsteelblue",GRAD_HOR);
+
+// Set color for the frame of each bar
+$bplot->SetColor("navy");
+$graph->Add($bplot);
+
+// Finally send the graph to the browser
+$graph->Stroke();
+?>
+</pre>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/oct/blog/2011/03/05/PHP%E9%98%B2SQL%E6%B3%A8%E5%85%A5/">PHP防SQL注入</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-05T06:33:00+08:00" pubdate data-updated="true">Mar 5<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><em>.intval() 返回变量的整数部分.
+</em>.addslashes() 对特殊字符进行转义.同stripslashes.当php.ini中的magic_quotes_sybase设置为on时.自动转义.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/oct/blog/page/22/">&larr; Older</a>
+    
+    <a href="/oct/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/oct/blog/page/20/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

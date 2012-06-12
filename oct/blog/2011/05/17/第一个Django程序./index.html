@@ -1,0 +1,526 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>第一个Django程序. - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="今天开始学习django.时间有限.能学多少是多少.不准备学习Perl的catalyst了.虽然我很喜欢他的LOGO.准备在近期内把django和twisted学了就可以了&#8230;开始就多往应用方面发展&#8230;OK. 不废话了.
+首先是安装django.大多时候我们从源里安装就可以了. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/05/17/%E7%AC%AC%E4%B8%80%E4%B8%AADjango%E7%A8%8B%E5%BA%8F./">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">第一个Django程序.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T13:57:00+08:00" pubdate data-updated="true">May 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今天开始学习django.时间有限.能学多少是多少.不准备学习Perl的catalyst了.虽然我很喜欢他的LOGO.准备在近期内把django和twisted学了就可以了&#8230;开始就多往应用方面发展&#8230;OK. 不废话了.
+首先是安装django.大多时候我们从源里安装就可以了.其他情况先不考虑了.我们可以通过</p>
+
+<pre lang="python">
+import django
+</pre>
+
+
+<p>来检查django是否安装成功.如果不报错.OK.继续下面的内容.
+安装完成后.我们就可以通过django-admin来创建django项目了.</p>
+
+<pre lang="bash">
+django-admin startproject myFirst
+</pre>
+
+
+<p>然后django-admin会为我们生成myFirst目录.目录下面有4个文件.</p>
+
+<pre lang="bash">
+__init__.py
+manage.py *
+settings.py
+urls.py
+</pre>
+
+
+<p>然后我们可以通过./manage.py runserver来启动django服务器.之后我们便可以在浏览器中localhost:8000来查看我们第一个django程序的效果了.
+<b>设置数据库</b>
+接下来.我们编辑settings.py.现在我们来修改关于数据库连接方面的配置.以适应你的应用的要求.</p>
+
+<pre lang="bash">
+DATABASE_ENGINE #我们可以选择mysql或者sqlite3.或者其他的.
+DATABASE_NAME    #数据库名称.如果是sqlite3的话.需要是数据库文件的绝对路径.
+DATABASE_USER    #sqlite3可以不修改.
+DATABASE_PASSWORD #sqlite3可以不修改
+DATABASE_HOST    #默认是default.sqlite3可以不用修改.
+</pre>
+
+
+<p>然后我们可以通过</p>
+
+<pre lang="bash">
+./manage.py syncdb
+</pre>
+
+
+<p>来同步数据库.生成数据表.
+<font color="red">这里我遇到个问题.默认是没有安装python-mysqldb的.所以安装下.问题不大.</font>
+到此.数据库配置完毕..然后我们开始配置模型.
+<b>创建模型</b>
+这里我们创建一个投票应用.首先创建一个polls模型.</p>
+
+<pre lang="bash">
+./manage.py startapp polls
+</pre>
+
+
+<p>然后我们会得到一个polls目录.里面有</p>
+
+<pre lang="bash">
+__init__.py
+models.py
+views.py
+test.py
+</pre>
+
+
+<p>我们通过修改models.py来创建两个模型.一个Poll.一个Choice.
+Poll包含问题以及问题的发布时间.
+Choice包含选择文本以及投票数.
+编辑models.py</p>
+
+<pre lang="python">
+from django.db import models
+
+# Create your models here.
+class Poll(models.Model):
+    question = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+class Choice(models.Model):
+    poll = models.ForeignKey(Poll)
+    choice = models.CharField(max_length=200)
+    votes = models.IntegerField()
+</pre>
+
+
+<p>如图则创建了两个模型.
+需要注意的是,xxxField对应的是数据库中的数据类型.CharField需要指定长度.
+然后就是刚才的startapp其实就是创建一个app.app对于django来说是可插拔的.就是说我们可以写好app供其他人使用.所以我们需要把我们写好的app在我们的应用中声明.
+返回到上层目录.继续编辑settings.py</p>
+
+<pre lang="python">
+#找到Installed App
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'myFirst.polls'
+    # Uncomment the next line to enable the admin:
+    # 'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+)
+</pre>
+
+
+<p>然后我们便可以通过</p>
+
+<pre lang="bash">
+./manage.py sql polls
+</pre>
+
+
+<p>生成SQL语句.然后继续通过</p>
+
+<pre lang="bash">
+./manage.py syncdb
+</pre>
+
+
+<p>同步到应用的数据库中.</p>
+
+<!--more-->
+
+
+<p><b>启用管理后台</b>
+首先.我们需要配置settings.py.取消 &#8216;django.contrib.admin&#8217;的注释</p>
+
+<pre lang="python">
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'myFirst.polls',
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+)
+</pre>
+
+
+<p>然后我们需要配置urls.py.如下.</p>
+
+<pre lang="python">
+from django.conf.urls.defaults import *
+
+# Uncomment the next two lines to enable the admin:
+from django.contrib import admin
+admin.autodiscover()
+
+urlpatterns = patterns('',
+    # Example:
+    # (r'^myFirst/', include('myFirst.foo.urls')),
+
+    # Uncomment the admin/doc line below to enable admin documentation:
+    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+    # Uncomment the next line to enable the admin:
+    (r'^admin/', include(admin.site.urls)),
+)
+</pre>
+
+
+<p>即取消from django.contrib import admin,admin.autodiscover(),(r&#8217;<sup>admin/&#8217;,</sup> include(admin.site.urls))的注释.
+然后我们runserver.通过http://localhost:8000/admin便可登录到后台进行管理.
+<b>添加Poll模型到管理界面</b>
+编辑polls下面的models.py
+在之前的基础上,在文件尾部添加.</p>
+
+<pre lang="python">
+from myFirst.polls.models import Poll
+from django.contrib import admin
+
+admin.site.register(Poll)
+</pre>
+
+
+<p>然后我们重新登录管理页面.添加成功.
+<b>View</b>
+前面的内容.样式的改变就不说了. 具体的根据具体问题来解决. 如果runserver之后发现页面有些问题的话,最好syncdb一下.然后重新启动.
+接下来我们说view层.
+在django中,每个View就是一个函数.
+首先.我们先设计我们的url.也就是创建一个模块.叫做URLconf.
+当用户请求网页时,系统会查阅ROOT_URLCONF设置.格式是:</p>
+
+<pre lang="bash">
+(regular expression, Python Callback Function[,Option])
+</pre>
+
+
+<p>接下来.我们来书写view.编辑myFirst/views.py</p>
+
+<pre lang="python">
+# Create your views here.
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello World")
+</pre>
+
+
+<p>这样.我们配合(r&#8217;<sup>&amp;&#8217;,</sup> &#8216;myFirst.polls.views.index&#8217;)便可以得到一个Hello World
+然后我们接下来编写带参数的view</p>
+
+<pre lang="python">
+def detail(request, poll_id):
+    return HttpResponse("Looking For %s." % poll_id)
+</pre>
+
+
+<p>现在我们配合(r&#8217;<sup>(?P<poll_id>\d+)/$&#8217;,</sup> &#8216;myFirst.polls.views.detail&#8217;)就能处理http://localhost:8000/polls/33类型的url了&#8230;
+View可以读取数据库数据.,可以使用Template,等等.Django所需要的就是返回HttpResponse或者一个错误.
+接下来.我们正式进入开发index阶段.让其显示所有投票.
+首先.我们先修改views.py中的index函数</p>
+
+<pre lang="python">
+from django.http import HttpResponse
+from django.template import Context,loader
+from myFirst.polls.models import Poll
+
+def index(request):
+    latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
+    t = loader.get_template('polls/index.html')
+    c = Context({
+        'latest_poll_list' : latest_poll_list,
+    })
+    return HttpResponse(t.render(c))
+</pre>
+
+
+<p>然后正如我们所看到的.我们还需要一个模板用来接受我们的参数.
+所以我们先编辑myFirst/settings.py.</p>
+
+<pre lang="python">
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates"
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    './templates',
+)
+</pre>
+
+
+<p>我们设置一个专门用来放模板的文件夹.然后添加到应用的TEMPLATE_DIRS中.
+然后在./templates下创建polls目录.然后新建index.html并编辑</p>
+
+<pre lang="html">
+
+    <p>No Polls</p>
+
+</pre>
+
+
+<p>现在一切就绪了.访问之后就会看到.OK.
+<font color="red">所想:这里的view感觉更像是MVC中的C.而templates下的文件才像是v.</font>
+调用模板,填充数据,返回包含内容,这就是一般的流程,所以django提供了更为方便的方式,render_to_response.</p>
+
+<pre lang="python">
+from django.shortcuts import render_to_response as response
+from myFirst.polls.models import Poll
+
+def index(request):
+    latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
+    return response('polls/index.html',{'latest_poll_list':latest_poll_list})
+</pre>
+
+
+<p>现在,我们修改下detail函数,如果存在,则查看投票的具体信息,如果不存在,则导向404</p>
+
+<pre lang="python">
+from django.http import Http404
+
+def detail(request, poll_id):
+    try:
+        p = Poll.objects.get(pk=poll_id)
+    except:
+        raise Http404
+    return response('polls/detail.html', {'poll':p})
+</pre>
+
+
+<p>简便方法.</p>
+
+<pre lang="python">
+from django.shortcuts import get_object_or_404
+
+def detail(request, poll_id):
+    p = get_object_or_404(Poll, pk=poll_id)
+    return response('polls/detail.html', {'poll':p})
+</pre>
+
+
+<p>然后就是detail.html</p>
+
+<pre lang="html">
+<h1></h1>
+<ul>
+
+</ul>
+</pre>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T13:57:00+08:00" pubdate data-updated="true">May 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/django/'>Django</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/05/17/%E7%AC%AC%E4%B8%80%E4%B8%AADjango%E7%A8%8B%E5%BA%8F./" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/05/17/%E7%AC%AC%E4%B8%80%E4%B8%AADjango%E7%A8%8B%E5%BA%8F./" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/05/17/emacs+%E7%AE%80%E6%98%93%E9%85%8D%E7%BD%AE./" title="Previous Post: emacs 简易配置.">&laquo; emacs 简易配置.</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/05/17/Django+%E5%88%86%E7%A6%BBURLconf/" title="Next Post: Django 分离URLconf">Django 分离URLconf &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

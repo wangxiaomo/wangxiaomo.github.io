@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: WordPress | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/wordpress/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[wordpress自制share]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/02/03/wordpress%E8%87%AA%E5%88%B6share/"/>
+    <updated>2011-02-03T12:15:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/02/03/wordpress自制share</id>
+    <content type="html"><![CDATA[<p>自己用的插件AddtoAny有点太臃肿了.其实rss订阅和一般的share都可以自己做.</p>
+
+<p>登录土豆等视频网站查看源代码.自制share</p>
+
+<p>登录csdn博客查看源代码.自制rss订阅.</p>
+
+<p>具体实现.均为补全api的url`</p>
+]]></content>
+  </entry>
+  
+</feed>

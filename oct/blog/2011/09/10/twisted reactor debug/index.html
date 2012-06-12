@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>twisted reactor debug - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="放假什么都不想干啊&#8230; 无聊无聊无聊&#8230;趁着现在没事可干,用pdb把twisted跑一遍吧.
+代码. #!/usr/bin/python #-*- coding: utf-8 -*-
+import pdb from twisted.internet import reactor &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/09/10/twisted+reactor+debug/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Twisted Reactor Debug</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-10T06:37:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>放假什么都不想干啊&#8230; 无聊无聊无聊&#8230;趁着现在没事可干,用pdb把twisted跑一遍吧.
+代码.</p>
+
+<pre lang="python">
+#!/usr/bin/python 
+#-*- coding: utf-8 -*-
+import pdb
+
+from twisted.internet import reactor
+pdb.set_trace()
+reactor.run()
+</pre>
+
+
+<p>第一步,执行到reactor.run()</p>
+
+<pre lang="python">
+> /home/wxm/debug.py(7)<module>()
+-> reactor.run()
+(Pdb) l
+  2     #-*- coding: utf-8 -*-
+  3     import pdb
+  4     
+  5     from twisted.internet import reactor
+  6     pdb.set_trace()
+  7  -> reactor.run()
+[EOF]
+</pre>
+
+
+<p>step进入,list代码.</p>
+
+<pre lang="python">
+1156 ->     def run(self, installSignalHandlers=True):
+1157            self.startRunning(installSignalHandlers=installSignalHandlers)
+1158            self.mainLoop()
+</pre>
+
+
+<p>reactor运行有好几种模式,默认装载了其中的一种模式,然后开始mainLoop.我们继续step进入 startRunning.看看里面发生了什么</p>
+
+<pre lang="python">
+1126 ->     def startRunning(self, installSignalHandlers=True):
+1127            """
+1128            Extend the base implementation in order to remember whether signal
+1129            handlers should be installed later.
+1130    
+1131            @type installSignalHandlers: C{bool}
+(Pdb) l
+1132            @param installSignalHandlers: A flag which, if set, indicates that
+1133                handlers for a number of (implementation-defined) signals should be
+1134                installed during startup.
+1135            """
+1136            self._installSignalHandlers = installSignalHandlers
+1137            ReactorBase.startRunning(self)
+</pre>
+
+
+<p>这里又出现了ReactorBase对象.继续step.
+step into之后,</p>
+
+<pre lang="python">
+657  ->     def startRunning(self):
+658             """
+659             Method called when reactor starts: do some initialization and fire
+660             startup events.
+661     
+662             Don't call this directly, call reactor.run() instead: it should take
+(Pdb) l
+663             care of calling this.
+664     
+665             This method is somewhat misnamed.  The reactor will not necessarily be
+666             in the running state by the time this method returns.  The only
+667             guarantee is that it will be on its way to the running state.
+668             """
+669             if self._started:
+670                 raise error.ReactorAlreadyRunning()
+671             self._started = True
+672             self._stopped = False
+673             threadable.registerAsIOThread()
+(Pdb) l
+674             self.fireSystemEvent('startup')
+</pre>
+
+
+<p>只是一些相关变量之类的设置.感觉作用不是很大,应该不会妨碍理解twisted mainLoop.所以我们一路n到mainLoop那里.then step into.</p>
+
+<pre lang="python">
+1161 ->     def mainLoop(self):
+1162            while self._started:
+1163                try:
+1164                    while self._started:
+1165                        # Advance simulation time in delayed event
+1166                        # processors.
+(Pdb) l
+1167                        self.runUntilCurrent()
+1168                        t2 = self.timeout()
+1169                        t = self.running and t2
+1170                        self.doIteration(t)
+1171                except:
+1172                    log.msg("Unexpected error in main loop.")
+1173                    log.err()
+1174                else:
+1175                    log.msg('Main loop terminated.')
+</pre>
+
+
+<p>我们执行到</p>
+
+<pre lang="python">
+> /usr/lib/python2.7/dist-packages/twisted/internet/base.py(1167)mainLoop()
+-> self.runUntilCurrent()
+</pre>
+
+
+<p>step into.</p>
+
+<pre lang="python">
+--Call--
+> /usr/lib/python2.7/dist-packages/twisted/internet/base.py(751)runUntilCurrent()
+-> def runUntilCurrent(self):
+(Pdb) l
+746                 return None
+747     
+748             return max(0, self._pendingTimedCalls[0].time - self.seconds())
+749     
+750     
+751  ->     def runUntilCurrent(self):
+752             """Run all pending timed calls.
+753             """
+754             if self.threadCallQueue:
+755                 # Keep track of how many calls we actually make, as we're
+756                 # making them, in case another call is added to the queue
+(Pdb) l
+757                 # while we're in this loop.
+758                 count = 0
+759                 total = len(self.threadCallQueue)
+760                 for (f, a, kw) in self.threadCallQueue:
+761                     try:
+762                         f(*a, **kw)
+763                     except:
+764                         log.err()
+765                     count += 1
+766                     if count == total:
+767                         break
+(Pdb) l
+768                 del self.threadCallQueue[:count]
+769                 if self.threadCallQueue:
+770                     self.wakeUp()
+771     
+772             # insert new delayed calls now
+773             self._insertNewDelayedCalls()
+774     
+775             now = self.seconds()
+776             while self._pendingTimedCalls and (self._pendingTimedCalls[0].time <= now):
+777                 call = heappop(self._pendingTimedCalls)
+778                 if call.cancelled:
+(Pdb) l
+779                     self._cancellations-=1
+780                     continue
+781     
+782                 if call.delayed_time > 0:
+783                     call.activate_delay()
+784                     heappush(self._pendingTimedCalls, call)
+785                     continue
+786     
+787                 try:
+788                     call.called = 1
+789                     call.func(*call.args, **call.kw)
+(Pdb) l
+790                 except:
+791                     log.deferr()
+792                     if hasattr(call, "creator"):
+793                         e = "\n"
+794                         e += " C: previous exception occurred in " + \
+795                              "a DelayedCall created here:\n"
+796                         e += " C:"
+797                         e += "".join(call.creator).rstrip().replace("\n","\n C:")
+798                         e += "\n"
+799                         log.msg(e)
+800     
+(Pdb) l
+801     
+802             if (self._cancellations > 50 and
+803                  self._cancellations > len(self._pendingTimedCalls) >> 1):
+804                 self._cancellations = 0
+805                 self._pendingTimedCalls = [x for x in self._pendingTimedCalls
+806                                            if not x.cancelled]
+807                 heapify(self._pendingTimedCalls)
+808     
+809             if self._justStopped:
+810                 self._justStopped = False
+811                 self.fireSystemEvent("shutdown")
+</pre>
+
+
+<p>一路n,这些语句都没执行.
+最终执行到</p>
+
+<pre lang="python">
+1170                        self.doIteration(t)
+</pre>
+
+
+<p>这里开始最终的mainLoop Select循环.</p>
+
+<pre lang="python">
+93  ->      def doSelect(self, timeout):
+ 94             """
+ 95             Run one iteration of the I/O monitor loop.
+ 96     
+ 97             This will run all selectables who had input or output readiness
+ 98             waiting for them.
+(Pdb) l
+ 99             """
+100             while 1:
+101                 try:
+102                     r, w, ignored = _select(self._reads.keys(),
+103                                             self._writes.keys(),
+104                                             [], timeout)
+105                     break
+106                 except ValueError, ve:
+107                     # Possibly a file descriptor has gone negative?
+108                     log.err()
+109                     self._preenDescriptors()
+(Pdb) l
+110                 except TypeError, te:
+111                     # Something *totally* invalid (object w/o fileno, non-integral
+112                     # result) was passed
+113                     log.err()
+114                     self._preenDescriptors()
+115                 except (select.error, IOError), se:
+116                     # select(2) encountered an error
+117                     if se.args[0] in (0, 2):
+118                         # windows does this if it got an empty list
+119                         if (not self._reads) and (not self._writes):
+120                             return
+(Pdb) l
+121                         else:
+122                             raise
+123                     elif se.args[0] == EINTR:
+124                         return
+125                     elif se.args[0] == EBADF:
+126                         self._preenDescriptors()
+127                     else:
+128                         # OK, I really don't know what's going on.  Blow up.
+129                         raise
+130             _drdw = self._doReadOrWrite
+131             _logrun = log.callWithLogger
+(Pdb) l
+132             for selectables, method, fdset in ((r, "doRead", self._reads),
+133                                                (w,"doWrite", self._writes)):
+134                 for selectable in selectables:
+135                     # if this was disconnected in another thread, kill it.
+136                     # ^^^^ --- what the !@#*?  serious!  -exarkun
+137                     if selectable not in fdset:
+138                         continue
+139                     # This for pausing input when we're not ready for more.
+140                     _logrun(selectable, _drdw, selectable, method, dict)
+141     
+142         doIteration = doSelect
+</pre>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-10T06:37:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/python/'>Python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/09/10/twisted+reactor+debug/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/09/10/twisted+reactor+debug/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/09/03/python+new-style+class/" title="Previous Post: python new-style class">&laquo; python new-style class</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/09/17/Project4.+LBS_Server.+%5BTwisted%2BQt%5D/" title="Next Post: Project4. LBS_Server. [Twisted+Qt]">Project4. LBS_Server. [Twisted+Qt] &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

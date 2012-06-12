@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 集体智慧 | 小默的研究中心]]></title>
+  <link href="http://wangxiaomo.github.com/blog/categories/集体智慧/atom.xml" rel="self"/>
+  <link href="http://wangxiaomo.github.com/"/>
+  <updated>2012-06-12T19:58:29+08:00</updated>
+  <id>http://wangxiaomo.github.com/</id>
+  <author>
+    <name><![CDATA[wangxiaomo]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[智能web编程. 建立索引.[py]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/21/%E6%99%BA%E8%83%BDweb%E7%BC%96%E7%A8%8B.+%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95.%5Bpy%5D/"/>
+    <updated>2011-09-21T12:01:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/09/21/智能web编程. 建立索引.[py]</id>
+    <content type="html"><![CDATA[<p>虽然这样看书的进度很慢. 但是理解的应该会较为透彻吧. 而且书上的代码都是作者封装的. 感觉非常不爽. 不废话了. lucene建立索引. 数据为书中附属代码.</p>
+
+<pre lang="python">
+# html_parser.py
+#-*- coding: utf-8 -*-
+
+import sys
+from string import strip
+from sgmllib import SGMLParser
+
+class HTMLParser(SGMLParser):
+    def __init__(self, data):
+        SGMLParser.__init__(self)
+        self.lock = False
+        self.title = None
+        self.html = []
+        self.data = data
+
+    def start_title(self, attrs):
+        if not self.lock:
+            self.html = []
+
+    def end_title(self):
+        if not self.lock:
+            self.title = ''.join(self.html)
+            self.lock = True
+
+    def handle_data(self, text):
+        text = strip(text)
+        if text:
+            self.html.append(strip(text))
+
+    def parse(self):
+        self.feed(self.data)
+        self.close()
+        return [self.title, ' '.join(self.html)]
+
+    def __str__(self):
+        self.html = list(set(self.html))
+        return ''.join(self.html)
+
+def test():
+    file = open("1.html")
+    data = file.read()
+    file.close()
+    parse = HTMLParser(data)
+    print parse.parse()
+
+if __name__ == '__main__':
+    test()
+</pre>
+
+
+<pre lang="python">
+# IndexFiles.py
+#-*- coding: utf-8 -*-
+
+import os
+import lucene
+from html_parser import HTMLParser
+
+def log(msg):
+    print "====>%s" % msg
+
+
+class IndexFiles(object):
+    def __init__(self, sourcepath, indexpath):
+        lucene.initVM(lucene.CLASSPATH)
+        self.sourcepath = os.path.abspath(sourcepath)
+        self.indexpath = os.path.abspath(indexpath)
+        log(self.sourcepath)
+        log(self.indexpath)
+
+    def run(self):
+        path = lucene.FSDirectory.getDirectory(self.indexpath, True)
+        writer = lucene.IndexWriter(path, lucene.StandardAnalyzer(), True)
+        for root,dirname,filenames in os.walk(self.sourcepath):
+            for filename in filenames:
+                abspath = os.path.join(root, filename)
+                log("Add File %s ..." % abspath)
+                file = open(abspath)
+                data = file.read()
+                file.close()
+                parser = HTMLParser(data)
+                title, content = parser.parse()
+                doc = lucene.Document()
+                doc.add(lucene.Field("title", title,
+                    lucene.Field.Store.YES, lucene.Field.Index.NO))
+                doc.add(lucene.Field("path", abspath, 
+                    lucene.Field.Store.YES, lucene.Field.Index.NO))
+                doc.add(lucene.Field("content", content,
+                    lucene.Field.Store.NO, lucene.Field.Index.TOKENIZED))
+                writer.addDocument(doc)
+        writer.optimize()
+        writer.close()
+
+def test():
+    obj = IndexFiles('./doc', './index')
+    obj.run()
+
+if __name__ == '__main__':
+    test()
+</pre>
+
+
+<pre lang="python">
+# SearchFile.py
+#-*- coding: utf-8 -*-
+
+import os
+import lucene
+
+def log(msg):
+    print "====> %s" % msg
+
+class SearchFile(object):
+    def __init__(self, indexpath, keyword):
+        lucene.initVM(lucene.CLASSPATH)
+        self.indexpath = indexpath
+        self.keyword = keyword
+
+    def run(self):
+        abspath = os.path.abspath(self.indexpath)
+        searcher = lucene.IndexSearcher(abspath)
+        query = lucene.QueryParser("content", lucene.StandardAnalyzer()). \
+            parse(self.keyword)
+        hits = searcher.search(query)
+        log("Found %d" % hits.length())
+        for i in range(0, hits.length()):
+            doc = hits.doc(i)
+            log(doc.get("title"))
+            log(doc.get("path"))
+
+def test():
+    indexpath = "./index"
+    keyword = raw_input("Key: ")
+    obj = SearchFile(indexpath, keyword)
+    obj.run()
+
+if __name__ == '__main__':
+    test()
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[pylucene 使用]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/09/21/pylucene+%E4%BD%BF%E7%94%A8/"/>
+    <updated>2011-09-21T09:12:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/09/21/pylucene 使用</id>
+    <content type="html"><![CDATA[<p>今天总算把pylucene搞定了. 恩. 建立索引和查找都理解了, 而且对中文的处理也搞定了.
+建立索引过程中比较重要的类是.</p>
+
+<pre lang="bash">
+1.IndexWriter
+2.StandardAnalyzer
+3.Document
+</pre>
+
+
+<p>IndexWriter是建立索引过程的总控制. Analyzer是分词的分析器. 有好几种具体的 Analyzer. 具体情况具体对待. 然后就是针对单个文档通过Document建立虚拟文档,加入到IndexWriter中,然后optimize()就可以了.
+具体的看下面的代码.</p>
+
+<pre lang="python">
+#-*- coding: utf-8 -*-
+
+import os
+import lucene
+#import chardet
+from helper import log
+
+#init java virtual machine
+lucene.initVM(lucene.CLASSPATH)
+
+def index(sourcepath, indexpath):
+    try:
+        analyzer = lucene.StandardAnalyzer()
+        path = lucene.FSDirectory.getDirectory(indexpath, True)
+        log(path)
+        writer = lucene.IndexWriter(path, analyzer, True)
+        abspath = os.path.abspath(sourcepath)
+
+        for filename in os.listdir(abspath):
+            log("index "+os.path.join(abspath, filename)+"...")
+            file = open(os.path.join(abspath, filename))
+            contents = file.read()
+            file.close()
+            doc = lucene.Document()
+            doc.add(lucene.Field("path", os.path.abspath(filename), lucene.Field.Store.YES, lucene.Field.Index.NO))
+            doc.add(lucene.Field("content", contents, lucene.Field.Store.NO, lucene.Field.Index.TOKENIZED))
+            writer.addDocument(doc)
+        writer.optimize()
+        writer.close()
+    except Exception as e:
+        log(e)
+
+if __name__ == '__main__':
+    sourcepath = raw_input("Source Path: ")
+    indexpath = raw_input("Index Path: ")
+    index(sourcepath, indexpath)
+</pre>
+
+
+<p>以上代码有几点需要说明的.
+1.关于中文处理.linux下默认为utf-8.lucene内部默认也是utf-8.所以在linux下处理中文不需要进行编码转化.
+2.关于Store.YES和Store.NO和Index.NO选择.通常在索引文件中只需要存放一些能识别搜索结果的指针,如果没有特别的原因,例如需要随时获得部分内容,而原始来源不能直接访问,我们是不需要把内容放在索引文件中的.
+其他的没什么好说的了. 流程大概就这样. 把握好思想..
+接下来说Search索引怎么做.与Search相关的类.</p>
+
+<pre lang="bash">
+1.IndexSearcher.
+2.QueryParser. or TermQuery.
+3.hits元素.
+</pre>
+
+
+<p>看代码.</p>
+
+<pre lang="python">
+#-*- coding: utf-8 -*-
+import os
+import lucene
+import chardet
+from helper import log
+
+lucene.initVM(lucene.CLASSPATH)
+
+def search(indexpath, keyword):
+    abspath = os.path.abspath(indexpath)
+    log(abspath)
+    searcher = lucene.IndexSearcher(abspath)
+    term = lucene.Term("content", keyword)
+    termQuery = lucene.TermQuery(term)
+    hits = searcher.search(termQuery)
+    """
+    query = lucene.QueryParser("content",
+        lucene.StandardAnalyzer()).parse(keyword)
+    hits = searcher.search(query)
+    """
+
+    log(hits.length())
+    for i in range(hits.length()):
+        doc = hits.doc(i)
+        log(doc.get("path"))
+
+if __name__ == '__main__':
+    indexpath = raw_input("index: ")
+    keyword = raw_input("keyword: ")
+    log(chardet.detect(keyword))
+    search(indexpath, keyword)
+</pre>
+
+
+<p>好了. 智能web编程中的数据是英文的. 所以晚上把他的索引搞出来. 如果有时间的话, 研究下怎么引入其他的分词程序.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[libsvm安装.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/24/libsvm%E5%AE%89%E8%A3%85./"/>
+    <updated>2011-07-24T05:01:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/07/24/libsvm安装.</id>
+    <content type="html"><![CDATA[<p>正式开始做项目了, 计划有变, 由话题跟踪变为分类聚类. 不过没什么太大关系... 接下来的三天内要用svm和knn的方法实现分类聚类.
+据我短时间的观察,ub源里面有一个python-libsvm,但是和著名的那个台湾人写的libsvm有点出入,所以我们最好去下载台湾的那个去.然后安装过程中有一些问题.估计不是我一个人的个例,反正我解决了好长时间..
+下载好libsvm-3.1,我们需要在当前目录下make一下,然后就编译生成了svm_scale,svm_train,svm_predict等可执行文件.并在/usr/lib下生成了so文件.这时候在python子目录下进入python</p>
+
+<pre lang="python">
+from svm import *
+</pre>
+
+
+<p>错误,提示AttributeError: /usr/lib/libsvm.so.2: undefined symbol: svm_free_model_content
+google了半天也没有找到解决方法,后来灵光一闪,想起了nm命令,所以</p>
+
+<pre lang="python">
+nm /usr/lib/libsvm.so.2
+</pre>
+
+
+<p>输出没有可用的接口..所以我们基本可以确定是so文件出了问题.
+然后我们在python目录下make一下.这时候在..目录下生成了so文件.我们需要重新做一下软连接.</p>
+
+<pre lang="bash">
+ln -s /home/wxm/libsvm-3.1/libsvm.so.2 /usr/lib/libsvm.so.2
+</pre>
+
+
+<p>然后重启python,重新import下.成功...</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[数据聚类]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/13/%E6%95%B0%E6%8D%AE%E8%81%9A%E7%B1%BB/"/>
+    <updated>2011-07-13T03:08:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/07/13/数据聚类</id>
+    <content type="html"><![CDATA[<p>数据聚类就是从各种不同的来源中构造算法所需的数据.聚类时常被用在数据量很大的应用中.
+这里面首先有两个概念:监督学习和无监督学习.
+利用样本输入和期望输出来学习如何预测的技术被称为监督学习.比如:神经网络,决策树,向量支持机,以及贝叶斯过滤.采用这些方法的应用程序,会通过检查一组输入和期望的输出来进行"学习".当我们想要利用这些方法中的任何一种来提取信息时,我们可以传入一组输入,然后期望应用程序能够根据其此前学到的知识来产生一个输出.
+聚类是无监督学习.与神经网络或决策树不同,无监督学习算法不是利用带有正确答案的样本数据进行"训练",他们的目的是要在一组数据中找寻某种结构,而这些数据本身并不是我们想要的答案.聚类算法的目标是采集数据,然后从中找出不同的群组.比如:非负矩阵因式分解和自组织映射.
+为聚类算法准备数据的常见做法是定义一组公共的数值型属性.我们可以利用这些属性对数据项进行比较.
+以博客用户为例.我们可以先定义一组指定的词汇,然后在博客中寻找出现的次数,通过单词出现的频度来对博客进行聚类..</p>
+
+<pre lang="bash">
+                  "china"         "kids"        "music"
+Blog1             0                  3              3
+Blog2             4                  0              3
+</pre>
+
+
+<p>数据可以到<a href="http://kiwitobes.com/clusters/blogdata.txt">这里</a>下载.
+假设我们要自己搞定数据,我们需要对订阅源中的单词进行计数.
+对rss源进行分析, 我们需要先下载feedparser模块.</p>
+
+<pre lang="bash">
+aptitude install python-feedparser
+</pre>
+
+
+<pre lang="python">
+import feedparser
+import re
+
+"""
+返回一个rss订阅源的标题和包含单词技术情况的字典.
+"""
+def getwordcount(url):
+    #解析订阅源
+    d = feedparser.parse(url)
+    wc = {}
+
+    for e in d.entries:
+        if 'summary' in e:
+            summary = e.summary
+        else:
+            summary = e.description
+
+        #提取单词列表
+        words = getwords(e.title+' '+summary)
+        for word in words:
+            wc.setdefault(word, 0)
+            wc[word] += 1
+    return d.feed.title,wc
+
+"""
+getwords把所有的html标记去掉,并以非字幕字符作为分隔符拆分出单词.
+再将结果以列表形式加以返回.
+"""
+def getwords(html):
+    txt = re.compile(r'<[^>]+>').sub('', html)
+    words = re.compile(r'[^A-Za-z]+').split(txt)
+    return [word.lower() for word in words if word!=' ']
+</pre>
+
+
+<p>接下来就是整体的调用过程.</p>
+
+<pre lang="python">
+apcount = {}
+wordcounts = {}
+feedlist = [line for line in file('feedlist.txt')]
+
+for feedurl in feedlist:
+    title,wc = getwordcounts(feedurl)
+    wordcounts[title] = wc
+    for word,count in wc.items():
+        apcount.setdefault(word, 0)
+        if count>1:
+            apcount[word] += 1
+
+wordlist = []
+for w,bc in apcount.items():
+    frac = float(bc)/len(feedlist)
+    if frac>0.1 and frac<0.5:
+        wordlist.append(w)
+
+out = file('blogdata.txt', 'w')
+out.write('Blog')
+for word in wordlist:
+    out.write('\t%s' % word)
+out.write('\n')
+for blog,wc in wordcounts.items():
+    out.write(blog)
+    for word in wordlist:
+         if word in wc:
+              out.write('\t%d' % wc[word])
+         else:
+              out.write('\t0')
+    out.write('\n')
+</pre>
+
+
+<p>搞定数据后,我们开始分级聚类.
+分级聚类就是通过连续不断的将最为相似的群组两两合并,来构造出一个群组的层级结构.其中每个群组都是从单一元素开始的.在每次迭带过程中,分级聚类算法会计算每两个群组间的距离,并将距离最近的两个群组合并成一个新的群组.这一过程会一直重复下去,直到只剩下一个群组为止.元素的相似程度是通过他们的相对位置来体现的,两个元素距离越近,他们就越相似.
+以上面的数据为操作对象.</p>
+
+<pre lang="python">
+"""
+首先,构造方法用来加载数据文件.
+"""
+def readfile(filename):
+    lines = [line for line in file(filename)]
+
+    #第一列是列标题.
+    colnames = lines[0].strip().split('\t')[1:]
+    rownames = []
+    data = []
+    for line in lines[1:]:
+        p = line.strip().split('\t')
+        #每行的第一列是列名
+        rownames.append(p[0])
+        data.append([float(x) for x in p[1:]])
+    return rownames,colnames,data
+</pre>
+
+
+<p>下一步,我们来定义紧密度.我们根据拟合度来判断紧密度.</p>
+
+<pre lang="python">
+from math import sqrt
+def pearson(v1, v2):
+    sum1 = sum(v1)
+    sum2 = sum(v2)
+    sum1Sq = sum([pow(v,2) for v in v1])
+    sum2Sq = sum([pow(v,2) for v in v2])
+    pSum = sum([v1[i]*v2[i] for i in range(len(v1))])
+    
+    num = pSum-(sum1*sum2/len(v1))
+    den = sqrt((sum1Sq-pow(sum1,2)/len(v1))*(sum2Sq-pow(sum2,2)/len(v1)))
+    if den == 0: return 0
+    return 1.0-num/den
+</pre>
+
+
+<p>上述1.0-num/den是为了让越相似的数据距离越小..
+接下来,我们新建一个类,作为聚类.</p>
+
+<pre lang="python">
+class bicluster:
+    def __init__(self, vec, left=None, right=None, distance=0.0, id=None):
+         self.left = left
+         self.right = right
+         self.vec = vec
+         self.id = id
+         self.distance = distance
+</pre>
+
+
+<p>然后就是计算聚类的方法.</p>
+
+<pre lang="python">
+def hcluster(rows, distance=pearson):
+    distances = {}
+    currentclustid = -1
+
+    #最开始的聚类就是数据集中的行.
+    clust = [bicluster(row[i],id=i) for i in range(len(rows))]
+
+    while len(clust)>1:
+        lowestpair = (0,1)
+        closet = distance(clust[0].vec, clust[1].vec)
+
+        #便利每一个配对.寻找最小距离.
+        for i in range(len(clust)):
+            for j in range(i+1, len(clust)):
+                #用distances来缓存距离的计算值
+                if (clust[i].id, clust[j].id) not in distances:
+                     distances[(clust[i].id, clust[j].id)] = distance(clust[i].vec, clust[j].vec)
+                d = distances[(clust[i].id,clust[j].id)]
+                if d<closet:
+                     closet = d
+                     lowestpair = (i,j)
+       #计算两个聚类的平均值.
+       mergevec = [
+           (clust[lowestpair[0]].vec[i],clust[lowestpair[1]].vec[i])/2.0
+           for i in range(len(clust[0].vec))]
+       #建立新的聚类.
+       newcluster = bicluster(mergevec, left=clust[lowestpair[0]],
+                           right=clust[lowestpair[1]], distance=closet,
+                           id=currentclustid)
+       #不在原始集合中的聚类,其id为负数
+       currentclustid -= 1
+       del clust[lowestpair[0]]
+       del clust[lowestpair[1]]
+       clust.append(newcluster)
+    return clust[0]
+</pre>
+
+
+<p>k-均值聚类.
+分级聚类的结果为我们返回一棵形象直观的树,但这个方法有两个缺点:在没有额外的投入的情况下,树形视图是不会真正的将数据拆分成不同组的,而且该算法的计算量非常惊人,所以在大规模的数据处理的时候,该算法的运行速度会非常的慢.除了分级聚类外,另一种可供选择的聚类方法称为k-均值聚类.这种算法完全不同于分级聚类,因为我们会预先告诉算法希望生成的聚类数量,然后算法会根据数据的结构状况确定聚类的大小.
+k-均值聚类算法首先会随机确定k个中心位置,然后各个数据项分配给最临近的中心点,待分配完成后,聚类中心就会移到分配给该聚类的所有节点的平均位置处,然后整个分配过程会重新开始.这一过程会一直重复下去,直到分配过程不再产生变化为止.</p>
+
+<pre lang="python">
+import random
+
+def kcluster(rows, distance=pearson, k=4):
+    #确定每个点的最小值和最大值.
+    ranges = [(min([row[i] for row in rows]), max([row[i] for row in rows]))
+                     for i in range(len(rows[0]))]
+
+    #随机创建k个中心点.
+    clusters = [[random.random()*(ranges[i][1]-ranges[i][0])+ranges[i][0]
+                       for i in range(len(rows[0]))] for j in range(k)]
+
+    lastmatches = None
+    for t in range(100):
+        print 'Iteration %d' % t
+        bestmatches = [[] for i in range(k)]
+
+        #在每一行中寻找距离最近的中心点.
+        for j in range(len(rows)):
+             row = rows[j]
+             bestmatch = 0
+             for i in range(k):
+                 d = distance(cluster[i], row)
+                 if d<distance(clusters[bestmatch], row):
+                     bestmatch = i
+             #如果结果与上一次相同, 则整个过程结束.
+             if bestmatches == lastmatches:
+                 break
+             lastmatches = bestmatches
+             #把中心点移到其所有成员的平均位置处.
+             for i in range(k):
+                 avgs = [0.0]*len(rows[0])
+                 if len(bestmatches[i])>0:
+                     for rowid in bestmatches[i]:
+                         for m in range(len(rows[rowid]):
+                             avgs[m] += rows[rowid][m]
+                         for j in range(len(avgs)):
+                             avgs[j] /= len(bestmatches[i])
+                         clusters[i] = avgs
+      return bestmatches
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tanimoto分值相似度计算]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2011/07/13/Tanimoto%E5%88%86%E5%80%BC%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97/"/>
+    <updated>2011-07-13T01:25:00+08:00</updated>
+    <id>http://wangxiaomo.github.com/blog/2011/07/13/Tanimoto分值相似度计算</id>
+    <content type="html"><![CDATA[<p>集体智慧编程中的课后题中提到了Tanimoto分值算法.google了下,发现了这个算法在特定的应用环境下还是比较简单高效的.
+比如,从某书签网站抓到了许多用户保存的链接.</p>
+
+<pre lang="bash">
+user link
+</pre>
+
+
+<p>比如说用户A保存了100个书签,用户B保存了150个标签,用户A和用户B共同的标签是30个.那么Tanimoto分值就是30/(100+150-30)
+这个算法对二元性数据很有用..</p>
+
+<pre lang="python">
+def sim_distance_tanimoto(p1, p2):
+    c = set(p1.keys())&set(p2.keys())
+    if not c:
+        return 0
+    p = len(c)/(len(p1.keys())+len(p2.keys())-len(c))
+    return p
+</pre>
+
+]]></content>
+  </entry>
+  
+</feed>

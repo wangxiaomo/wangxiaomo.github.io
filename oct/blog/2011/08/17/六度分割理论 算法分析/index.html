@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>六度分割理论 算法分析 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="转自sae kobe.
+今天同事问我一事，就是关于这个路子的用户关系查找是怎么实现的，首先说明几点：
+1，经过我实验，结果不是100%准确，有些明明存在的6,7步的关系找不出来，报“没有找到相关记录”；即使出了结果，优先级有时误差很大
+2，结果不是事先算好的，否则不应该有时计算时间多达10多秒
+3 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/08/17/%E5%85%AD%E5%BA%A6%E5%88%86%E5%89%B2%E7%90%86%E8%AE%BA+%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">六度分割理论 算法分析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-17T05:53:00+08:00" pubdate data-updated="true">Aug 17<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>转自sae kobe.
+今天同事问我一事，就是关于这个路子的用户关系查找是怎么实现的，首先说明几点：
+1，经过我实验，结果不是100%准确，有些明明存在的6,7步的关系找不出来，报“没有找到相关记录”；即使出了结果，优先级有时误差很大
+2，结果不是事先算好的，否则不应该有时计算时间多达10多秒
+3，离线做了优化，否则不会有这句话“可能是由于新用户或者我们的数据还不完全”
+这个问题的实质可以转化为有向图（关注和粉丝为双向）的任意两个几点之间的最优路径（准确的说是最优的一些路径）问题，可能的实现方案有：
+1，floyd算法：
+该算法就是标准的图求任意两点之间最短路径的算法，基本原理是利用动态规划解释一下公式，A到C的最短距离一定是
+min（A到B的最短距离+B到C的最短距离,A到C的最短距离）
+但weibook采用这种办法的可能性是0，有以下几个原因，首先该算法是完全准确的算法，不会出现在数据存在的情况下找不出来关系的问题。另外该算法需要离线海量运算，因为复杂度为O(N<sup>3)，假设用户级别为1000万，那么就是1000万的三次方，天文计算了。另外还有一点，该算法的最终结果保存挺费空间的，因为需要N*N的节点都保存自己的路径，也是个海量的数据，所以肯定不可行。</sup>
+2，迪杰斯卡尔算法
+著名的单源最短路径算法，其实也不太可能，主要原因还是计算量大，而且用该算法无法模拟出weibook的效果，即不仅是最短（优）的路径，而是若干个最短（优）的路径。因为该算法是以贪婪的方式每次伸出最短枝，一旦触及到目的地，算法即终止，只能选出唯一一个路径（最优的那个）。所以也不太可能。
+3，
+Easy提出一个从源和目的两边同时发散出几级好友，然后取交集的做法。该算法的实现相对简单，但问题还在于运算量，如果级数有限制还好说，比如4级，如果没限制就麻烦了，因为是指数增长，运算量太大。而weibook的结果有的就是7级的关系，这样的取交集计算量有点太大了。该方法另一个不可能的原因和迪杰斯卡尔有点类似，就是只能选出同一级的多个最优算法，而不能选出不同级的多个最优算法。因为算法的终止条件就是找到了目的即终止。比如：
+找A和B的关系，A的一级粉丝有200个，A的二级粉丝有40000个，B的一级粉丝有100个，二级粉丝有10000个；而双方的二级粉丝有交集。其实就是A=>C=>D=>F=>B
+A到B是4级的关系，那么用该算法，如果取最优的N个关系，只能选出同为4级的一些关系，而无法获取到5级、6级的关系。这明显与weibook的效果不一样。如果该算法继续算5级、6级的关系，可以想象，我们无法设计出该算法的终止条件。
+4，A<em>算法
+其实该算法还是很适合解决这类问题的，但问题是我们无法仅仅通过粉丝名，预判其关系度。如果我们能通过粉丝名，预判出关系度，那么就可以设计评估函数，然后使A</em>了，但很遗憾，不能。
+5,带剪枝的启发式搜索
+我们看weibook的实现，基本有以下特点：
+1，有这么一个思路，通过某种逻辑找最优路径，在寻找的过程中，捎带的把一些比较优的路径（如果有的话）也输出。
+2，应该有剪枝，如果没有剪枝，则结果肯定是100%准确了，而且我们发现weibook找的这些人，基本都是较活跃的用户，所以可以肯定寻路中会舍弃一些节点。
+所以我猜可能是这么实现的：
+首先，点和点之间有权值，权值根据用户间的回复、评论等情况做校正，权值越低，表示用户关系越紧密（一定要转换为最短路径问题，因为最长路径问题是NP）；从源用户开始，以类似宽度优先的方式做查找，只不过宽度优先的queue换成了优先队列，优先级按照当前路径的权值和从低到高排序。不是所有寻路分支都会进优先队列，过低的权值的节点会舍弃。通过这种方式找到最优路径后，把中间找到的其他路径一并按权值和做排序，最终输出。
+=>(2)B =>(2)E =>(1) X
+A =>(30)C
+=>(1)D =>(10) X
+上面表示A有3个粉丝（B、C、D），关系权值分别是2、3、1（权值越低关系越好），B有粉丝E，E有粉丝X；D有粉丝X；我们要找A到X的最优关系。假设我们的剪枝门阀是20，于是C节点在第一层就被剪掉了，于是B和D进入优先队列，按照从低到高为D，B；下层搜索先从D开始，D有一个粉丝直接就到X了，于是找到了一个路径（权值为1+10=11）。但根据优先队列，这时B会冒在优先队列的第一个了（2&lt;11），所以继续从B开始搜索，于是到E到X，这时路径权值为2+2+1=5，此时优先队列没有更优的待选分支，且已经找到X，于是吧找到的两个路径一起输出。一个是最优路径A=>B=>E=>X，另一个是次优路径，A=>D=>X</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-17T05:53:00+08:00" pubdate data-updated="true">Aug 17<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/乱七八糟/'>乱七八糟</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/08/17/%E5%85%AD%E5%BA%A6%E5%88%86%E5%89%B2%E7%90%86%E8%AE%BA+%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/08/17/%E5%85%AD%E5%BA%A6%E5%88%86%E5%89%B2%E7%90%86%E8%AE%BA+%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/08/14/%E8%9B%8B%E7%96%BC%E5%86%99%E7%9A%84%E8%84%9A%E6%9C%AC.%60/" title="Previous Post: 蛋疼写的脚本.`">&laquo; 蛋疼写的脚本.`</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/08/26/Android%E9%87%8D%E5%8A%9B%E6%84%9F%E5%BA%94%E7%BC%96%E7%A8%8B%E6%80%9D%E8%B7%AF/" title="Next Post: Android重力感应编程思路">Android重力感应编程思路 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

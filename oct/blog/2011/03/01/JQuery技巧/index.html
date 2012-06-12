@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JQuery技巧 - 小默的研究中心</title>
+  <meta name="author" content="wangxiaomo">
+
+  
+  <meta name="description" content="上毛邓.没事干.就用凯子的手机把JQuery看了.一直感觉是很庞大很难的东西.原来这么简单这么好用.果真是write less and do more.不过短暂的学习代表不了什么.需要继续努力.
+今天上官网看了看.发现了一堆中文资料.有个论坛的帖子尤其写的好.我就做下笔记吧.
+JQuery &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wangxiaomo.github.com/blog/2011/03/01/JQuery%E6%8A%80%E5%B7%A7/">
+  <link href="/oct/favicon.png" rel="icon">
+  <link href="/oct/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/oct/javascripts/modernizr-2.0.js"></script>
+  <script src="/oct/javascripts/ender.js"></script>
+  <script src="/oct/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/blog/atom.xml" rel="alternate" title="小默的研究中心" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/oct/">小默的研究中心</a></h1>
+  
+    <h2>Perl | PHP | Python...技术宅.微博控</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wangxiaomo.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/oct/">Blog</a></li>
+  <li><a href="/oct/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JQuery技巧</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-01T04:58:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>上毛邓.没事干.就用凯子的手机把JQuery看了.一直感觉是很庞大很难的东西.原来这么简单这么好用.果真是write less and do more.不过短暂的学习代表不了什么.需要继续努力.
+今天上官网看了看.发现了一堆中文资料.有个论坛的帖子尤其写的好.我就做下笔记吧.
+<font color="red"><b>JQuery</b></font>
+通过jquery的$()引用的元素返回的对象为jquery对象.而不是普通的dom对象.不能直接调用dom定义的方法.
+只有jquery对象才能使用jquery定义的方法.注意dom对象和jquery对象是有区别的.<font color="blue">调用的时候要注意操作的是dom对象还是jquery对象.</font>
+普通的dom对象可以通过$()转换为jquery对象.例如:</p>
+
+<pre lang="html">
+<script type="text/javascript">
+$(document).ready();
+$(document.getElementById("p"));
+</script>
+</pre>
+
+
+<p>dom对象转换为jquery对象后便可以使用jquery对象的方法了.
+jquery对象本身是一个集合.如果jquery对象要转换为dom对象则必须取出其中一项.一般可以通过索引取出.如:</p>
+
+<pre lang="html">
+<script type="text/javascript">
+$("#msg")[0];
+$("div").get()[1];
+$("td")[5];
+</script>
+</pre>
+
+
+<p>以上均为dom对象.不能使用jquery方法.
+获取元素.可以通过eq.get或者索引的方式.但是eq获取的是jquery对象.</p>
+
+<pre lang="html">
+<script type="text/javascript">
+$("#content").html("<b>Hello</b>");
+$("#content").text("<b>Hello</b>");
+</script>
+</pre>
+
+
+<p>在css中定义类样式.然后可以通过jquery方法addClass来添加样式.</p>
+
+<pre lang="html">
+<style type="text/css">
+.red{
+    color:red;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+       $("#bt").click(function(){
+                $("#content").addClass("red");
+       });
+});
+</script>
+</pre>
+
+
+<p>当表示id=&#8221;page&#8221;下的p元素时.可以使用$(&#8220;#page>p&#8221;).</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wangxiaomo</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-01T04:58:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/oct/blog/categories/前端技术/'>前端技术</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wangxiaomo.github.com/blog/2011/03/01/JQuery%E6%8A%80%E5%B7%A7/" data-via="" data-counturl="http://wangxiaomo.github.com/blog/2011/03/01/JQuery%E6%8A%80%E5%B7%A7/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/oct/blog/2011/02/28/Ajax+w3school%E6%95%99%E7%A8%8B/" title="Previous Post: Ajax w3school教程">&laquo; Ajax w3school教程</a>
+      
+      
+        <a class="basic-alignment right" href="/oct/blog/2011/03/03/CSS%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/" title="Next Post: CSS布局方式">CSS布局方式 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/11/emacs+auto-complete+plugins/">emacs auto-complete plugins</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/">LaTex CJK 字体问题[Linux]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./">nmap 使用.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/">Arch PGP xxx unknown 解决</a>
+      </li>
+    
+      <li class="post">
+        <a href="/oct/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/">Mongo 聚合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - wangxiaomo -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
