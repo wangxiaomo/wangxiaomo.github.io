@@ -1,0 +1,93 @@
+<html xmlns="http://w3.org/1999/xhtml">
+<head>
+<title>小默的研究中心</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="site.css" type="text/css" media="screen" />
+<link ref="Shorcut Icon" href="fav.ico" />
+<link ref="Bookmark" href="fav.ico" />
+</head>
+<body>
+<!--
+笨蛋嫁给我吧.
+-->
+<div id="page">
+<div id="left">
+<div id="code">
+<pre>
+
+=pod
+
+=head1 My IntroDuction
+
+王杰,coder name:小默. HIT. Vimer.Perler.Linuxer.
+
+=cut
+
+=head1 Code
+
+use Moose to Introduce me. hope u'll like it.
+
+=cut
+
+package MySelf;
+use Moose;
+ 
+has 'name'     =&gt; ( is=&gt;'ro', default=&gt;'xiaomo' );
+has 'email'    =&gt; ( is=&gt;'ro', default=&gt;join('@','wxm4ever','gmail.com') );
+has 'features' =&gt; (
+    is      =&gt; 'ro',
+    default =&gt; 'PHP | Perl | Python...',
+);
+ 
+sub info{
+    my $self = shift;
+    return join("\n",
+        "name: "     . $self-&gt;name,
+        "email: "    . $self-&gt;email,
+        "features: " . $self-&gt;features,
+    );
+}
+no Moose;
+1; # write on mummy's day.
+
+=head1 Author
+
+小默(wxm4ever@gmail.com)
+
+=cut
+
+__END__
+
+</pre>
+</div>
+</div>
+<div id="right">
+<div id="infobox">
+  <img src="xiaomo.jpg" />
+  <div id="user_info">
+    <br />
+    常居:&nbsp;山东威海<br />
+    wangxiaomo(@github)
+  </div>
+  <div id="user_intro">
+<pre>
+
+所属部落  :   二次元拯救世界
+我的博客  :   <a href="http://wpxiaomo.sinaapp.com">小默的研究中心</a>
+我的GitHub:   <a href="http://github.com/wangxiaomo">xiaomo</a>
+
+Q Q:497052184
+GTalk:wxm4ever@gmail.com
+MSN:wxm4ever@gmail.com
+Email:497052184@qq.com
+豆瓣:<a href="http://www.douban.com/people/wxm4ever">http://www.douban.com/people/wxm4ever</a>
+微博:<a href="http://t.sina.com.cn/wangxiaomo521">http://t.sina.com.cn/wangxiaomo521</a>
+校内:<a href="http://www.renren.com/wangxiaomo521">http://www.renren.com/wangxiaomo521</a>
+</pre> 
+  </div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
