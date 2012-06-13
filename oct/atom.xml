@@ -4,7 +4,7 @@
   <title><![CDATA[小默的研究中心]]></title>
   <link href="http://wangxiaomo.github.com/atom.xml" rel="self"/>
   <link href="http://wangxiaomo.github.com/"/>
-  <updated>2012-06-12T21:30:43+08:00</updated>
+  <updated>2012-06-12T22:13:35+08:00</updated>
   <id>http://wangxiaomo.github.com/</id>
   <author>
     <name><![CDATA[wangxiaomo]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[emacs auto-complete plugins]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/11/emacs+auto-complete+plugins/"/>
+    <title type="html"><![CDATA[emacs_auto-complete_plugins]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/11/emacs_auto-complete_plugins/"/>
     <updated>2012-06-11T11:21:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/11/emacs auto-complete plugins</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/11/emacs_auto-complete_plugins</id>
     <content type="html"><![CDATA[<p>今天按照官网的文档 http://cx4a.org/software/auto-complete/manual.html#Installation 安装 emacs complete plugin 的时候出错,提示 varible ac-dictionary-directories 错误.
 之后发现官网文档有误,需要先载入 auto-complete-config 之后才能引入该变量.
 所以配置文件为</p>
@@ -34,10 +34,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[LaTex CJK 字体问题[Linux]]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/09/LaTex+CJK+%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/"/>
+    <title type="html"><![CDATA[LaTex_CJK_字体问题[Linux]]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/09/LaTex_CJK_%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98%5BLinux%5D/"/>
     <updated>2012-06-09T13:03:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/09/LaTex CJK 字体问题[Linux]</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/09/LaTex_CJK_字体问题[Linux]</id>
     <content type="html"><![CDATA[<p>安装 Adobe Reader.然后添加 Adobe 字体添加到系统字体中..
 需要将opt/Adobe/Reader9/Resource/这个路径加到/etc/fonts/fonts.conf中
 之后使用fc-cache -vf更新字库缓存并查看fc-list。可以确认一下是否安装了Adobe的字体
@@ -79,10 +79,10 @@ xelatex 默认支持 unicode .详情察看 wiki http://zh.wikipedia.org/wiki/XeT
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[nmap 使用.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/08/nmap+%E4%BD%BF%E7%94%A8./"/>
+    <title type="html"><![CDATA[nmap_使用.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/08/nmap_%E4%BD%BF%E7%94%A8./"/>
     <updated>2012-06-08T11:26:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/08/nmap 使用.</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/08/nmap_使用.</id>
     <content type="html"><![CDATA[<p>nmap 的主要功能如下:1.探测主机是否在线.2.扫描主机端口.3.推断主机所用操作系统.</p>
 
 <br />
@@ -103,20 +103,20 @@ nmap -sP 192.168.1.0/24
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Arch PGP xxx unknown 解决]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/07/Arch+PGP+xxx+unknown+%E8%A7%A3%E5%86%B3/"/>
+    <title type="html"><![CDATA[Arch_PGP_xxx_unknown_解决]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/07/Arch_PGP_xxx_unknown_%E8%A7%A3%E5%86%B3/"/>
     <updated>2012-06-07T02:37:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/07/Arch PGP xxx unknown 解决</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/07/Arch_PGP_xxx_unknown_解决</id>
     <content type="html"><![CDATA[<p>Arch 目前使用 PGP 来验证包是否安全.详情可以见 <a href="https://wiki.archlinux.org/index.php/Pacman-key_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">https://wiki.archlinux.org/index.php/Pacman-key_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29</a>
 现在我们绕过 PGP。网上说是改 SigLevel = Never 但是我不成功。仔细看文档之后发现，需要把其他源的 SigLevel 注释掉.</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Mongo 聚合]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/04/Mongo+%E8%81%9A%E5%90%88/"/>
+    <title type="html"><![CDATA[Mongo_聚合]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/04/Mongo_%E8%81%9A%E5%90%88/"/>
     <updated>2012-06-04T05:28:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/04/Mongo 聚合</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/04/Mongo_聚合</id>
     <content type="html"><![CDATA[<p>1.count</p>
 
 <pre lang="mongo">
@@ -281,10 +281,10 @@ reduce = function(key, emits){
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Mongo Shell]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/06/02/Mongo+Shell/"/>
+    <title type="html"><![CDATA[Mongo_Shell]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/06/02/Mongo_Shell/"/>
     <updated>2012-06-02T08:02:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/06/02/Mongo Shell</id>
+    <id>http://wangxiaomo.github.com/blog/2012/06/02/Mongo_Shell</id>
     <content type="html"><![CDATA[<p>show dbs 显示数据库列表
 show collections 显示当前数据库中的集合
 show users 显示用户</p>
@@ -307,10 +307,10 @@ db.getMongo() 查看当前 db 的链接机器地址</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Gentoo Portage.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/05/27/Gentoo+Portage./"/>
+    <title type="html"><![CDATA[Gentoo_Portage.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/05/27/Gentoo_Portage./"/>
     <updated>2012-05-27T03:59:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/05/27/Gentoo Portage.</id>
+    <id>http://wangxiaomo.github.com/blog/2012/05/27/Gentoo_Portage.</id>
     <content type="html"><![CDATA[<p>Portage 具有高度灵活性以及其他大量的特性. Portage 完全使用 python 和 bash 来写的,所以 Portage 对于用户来说是完全可见的.绝大多数用户通过 emerge 工具来使用 Portage.
 [更新 Portage 树]</p>
 
@@ -360,10 +360,10 @@ emerge --update --deep -newuse world
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[tmux 使用配置.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/05/13/tmux+%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE./"/>
+    <title type="html"><![CDATA[tmux_使用配置.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/05/13/tmux_%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE./"/>
     <updated>2012-05-13T12:52:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/05/13/tmux 使用配置.</id>
+    <id>http://wangxiaomo.github.com/blog/2012/05/13/tmux_使用配置.</id>
     <content type="html"><![CDATA[<p>ssh 连接的时候我们经常使用 screen. 个人觉得 tmux 就是一个 screen 的 wrapper. 我们可以使用 tmux 来代替 screen.
 tmux 的按键与 screen 类似.只不过 global key 为 C-b 而不是 C-a. 不过 tmux 的高定制性为我们解决了很多问题.
 下面说下配置.</p>
@@ -449,10 +449,10 @@ RDC是Relational DB Cluster（关系型数据库集群）的简称，是一种�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Android Thread 退出错误问题.]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/04/18/Android+Thread+%E9%80%80%E5%87%BA%E9%94%99%E8%AF%AF%E9%97%AE%E9%A2%98./"/>
+    <title type="html"><![CDATA[Android_Thread_退出错误问题.]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/04/18/Android_Thread_%E9%80%80%E5%87%BA%E9%94%99%E8%AF%AF%E9%97%AE%E9%A2%98./"/>
     <updated>2012-04-18T08:42:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/04/18/Android Thread 退出错误问题.</id>
+    <id>http://wangxiaomo.github.com/blog/2012/04/18/Android_Thread_退出错误问题.</id>
     <content type="html"><![CDATA[<p>Android Thread 退出的时候遇到了问题.无法 destory. 最后搜索到一个比较靠谱的文章. 说可以通过设置一个布尔变量来把 Thread 函数 return 掉就可以了.</p>
 
 <pre lang="java">
@@ -1006,10 +1006,10 @@ Helper::METHOD("LEVEL_VIEW")->($tree->{ROOT}, $f);
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[[DataTypes]Stack and Queue]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DStack+and+Queue/"/>
+    <title type="html"><![CDATA[[DataTypes]Stack_and_Queue]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/31/%5BDataTypes%5DStack_and_Queue/"/>
     <updated>2012-03-31T06:46:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]Stack and Queue</id>
+    <id>http://wangxiaomo.github.com/blog/2012/03/31/[DataTypes]Stack_and_Queue</id>
     <content type="html"><![CDATA[<p>Stack.pm</p>
 
 <pre lang="perl">
@@ -1101,10 +1101,10 @@ while(1){
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[linux 各种 gui 美化方法]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/03/30/linux+%E5%90%84%E7%A7%8D+gui+%E7%BE%8E%E5%8C%96%E6%96%B9%E6%B3%95/"/>
+    <title type="html"><![CDATA[linux_各种_gui_美化方法]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/30/linux_%E5%90%84%E7%A7%8D_gui_%E7%BE%8E%E5%8C%96%E6%96%B9%E6%B3%95/"/>
     <updated>2012-03-30T04:54:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/03/30/linux 各种 gui 美化方法</id>
+    <id>http://wangxiaomo.github.com/blog/2012/03/30/linux_各种_gui_美化方法</id>
     <content type="html"><![CDATA[<p>linux 下 gui 无非就是 qt 或 gtk. 其他的不常见就不考虑美化的问题。
 qt 美化的需要安装：</p>
 
@@ -1141,10 +1141,10 @@ gtk-chtheme
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[tint2 配置]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/03/30/tint2+%E9%85%8D%E7%BD%AE/"/>
+    <title type="html"><![CDATA[tint2_配置]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/30/tint2_%E9%85%8D%E7%BD%AE/"/>
     <updated>2012-03-30T03:57:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/03/30/tint2 配置</id>
+    <id>http://wangxiaomo.github.com/blog/2012/03/30/tint2_配置</id>
     <content type="html"><![CDATA[<p>昨天 12.04 崩溃了。幸亏做了备份。今天恢复的进度也挺快的。。
 下面写下自己的 tint2 配置文件</p>
 
@@ -1274,10 +1274,10 @@ battery_background_id = 0
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Pod::Simple::WikiBatch 额。假想包]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/03/11/Pod%3A%3ASimple%3A%3AWikiBatch+%E9%A2%9D%E3%80%82%E5%81%87%E6%83%B3%E5%8C%85/"/>
+    <title type="html"><![CDATA[Pod::Simple::WikiBatch_额。假想包]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/11/Pod%3A%3ASimple%3A%3AWikiBatch_%E9%A2%9D%E3%80%82%E5%81%87%E6%83%B3%E5%8C%85/"/>
     <updated>2012-03-11T10:34:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/03/11/Pod::Simple::WikiBatch 额。假想包</id>
+    <id>http://wangxiaomo.github.com/blog/2012/03/11/Pod::Simple::WikiBatch_额。假想包</id>
     <content type="html"><![CDATA[<p>今天抽风想把自己之前翻译或者代码中所写的 pod 全部上传到 readthedocs 上去. 结果纠结了一下午都没搞定。恩。其实也不能怪我，readthedocs 连个 manual book 都没有，我怎么能知道怎么用啊。
 首先。我以为它可以从 github 中自己构建文档，恩。我错了。 pod 是无法直接转成 sphinx 的。然后有个选项说是上传 html zip 文件上去，那我就开始找 Pod 2 HTML 批量转化的模块。找到一个 Pod::Simple::HTMLBatch，使用起来还是比较方便的。压缩上传后还是不行。然后我就开始仔细研究这个 sphinx。后来发现这个是 python 的一个模块，用来方便构建 python 文档。我就郁闷了。然后我就继续查移植性的东西，未果。
 既然都弄了这么半天了，我就搜索下转成 wiki 页面放在 SAE 上吧。继续 cpan 搜索 wiki 模块，结果没有找到批量转化的模块。所以就自己写了一个。应该可以申请 Pod::Simple::WikiBatch。
@@ -1404,10 +1404,10 @@ perltut 项目：<a href="http://perltut.sinaapp.com">http://perltut.sinaapp.com
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[ubuntu 安装 deepin-software-center]]></title>
-    <link href="http://wangxiaomo.github.com/blog/2012/03/11/ubuntu+%E5%AE%89%E8%A3%85+deepin-software-center/"/>
+    <title type="html"><![CDATA[ubuntu_安装_deepin-software-center]]></title>
+    <link href="http://wangxiaomo.github.com/blog/2012/03/11/ubuntu_%E5%AE%89%E8%A3%85_deepin-software-center/"/>
     <updated>2012-03-11T06:25:00+08:00</updated>
-    <id>http://wangxiaomo.github.com/blog/2012/03/11/ubuntu 安装 deepin-software-center</id>
+    <id>http://wangxiaomo.github.com/blog/2012/03/11/ubuntu_安装_deepin-software-center</id>
     <content type="html"><![CDATA[<pre lang="bash">
 apt-get install aria2
 git clone git://github.com/manateelazycat/deepin-software-center.git
