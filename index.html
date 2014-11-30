@@ -10,7 +10,8 @@
     <link rel="Bookmark" href="fav.ico" />
     <link rel="stylesheet" href="statics/assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="statics/assets/css/prettify.css"/>
-    <script type="text/javascript" src="//libs.useso.com/js/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="statics/js/jquery.min.js"></script>
+    <script type="text/javascript" src="statics/js/jquery.lazyload.min.js"></script>
     <script type="text/javascript" src="statics/assets/js/prettify.js"></script>
     <style>
 #content {
@@ -45,7 +46,7 @@
     <div class="clear"></div>
     <div id="main">
       <div id="content" class="post">
-        <img id="studio" alt="HackChina工作室" src="statics/images/studio.gif" />
+        <img id="studio" alt="HackChina工作室" data-original="statics/images/studio.gif" class="lazy"/>
         <span id="founder"><a alt="the founder of HackChina" target="_blank" href="xiaomo.html">去吐(mo)槽(bai)创始人</a></span>
         <a name="hackchina___"></a><h1>HackChina工作室<a class="anchorlink" href="#hackchina___"></a></h1>
 <p>Welcome to HackChina Studio.</p>
@@ -99,5 +100,10 @@
     <div id="footer">
     </div>
   </div>
+  <script>
+$(function(){
+  $('img.lazy').lazyload();
+});
+  </script>
 </body>
 </html>
