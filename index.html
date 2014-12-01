@@ -15,17 +15,23 @@
     <script type="text/javascript" src="statics/assets/js/prettify.js"></script>
     <style>
 #content {
-  position: relative;
+  width: 410px;
+  float: left;
+}
+.memo {
+  float: right;
+  width: 480px;
+  margin-top: 60px;
 }
 #studio {
-  position: absolute;
   width: 480px;
-  right: 10px;
+  right: 230px;
 }
 #founder {
-  position: absolute;
   top: 320px;
-  right: 20px;
+  right: 250x;
+  text-align: right;
+  display: block;
 }
 #founder:hover {
   font-size: 28px;
@@ -45,9 +51,13 @@
 
     <div class="clear"></div>
     <div id="main">
+      <div class="memo">
+        <div class="fixed-memo">
+          <img id="studio" alt="HackChina工作室" data-original="statics/images/studio.gif" width="480" height="300" class="lazy"/>
+          <span id="founder"><a alt="the founder of HackChina" target="_blank" href="xiaomo.html">去吐(mo)槽(bai)创始人</a></span>
+        </div>
+      </div>
       <div id="content" class="post">
-        <img id="studio" alt="HackChina工作室" data-original="statics/images/studio.gif" width="480" height="300" class="lazy"/>
-        <span id="founder"><a alt="the founder of HackChina" target="_blank" href="xiaomo.html">去吐(mo)槽(bai)创始人</a></span>
         <a name="hackchina___"></a><h1>HackChina工作室<a class="anchorlink" href="#hackchina___"></a></h1>
 <p>Welcome to HackChina Studio.</p>
 <p>成立于2014年，集结了一群热爱生活、敢于创新、敢于挑战的年轻人，以创新为宗旨，致力于网站建设、SEO优化推广、服务器运维、平面设计、技术咨询等。『发现美，创造美』是我们一直以来遵循的设计理念。让企业的每一个目标客户都可以享受前所未有的视觉宣传体验，增强对企业品牌的忠诚度，提高企业的整体业绩，是我们工作的最终目标。</p>
@@ -103,6 +113,20 @@
   <script>
 $(function(){
   $('img.lazy').lazyload();
+
+  $(window).on('scroll', function(e){
+    var height = window.scrollY;
+    if(height >= 138){
+      $('.fixed-memo').css({
+        'position': 'fixed',
+        'top': '40px'
+      });
+    }else{
+      $('.fixed-memo').css({
+        'position': 'static',
+      });
+    }
+  });
 });
   </script>
 </body>
